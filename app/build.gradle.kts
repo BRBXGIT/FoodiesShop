@@ -60,7 +60,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     //Room db impl
     implementation("androidx.room:room-ktx:2.6.1")
-    implementation("androidx.compose.animation:animation-graphics-android:1.6.3")
+    implementation("androidx.compose.animation:animation-graphics-android:1.6.4")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.graphics:graphics-shapes-android:1.0.0-alpha05")
     kapt("androidx.room:room-compiler:2.6.1")
@@ -74,6 +74,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("com.google.accompanist:accompanist-navigation-animation:0.24.1-alpha")
+    //Collapsing topAppBar impl, i know that it's kind of hacky way, but i implemented it
+    implementation("me.onebone:toolbar-compose:2.3.5")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")

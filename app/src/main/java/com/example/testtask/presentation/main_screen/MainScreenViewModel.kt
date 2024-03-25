@@ -1,4 +1,4 @@
-package com.example.testtask.presentation
+package com.example.testtask.presentation.main_screen
 
 import android.util.Log
 import androidx.compose.runtime.getValue
