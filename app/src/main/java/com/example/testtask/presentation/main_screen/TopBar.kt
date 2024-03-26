@@ -39,7 +39,9 @@ fun TopBar(
     visible: Boolean,
     mainScreenViewModel: MainScreenViewModel
 ) {
+    //Main column
     Column {
+        //Row with qr scanner and city
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -77,9 +79,13 @@ fun TopBar(
 
         }
 
+        //Pager with banners
         val pagerState = rememberPagerState(pageCount = {
             2
         })
+        //Yes, i created such effect with animated visibility.
+        //I think it's a good way to implement it
+        //Hope you will like it)
         AnimatedVisibility(
             visible = visible
         ) {
@@ -112,6 +118,7 @@ fun TopBar(
             }
         }
 
+        //Get categories and add them to lazyRow
         mainScreenViewModel.getCategories()
         val categories = mainScreenViewModel.categories.categories
         val offlineCategories = mainScreenViewModel.offlineCategories.collectAsState(
@@ -126,8 +133,8 @@ fun TopBar(
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-
         ) {
+            //Check internet connection and load data from db if it's false
             if(mainScreenViewModel.internetConnection) {
                 items(categories) { category ->
                     CategoryElement(

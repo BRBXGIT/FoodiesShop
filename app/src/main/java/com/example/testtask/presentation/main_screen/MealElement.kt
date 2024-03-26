@@ -45,6 +45,7 @@ fun MealElement(
 ) {
     Divider(thickness = 2.dp, color = Color(0xfff6f7f9))
 
+    //Main row
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -52,6 +53,7 @@ fun MealElement(
             .padding(start = 16.dp, end = 16.dp, bottom = 24.dp, top = 24.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        //Box with image
         Box(
             modifier = Modifier
                 .fillMaxHeight()
@@ -69,6 +71,7 @@ fun MealElement(
             }
         }
 
+        //Column with title and ingredients
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -90,6 +93,7 @@ fun MealElement(
                 )
             )
 
+            //Box with button
             Box(
                 modifier = Modifier.fillMaxSize()
             ) {

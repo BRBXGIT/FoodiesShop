@@ -18,12 +18,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TestTaskTheme {
+                //Change system bars colors
                 val systemUiController = rememberSystemUiController()
                 SideEffect {
                     systemUiController.setNavigationBarColor(Color(0xfff0f0f0))
                     systemUiController.setStatusBarColor(Color(0xfffbfbfb))
                 }
 
+                //Here is no navigation, that's why i just call MainScreen function
                 val mainScreenViewModel = hiltViewModel<MainScreenViewModel>()
                 MainScreen(mainScreenViewModel)
             }

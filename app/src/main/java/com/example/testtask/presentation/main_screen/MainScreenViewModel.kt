@@ -24,12 +24,16 @@ class MainScreenViewModel @Inject constructor(
     private val mealRepositoryImpl: MealRepositoryImpl,
 ): ViewModel() {
 
+    //Get internet connection
     val internetConnection = mealRepositoryImpl.getInternetConnection()
 
-    //Function for getting categories from db
+    //All categories offline and online
     var categories by mutableStateOf(CategoryList(listOf(Category())))
     var offlineCategories = mealRepositoryImpl.getAllOfflineCategories()
+
+    //Category chosen by user
     var chosenCategory by mutableStateOf("Beef")
+
     fun getCategories() {
         viewModelScope.launch {
             try {
@@ -37,6 +41,7 @@ class MainScreenViewModel @Inject constructor(
                     categories = mealRepositoryImpl.getCategories().body()!!
                     val offlineCategories = mealRepositoryImpl.getAllOfflineCategories().first().size
 
+                    //Load categories to local db if it's empty
                     if(offlineCategories == 0) {
                         categories.categories.forEach { category ->
                             mealRepositoryImpl.upsertCategories(OfflineCategory(category.strCategory))
@@ -50,15 +55,14 @@ class MainScreenViewModel @Inject constructor(
         }
     }
 
-    //Function for getting meals from db
     var meals by mutableStateOf(MealList(listOf(Meal())))
-
     fun getMeals() {
         viewModelScope.launch {
             try {
                 if(internetConnection) {
                     meals = mealRepositoryImpl.getMeals().body()!!
 
+                    //Load data to db if it's empty
                     val sortedMeals = emptyList<Meal>().toMutableList()
                     for(meal in meals.meals) {
                         if(meal.strCategory == chosenCategory) {
@@ -66,12 +70,11 @@ class MainScreenViewModel @Inject constructor(
                         }
                     }
 
+                    //Hardcode again, but i think it's enough for preview)
                     val ingredients = "${sortedMeals[0].strIngredient1}, " +
                             "${sortedMeals[0].strIngredient2}, " +
                             "${sortedMeals[0].strIngredient3}, " +
-                            "${sortedMeals[0].strIngredient4}, " +
-                            "${sortedMeals[0].strIngredient5}, " +
-                            "${sortedMeals[0].strIngredient6}, "
+                            "${sortedMeals[0].strIngredient4}... "
 
                     if(mealRepositoryImpl.getOfflineMealsByCategory(chosenCategory).first().isEmpty()) {
                         mealRepositoryImpl.upsertMeal(OfflineMeal(
@@ -83,11 +86,12 @@ class MainScreenViewModel @Inject constructor(
                     }
                 }
             } catch(e: Exception) {
-                Log.d("XXXX", e.toString())
+                Log.d("package:mine", e.toString())
             }
         }
     }
 
+    //Get offline meals from local db if internet connection is false
     fun getOfflineMeals(): Flow<List<OfflineMeal>> {
         return mealRepositoryImpl.getOfflineMealsByCategory(chosenCategory)
     }

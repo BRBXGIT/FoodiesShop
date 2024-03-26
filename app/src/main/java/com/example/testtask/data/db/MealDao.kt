@@ -1,11 +1,11 @@
 package com.example.testtask.data.db
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 
+//Dao for offline meals
 @Dao
 interface MealDao {
 

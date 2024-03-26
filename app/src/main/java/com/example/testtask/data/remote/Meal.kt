@@ -1,5 +1,6 @@
 package com.example.testtask.data.remote
 
+//One meal for api
 data class Meal(
     val dateModified: String? = "",
     val idMeal: String = "",

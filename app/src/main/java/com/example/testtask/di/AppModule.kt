@@ -24,6 +24,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+    //Provide api
     @Provides
     @Singleton
     fun provideMealApi(): MealApi {
@@ -34,6 +35,7 @@ object AppModule {
             .create()
     }
 
+    //Provide dao for local db with meals
     @Provides
     @Singleton
     fun provideMealDao(@ApplicationContext appContext: Context): MealDao {
@@ -44,6 +46,7 @@ object AppModule {
         ).build().MealDao()
     }
 
+    //Provide dao for local db with categories
     @Provides
     @Singleton
     fun provideCategoryDao(@ApplicationContext appContext: Context): CategoryDao {
@@ -54,6 +57,7 @@ object AppModule {
         ).build().CategoryDao()
     }
 
+    //Provide internet connection(boolean)
     @Provides
     @Singleton
     fun provideInternetConnectionCheck(@ApplicationContext context: Context): Boolean {
@@ -64,6 +68,7 @@ object AppModule {
         return capabilities != null
     }
 
+    //Provide repository implementation
     @Provides
     @Singleton
     fun provideMealRepositoryImpl(

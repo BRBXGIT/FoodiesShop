@@ -1,6 +1,5 @@
 package com.example.testtask.presentation.main_screen
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,14 +18,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.example.testtask.data.db.OfflineMeal
 import com.example.testtask.data.remote.Meal
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
     mainScreenViewModel: MainScreenViewModel
 ) {
+    //Check visible of advertising banners
     val state = rememberLazyListState()
     var visible by rememberSaveable { mutableStateOf(!state.canScrollBackward) }
 
@@ -35,12 +33,16 @@ fun MainScreen(
             BottomBar()
         }
     ) { innerPadding ->
+
+        //Main column
         Column {
             TopBar(
                 visible = visible,
                 mainScreenViewModel = mainScreenViewModel
             )
 
+            //Get meals from api
+            //Or if it's no internet connection load it from local db
             mainScreenViewModel.getMeals()
 
             //Meals sorted by category
@@ -51,18 +53,15 @@ fun MainScreen(
                 }
             }
 
-            visible = if(meals.size == 2) {
-                false
-            } else {
-                !state.canScrollBackward
-            }
+            //Update visible var
+            visible = !state.canScrollBackward
 
             //Offline meals sorted by category
             val offlineMeals = mainScreenViewModel.getOfflineMeals().collectAsState(
                 initial = emptyList()
             ).value
 
-
+            //LazyColumn with meals
             LazyColumn(
                 state = state,
                 modifier = Modifier
@@ -75,15 +74,16 @@ fun MainScreen(
                     ),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                //Checking internet connection and load meals from db if it's false
                 if(mainScreenViewModel.internetConnection) {
                     items(meals) { meal ->
 
+                        //Hardcode but it works
+                        //I think it's enough for preview
                         val ingredients = "${meal.strIngredient1}, " +
                                 "${meal.strIngredient2}, " +
                                 "${meal.strIngredient3}, " +
-                                "${meal.strIngredient4}, " +
-                                "${meal.strIngredient5}, " +
-                                "${meal.strIngredient6}, "
+                                "${meal.strIngredient4}... "
 
                         MealElement(
                             image = meal.strMealThumb,

@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.BottomAppBar
@@ -25,6 +24,7 @@ fun BottomBar() {
         containerColor = Color(0xfff0f0f0),
         modifier = Modifier.height(50.dp)
     ) {
+        //Row with icons and titles
         Row(
             modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
@@ -37,13 +37,15 @@ fun BottomBar() {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_menu),
                     contentDescription = "Menu icon",
-                    tint = Color(0xff7b7b7b),
-                    modifier = Modifier.size(20.dp)
+                    tint = Color(0xfffd3a69),
+                    modifier = Modifier.size(21.dp)
+                    //I don't know why, but this icon slightly less others,
+                    //That's why i gave 21.sp instead of 20.sp
                 )
                 Text(
                     text = "Меню",
                     fontSize = 14.sp,
-                    color = Color(0xff7b7b7b)
+                    color = Color(0xfffd3a69)
                 )
             }
 
