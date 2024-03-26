@@ -39,7 +39,7 @@ import coil.compose.AsyncImage
 @SuppressLint("InvalidColorHexValue")
 @Composable
 fun MealElement(
-    image: Any,
+    image: Any?,
     title: String,
     ingredients: String
 ) {
@@ -59,12 +59,14 @@ fun MealElement(
                 .aspectRatio(1f)
                 .clip(CircleShape)
         ) {
-            AsyncImage(
-                model = image,
-                contentDescription = "Meal image",
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
+            if(image != null) {
+                AsyncImage(
+                    model = image,
+                    contentDescription = "Meal image",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+            }
         }
 
         Column(

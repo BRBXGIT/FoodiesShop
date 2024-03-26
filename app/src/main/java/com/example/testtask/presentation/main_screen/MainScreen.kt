@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -55,6 +56,12 @@ fun MainScreen(
                 !state.canScrollBackward
             }
 
+            //Offline meals
+            val offlineMeals = mainScreenViewModel.offlineMeals.collectAsState(
+                initial = emptyList()
+            ).value
+
+
             LazyColumn(
                 state = state,
                 modifier = Modifier
@@ -67,20 +74,31 @@ fun MainScreen(
                     ),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                items(meals) { meal ->
+                if(!mainScreenViewModel.noInternet) {
+                    mainScreenViewModel.getMeals()
+                    items(meals) { meal ->
 
-                    val ingredients = "${meal.strIngredient1}, " +
-                            "${meal.strIngredient2}, " +
-                            "${meal.strIngredient3}, " +
-                            "${meal.strIngredient4}, " +
-                            "${meal.strIngredient5}, " +
-                            "${meal.strIngredient6}, "
+                        val ingredients = "${meal.strIngredient1}, " +
+                                "${meal.strIngredient2}, " +
+                                "${meal.strIngredient3}, " +
+                                "${meal.strIngredient4}, " +
+                                "${meal.strIngredient5}, " +
+                                "${meal.strIngredient6}, "
 
-                    MealElement(
-                        image = meal.strMealThumb,
-                        title = meal.strMeal,
-                        ingredients = ingredients,
-                    )
+                        MealElement(
+                            image = meal.strMealThumb,
+                            title = meal.strMeal,
+                            ingredients = ingredients,
+                        )
+                    }
+                } else {
+                    items(offlineMeals) { meal ->
+                        MealElement(
+                            image = null,
+                            title = meal.title,
+                            ingredients = meal.ingredients
+                        )
+                    }
                 }
             }
         }

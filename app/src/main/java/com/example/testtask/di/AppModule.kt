@@ -1,11 +1,18 @@
 package com.example.testtask.di
 
+import android.content.Context
+import androidx.room.Room
+import com.example.testtask.data.db.CategoryDao
+import com.example.testtask.data.db.CategoryDb
+import com.example.testtask.data.db.MealDB
+import com.example.testtask.data.db.MealDao
 import com.example.testtask.data.remote.MealApi
 import com.example.testtask.data.repository.MealRepositoryImpl
 import com.example.testtask.domain.repository.MealRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -28,7 +35,27 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMealRepositoryImpl(mealApi: MealApi): MealRepository {
-        return MealRepositoryImpl(mealApi)
+    fun provideMealDao(@ApplicationContext appContext: Context): MealDao {
+        return Room.databaseBuilder(
+            appContext,
+            MealDB::class.java,
+            "MealDb"
+        ).build().MealDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCategoryDao(@ApplicationContext appContext: Context): CategoryDao {
+        return Room.databaseBuilder(
+            appContext,
+            CategoryDb::class.java,
+            "categoryDb"
+        ).build().CategoryDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMealRepositoryImpl(mealApi: MealApi, mealDao: MealDao, categoryDao: CategoryDao): MealRepository {
+        return MealRepositoryImpl(mealApi, mealDao, categoryDao)
     }
 }

@@ -9,6 +9,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,9 +25,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -38,8 +43,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.example.testtask.R
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TopBar(
     visible: Boolean,
@@ -83,16 +90,19 @@ fun TopBar(
 
         }
 
+        val pagerState = rememberPagerState(pageCount = {
+            2
+        })
         AnimatedVisibility(
             visible = visible
         ) {
-            LazyRow(
+            HorizontalPager(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(160.dp)
                     .background(Color(0xfffbfbfb)),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                state = pagerState
             ) {
 
                 val imagesList = listOf(
@@ -100,25 +110,26 @@ fun TopBar(
                     R.drawable.ad_banner_2
                 )
 
-                items(imagesList) { img ->
-                    Box(
-                        modifier = Modifier
-                            .fillMaxHeight(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = img),
-                            contentDescription = "banner image",
-                            modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop
-                        )
-                    }
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = imagesList[pagerState.currentPage]),
+                        contentDescription = "banner image",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
                 }
             }
         }
 
         mainScreenViewModel.getCategories()
         val categories = mainScreenViewModel.categories.categories
+        val offlineCategories = mainScreenViewModel.offlineCategories.collectAsState(
+            initial = emptyList()
+        ).value
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
@@ -129,14 +140,23 @@ fun TopBar(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
 
         ) {
-            if(categories.isNotEmpty()) {
+            if(!mainScreenViewModel.noInternet) {
                 items(categories) { category ->
                     CategoryElement(
                         title = category.strCategory,
                         mainScreenViewModel = mainScreenViewModel
                     )
                 }
+            } else {
+                items(offlineCategories) { category ->
+                    CategoryElement(
+                        title = category.offlineCategory,
+                        mainScreenViewModel = mainScreenViewModel
+                    )
+                }
             }
         }
+
+        Divider(thickness = 2.dp, color = Color(0xfff6f7f9))
     }
 }
