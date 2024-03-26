@@ -49,7 +49,7 @@ fun TopBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(70.dp)
-                .background(Color.White)
+                .background(Color(0xfffbfbfb))
                 .padding(start = 16.dp, end = 16.dp)
         ) {
             Row(
@@ -87,7 +87,7 @@ fun TopBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(160.dp)
-                    .background(Color.White),
+                    .background(Color(0xfffbfbfb)),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -114,15 +114,25 @@ fun TopBar(
             }
         }
 
+        mainScreenViewModel.getCategories()
+        val categories = mainScreenViewModel.categories.categories
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(70.dp)
-                .background(Color.White)
-                .padding(16.dp)
+                .background(Color(0xfffbfbfb))
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-
+            if(categories.isNotEmpty()) {
+                items(categories) { category ->
+                    CategoryElement(
+                        title = category.strCategory,
+                        mainScreenViewModel = mainScreenViewModel
+                    )
+                }
+            }
         }
     }
-
 }

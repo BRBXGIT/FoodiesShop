@@ -1,13 +1,22 @@
 package com.example.testtask.presentation.main_screen
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import com.example.testtask.data.remote.Meal
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -16,19 +25,37 @@ fun MainScreen(
 ) {
     val state = rememberLazyListState()
 
-    Column {
-        TopBar(
-            visible = !state.canScrollBackward,
-            mainScreenViewModel = mainScreenViewModel
-        )
+    Scaffold {
+        Column {
+            TopBar(
+                visible = !state.canScrollBackward,
+                mainScreenViewModel = mainScreenViewModel
+            )
 
-        LazyColumn(
-            state = state,
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            items(100) {
-                Text(text = it.toString())
+            mainScreenViewModel.getMeals()
+
+            //Meals sorted by category
+            val meals = emptyList<Meal>().toMutableList()
+            for(meal in mainScreenViewModel.meals.meals) {
+                if(meal.strCategory == mainScreenViewModel.chosenCategory) {
+                    meals += meal
+                }
+            }
+
+            LazyColumn(
+                state = state,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xfffbfbfb)),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                items(meals) { meal ->
+                    MealElement(
+                        image = meal.strMealThumb,
+                        title = meal.strMeal,
+                        ingredients = emptyList()
+                    )
+                }
             }
         }
     }

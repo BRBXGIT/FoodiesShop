@@ -20,6 +20,19 @@ class MainScreenViewModel @Inject constructor(
     private val mealRepositoryImpl: MealRepositoryImpl
 ): ViewModel() {
 
+    //Function for getting categories from db
+    var categories by mutableStateOf(CategoryList(listOf(Category())))
+    var chosenCategory by mutableStateOf("Beef")
+    fun getCategories() {
+        viewModelScope.launch {
+            try {
+                categories = mealRepositoryImpl.getCategories().body()!!
+            } catch(e: Exception) {
+                Log.d("package:mine", e.toString())
+            }
+        }
+    }
+
     //Function for getting meals from db
     var meals by mutableStateOf(MealList(listOf(Meal())))
     fun getMeals() {
@@ -32,17 +45,6 @@ class MainScreenViewModel @Inject constructor(
         }
     }
 
-    //Function for getting categories from db
-    var categories by mutableStateOf(CategoryList(listOf(Category())))
-    fun getCategories() {
-        viewModelScope.launch {
-            try {
-                categories = mealRepositoryImpl.getCategories().body()!!
-            } catch(e: Exception) {
-                Log.d("package:mine", e.toString())
-            }
-        }
-    }
 }
 
 
