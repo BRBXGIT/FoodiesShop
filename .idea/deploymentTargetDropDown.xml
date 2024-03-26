@@ -9,13 +9,13 @@
               <type value="RUNNING_DEVICE_TARGET" />
               <deviceKey>
                 <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\egork\.android\avd\Small_Phone_API_30.avd" />
+                  <type value="SERIAL_NUMBER" />
+                  <value value="adb-RF8R80MTXTE-qSjPEl._adb-tls-connect._tcp" />
                 </Key>
               </deviceKey>
             </Target>
           </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-03-26T21:58:20.931618300Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-03-26T23:27:21.428020500Z" />
         </State>
       </entry>
     </value>

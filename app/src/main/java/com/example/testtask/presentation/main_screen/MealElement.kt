@@ -49,7 +49,7 @@ fun MealElement(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(225.dp)
+            .height(210.dp)
             .padding(start = 16.dp, end = 16.dp, bottom = 24.dp, top = 24.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -74,7 +74,7 @@ fun MealElement(
         //Column with title and ingredients
         Column(
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
                 text = title,

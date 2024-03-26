@@ -92,7 +92,7 @@ fun TopBar(
             HorizontalPager(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(160.dp)
+                    .height(130.dp)
                     .background(Color(0xfffbfbfb)),
                 verticalAlignment = Alignment.CenterVertically,
                 state = pagerState
