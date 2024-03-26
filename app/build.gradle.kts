@@ -76,6 +76,8 @@ dependencies {
     implementation("com.google.accompanist:accompanist-navigation-animation:0.24.1-alpha")
     //For iterating over the data classes
     implementation(kotlin("reflect"))
+    //System bars color impl
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
