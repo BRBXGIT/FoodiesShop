@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.example.testtask.data.db.OfflineMeal
 import com.example.testtask.data.remote.Meal
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -56,8 +57,8 @@ fun MainScreen(
                 !state.canScrollBackward
             }
 
-            //Offline meals
-            val offlineMeals = mainScreenViewModel.offlineMeals.collectAsState(
+            //Offline meals sorted by category
+            val offlineMeals = mainScreenViewModel.getOfflineMeals().collectAsState(
                 initial = emptyList()
             ).value
 
@@ -74,8 +75,7 @@ fun MainScreen(
                     ),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if(!mainScreenViewModel.noInternet) {
-                    mainScreenViewModel.getMeals()
+                if(mainScreenViewModel.internetConnection) {
                     items(meals) { meal ->
 
                         val ingredients = "${meal.strIngredient1}, " +
@@ -96,7 +96,7 @@ fun MainScreen(
                         MealElement(
                             image = null,
                             title = meal.title,
-                            ingredients = meal.ingredients
+                            ingredients = meal.ingredients,
                         )
                     }
                 }

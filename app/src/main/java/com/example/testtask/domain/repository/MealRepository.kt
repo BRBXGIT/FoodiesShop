@@ -14,6 +14,8 @@ interface MealRepository {
 
     suspend fun getMeals(): Response<MealList>
 
+    fun getInternetConnection(): Boolean
+
     //Local db functions
     suspend fun upsertMeal(meal: OfflineMeal)
 

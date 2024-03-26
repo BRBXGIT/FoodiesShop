@@ -15,7 +15,8 @@ import javax.inject.Inject
 class MealRepositoryImpl @Inject constructor(
     private val mealApi: MealApi,
     private val mealDao: MealDao,
-    private val categoryDao: CategoryDao
+    private val categoryDao: CategoryDao,
+    private val internetConnection: Boolean
 ): MealRepository {
 
     //Api functions
@@ -25,6 +26,10 @@ class MealRepositoryImpl @Inject constructor(
 
     override suspend fun getMeals(): Response<MealList> {
         return mealApi.getMeals()
+    }
+
+    override fun getInternetConnection(): Boolean {
+        return internetConnection
     }
 
     //Local db functions

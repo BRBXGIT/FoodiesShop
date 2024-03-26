@@ -14,17 +14,17 @@ import com.example.testtask.data.remote.Meal
 import com.example.testtask.data.remote.MealList
 import com.example.testtask.data.repository.MealRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainScreenViewModel @Inject constructor(
-    private val mealRepositoryImpl: MealRepositoryImpl
+    private val mealRepositoryImpl: MealRepositoryImpl,
 ): ViewModel() {
 
-    var noInternet = false
+    val internetConnection = mealRepositoryImpl.getInternetConnection()
 
     //Function for getting categories from db
     var categories by mutableStateOf(CategoryList(listOf(Category())))
@@ -33,37 +33,36 @@ class MainScreenViewModel @Inject constructor(
     fun getCategories() {
         viewModelScope.launch {
             try {
-                categories = mealRepositoryImpl.getCategories().body()!!
-                val offlineCategories = mealRepositoryImpl.getAllOfflineCategories().first().size
+                if(internetConnection) {
+                    categories = mealRepositoryImpl.getCategories().body()!!
+                    val offlineCategories = mealRepositoryImpl.getAllOfflineCategories().first().size
 
-                if(offlineCategories == 0) {
-                    categories.categories.forEach { category ->  
-                        mealRepositoryImpl.upsertCategories(OfflineCategory(category.strCategory))
+                    if(offlineCategories == 0) {
+                        categories.categories.forEach { category ->
+                            mealRepositoryImpl.upsertCategories(OfflineCategory(category.strCategory))
+                        }
                     }
                 }
 
             } catch(e: Exception) {
-                noInternet = true
+                Log.d("package:mine", e.toString())
             }
         }
     }
 
     //Function for getting meals from db
     var meals by mutableStateOf(MealList(listOf(Meal())))
-    val offlineMeals = mealRepositoryImpl.getOfflineMealsByCategory(chosenCategory)
+
     fun getMeals() {
         viewModelScope.launch {
             try {
-                meals = mealRepositoryImpl.getMeals().body()!!
-                val offlineMeals = mealRepositoryImpl.getOfflineMealsByCategory(chosenCategory).first().size
-
-                if(offlineMeals == 0) {
+                if(internetConnection) {
+                    meals = mealRepositoryImpl.getMeals().body()!!
 
                     val sortedMeals = emptyList<Meal>().toMutableList()
-                    for(item in meals.meals) {
-                        if(item.strCategory == chosenCategory) {
-                            sortedMeals += item
-                            break
+                    for(meal in meals.meals) {
+                        if(meal.strCategory == chosenCategory) {
+                            sortedMeals += meal
                         }
                     }
 
@@ -74,20 +73,23 @@ class MainScreenViewModel @Inject constructor(
                             "${sortedMeals[0].strIngredient5}, " +
                             "${sortedMeals[0].strIngredient6}, "
 
-                    mealRepositoryImpl.upsertMeal(
-                        OfflineMeal(
-                            id = 0,
+                    if(mealRepositoryImpl.getOfflineMealsByCategory(chosenCategory).first().isEmpty()) {
+                        mealRepositoryImpl.upsertMeal(OfflineMeal(
                             title = sortedMeals[0].strMeal,
                             ingredients = ingredients,
                             cost = "от 365 р",
                             category = sortedMeals[0].strCategory
-                        )
-                    )
+                        ))
+                    }
                 }
             } catch(e: Exception) {
-                noInternet = true
+                Log.d("XXXX", e.toString())
             }
         }
+    }
+
+    fun getOfflineMeals(): Flow<List<OfflineMeal>> {
+        return mealRepositoryImpl.getOfflineMealsByCategory(chosenCategory)
     }
 }
 

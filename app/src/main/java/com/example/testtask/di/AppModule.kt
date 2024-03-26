@@ -1,6 +1,7 @@
 package com.example.testtask.di
 
 import android.content.Context
+import android.net.ConnectivityManager
 import androidx.room.Room
 import com.example.testtask.data.db.CategoryDao
 import com.example.testtask.data.db.CategoryDb
@@ -55,7 +56,22 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMealRepositoryImpl(mealApi: MealApi, mealDao: MealDao, categoryDao: CategoryDao): MealRepository {
-        return MealRepositoryImpl(mealApi, mealDao, categoryDao)
+    fun provideInternetConnectionCheck(@ApplicationContext context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        return capabilities != null
+    }
+
+    @Provides
+    @Singleton
+    fun provideMealRepositoryImpl(
+        mealApi: MealApi,
+        mealDao: MealDao,
+        categoryDao: CategoryDao,
+        internetConnection: Boolean
+    ): MealRepository {
+        return MealRepositoryImpl(mealApi, mealDao, categoryDao, internetConnection)
     }
 }

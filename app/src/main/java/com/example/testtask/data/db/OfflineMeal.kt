@@ -5,8 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class OfflineMeal(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    @PrimaryKey
     val title: String,
     val ingredients: String,
     val cost: String,
