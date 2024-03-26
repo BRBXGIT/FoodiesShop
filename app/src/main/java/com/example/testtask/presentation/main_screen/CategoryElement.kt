@@ -31,7 +31,6 @@ fun CategoryElement(
     mainScreenViewModel: MainScreenViewModel
 ) {
 
-
     val chosen = mainScreenViewModel.chosenCategory == title
 
     val chosenBoxColor by animateColorAsState(
@@ -62,7 +61,7 @@ fun CategoryElement(
             fontSize = 15.sp,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            color = Color(chosenTextColor)
+            color = Color(chosenTextColor),
         )
     }
 }

@@ -1,6 +1,7 @@
 package com.example.testtask.presentation.main_screen
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.testtask.data.remote.Meal
+import kotlin.reflect.full.memberProperties
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -50,10 +52,18 @@ fun MainScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 items(meals) { meal ->
+
+                    val ingredients = "${meal.strIngredient1}, " +
+                            "${meal.strIngredient2}, " +
+                            "${meal.strIngredient3}, " +
+                            "${meal.strIngredient4}, " +
+                            "${meal.strIngredient5}, " +
+                            "${meal.strIngredient6}, "
+
                     MealElement(
                         image = meal.strMealThumb,
                         title = meal.strMeal,
-                        ingredients = emptyList()
+                        ingredients = ingredients,
                     )
                 }
             }
