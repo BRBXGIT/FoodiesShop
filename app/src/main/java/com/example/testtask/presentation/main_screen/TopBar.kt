@@ -1,6 +1,13 @@
 package com.example.testtask.presentation.main_screen
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -40,7 +47,9 @@ fun TopBar(
     mainScreenViewModel: MainScreenViewModel
 ) {
     //Main column
-    Column {
+    Column(
+        modifier = Modifier.background(Color(0xfffbfbfb))
+    ) {
         //Row with qr scanner and city
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -87,7 +96,9 @@ fun TopBar(
         //I think it's a good way to implement it
         //Hope you will like it)
         AnimatedVisibility(
-            visible = visible
+            visible = visible,
+            enter = slideInVertically(tween(700)) + expandVertically(tween(700)) + fadeIn(tween(500)),
+            exit = slideOutVertically(tween(700)) + shrinkVertically(tween(700)) + fadeOut(tween(500))
         ) {
             HorizontalPager(
                 modifier = Modifier
@@ -104,8 +115,7 @@ fun TopBar(
                 )
 
                 Box(
-                    modifier = Modifier
-                        .fillMaxHeight(),
+                    modifier = Modifier.fillMaxHeight(),
                     contentAlignment = Alignment.Center
                 ) {
                     Image(
