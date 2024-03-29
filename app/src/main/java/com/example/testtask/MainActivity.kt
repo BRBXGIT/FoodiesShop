@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
+import com.example.testtask.presentation.BottomBar.NavGraph
 import com.example.testtask.presentation.main_screen.MainScreen
 import com.example.testtask.presentation.main_screen.MainScreenViewModel
 import com.example.testtask.ui.theme.TestTaskTheme
@@ -25,9 +27,14 @@ class MainActivity : ComponentActivity() {
                     systemUiController.setStatusBarColor(Color(0xfffbfbfb))
                 }
 
-                //Here is no navigation, that's why i just call MainScreen function
+                //I decided to fully create this app, and add navigation and other things
+                //I will add few functions for api, such as get meal by id
                 val mainScreenViewModel = hiltViewModel<MainScreenViewModel>()
-                MainScreen(mainScreenViewModel)
+                val navController = rememberNavController()
+                NavGraph(
+                    mainScreenViewModel = mainScreenViewModel,
+                    navController = navController
+                )
             }
         }
     }

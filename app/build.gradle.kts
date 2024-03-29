@@ -75,8 +75,6 @@ dependencies {
     implementation(kotlin("reflect"))
     //System bars color impl
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
-    //Adaptivity
-    implementation("androidx.compose.material3:material3-window-size-class:1.2.1")
 
 
     //Basic impl

@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.testtask.data.remote.Meal
+import com.example.testtask.presentation.BottomBar.BottomBar
 
 @Composable
 fun MainScreen(

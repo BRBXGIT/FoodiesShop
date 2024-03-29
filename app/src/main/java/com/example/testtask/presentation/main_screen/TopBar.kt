@@ -93,7 +93,7 @@ fun TopBar(
             2
         })
         //Yes, i created such effect with animated visibility.
-        //I think it's a good way to implement it
+        //I think it's a good and easy way to implement it
         //Hope you will like it)
         AnimatedVisibility(
             visible = visible,
