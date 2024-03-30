@@ -18,13 +18,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavHostController
 import com.example.testtask.data.remote.meal.Meal
 import com.example.testtask.presentation.bottom_bar.BottomBar
 import com.example.testtask.presentation.main_screen.MainScreenViewModel
 
 @Composable
 fun MainScreen(
-    mainScreenViewModel: MainScreenViewModel
+    mainScreenViewModel: MainScreenViewModel,
+    navController: NavHostController
 ) {
     //Check visible of advertising banners
     val state = rememberLazyListState()
@@ -32,7 +34,7 @@ fun MainScreen(
 
     Scaffold(
         bottomBar = {
-            BottomBar()
+            BottomBar(navController = navController)
         }
     ) { innerPadding ->
 
@@ -91,6 +93,8 @@ fun MainScreen(
                             image = meal.strMealThumb,
                             title = meal.strMeal,
                             ingredients = ingredients,
+                            mainScreenViewModel = mainScreenViewModel,
+                            navController = navController
                         )
                     }
                 } else {
@@ -99,6 +103,8 @@ fun MainScreen(
                             image = null,
                             title = meal.title,
                             ingredients = meal.ingredients,
+                            mainScreenViewModel = mainScreenViewModel,
+                            navController = navController
                         )
                     }
                 }

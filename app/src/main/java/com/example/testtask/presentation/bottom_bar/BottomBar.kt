@@ -1,5 +1,7 @@
 package com.example.testtask.presentation.bottom_bar
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,16 +12,29 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.testtask.R
 
 @Composable
-fun BottomBar() {
+fun BottomBar(
+    navController: NavHostController
+) {
+
+    val activeIconColor by remember { mutableStateOf(Color(0xfffd3a69)) }
+    val basicIconColor by remember { mutableStateOf(Color(0xff7b7b7b)) }
+    val currentDestination = navController.currentDestination!!.route
+
     BottomAppBar(
         containerColor = Color(0xfff0f0f0),
         modifier = Modifier.height(50.dp)
@@ -37,15 +52,19 @@ fun BottomBar() {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_menu),
                     contentDescription = "Menu icon",
-                    tint = Color(0xfffd3a69),
-                    modifier = Modifier.size(21.dp)
+                    tint = if(currentDestination == "main_screen") activeIconColor else basicIconColor,
+                    modifier = Modifier
+                        .size(21.dp)
+                        .noRippleClickable {
+                            navController.navigate("main_screen")
+                        }
                     //I don't know why, but this icon slightly less others,
                     //That's why i gave 21.sp instead of 20.sp
                 )
                 Text(
                     text = "Меню",
                     fontSize = 14.sp,
-                    color = Color(0xfffd3a69)
+                    color = if(currentDestination == "main_screen") activeIconColor else basicIconColor,
                 )
             }
 
@@ -56,13 +75,17 @@ fun BottomBar() {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_profile),
                     contentDescription = "Profile icon",
-                    tint = Color(0xff7b7b7b),
-                    modifier = Modifier.size(20.dp)
+                    tint = if(currentDestination == "profile_screen") activeIconColor else basicIconColor,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .noRippleClickable {
+                            navController.navigate("profile_screen")
+                        }
                 )
                 Text(
                     text = "Профиль",
                     fontSize = 14.sp,
-                    color = Color(0xff7b7b7b)
+                    color = if(currentDestination == "profile_screen") activeIconColor else basicIconColor,
                 )
             }
 
@@ -74,15 +97,27 @@ fun BottomBar() {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_cart),
                     contentDescription = "Cart icon",
-                    tint = Color(0xff7b7b7b),
-                    modifier = Modifier.size(20.dp)
+                    tint = if(currentDestination == "cart_screen") activeIconColor else basicIconColor,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .noRippleClickable {
+                            navController.navigate("cart_screen")
+                        }
                 )
                 Text(
                     text = "Корзина",
                     fontSize = 14.sp,
-                    color = Color(0xff7b7b7b)
+                    color = if(currentDestination == "cart_screen") activeIconColor else basicIconColor,
                 )
             }
         }
+    }
+}
+
+//Modifier extension for clicking without ripple
+fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
+    clickable(indication = null,
+        interactionSource = remember { MutableInteractionSource() }) {
+        onClick()
     }
 }

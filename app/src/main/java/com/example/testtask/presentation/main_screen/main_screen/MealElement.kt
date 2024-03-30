@@ -34,14 +34,18 @@ import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.testtask.presentation.main_screen.MainScreenViewModel
 
 @SuppressLint("InvalidColorHexValue")
 @Composable
 fun MealElement(
     image: Any?,
     title: String,
-    ingredients: String
+    ingredients: String,
+    navController: NavHostController,
+    mainScreenViewModel: MainScreenViewModel
 ) {
     Divider(thickness = 2.dp, color = Color(0xfff6f7f9))
 
