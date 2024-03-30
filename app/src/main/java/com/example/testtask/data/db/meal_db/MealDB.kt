@@ -1,4 +1,4 @@
-package com.example.testtask.data.db
+package com.example.testtask.data.db.meal_db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

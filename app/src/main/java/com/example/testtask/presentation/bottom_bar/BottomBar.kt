@@ -1,4 +1,4 @@
-package com.example.testtask.presentation.BottomBar
+package com.example.testtask.presentation.bottom_bar
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -1,12 +1,12 @@
 package com.example.testtask.data.repository
 
-import com.example.testtask.data.db.CategoryDao
-import com.example.testtask.data.db.MealDao
-import com.example.testtask.data.db.OfflineCategory
-import com.example.testtask.data.db.OfflineMeal
-import com.example.testtask.data.remote.CategoryList
+import com.example.testtask.data.db.category_db.CategoryDao
+import com.example.testtask.data.db.meal_db.MealDao
+import com.example.testtask.data.db.category_db.OfflineCategory
+import com.example.testtask.data.db.meal_db.OfflineMeal
+import com.example.testtask.data.remote.category.CategoryList
 import com.example.testtask.data.remote.MealApi
-import com.example.testtask.data.remote.MealList
+import com.example.testtask.data.remote.meal.MealList
 import com.example.testtask.domain.repository.MealRepository
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response

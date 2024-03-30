@@ -1,4 +1,4 @@
-package com.example.testtask.presentation.main_screen
+package com.example.testtask.presentation.main_screen.main_screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background

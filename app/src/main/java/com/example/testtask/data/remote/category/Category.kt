@@ -1,4 +1,4 @@
-package com.example.testtask.data.remote
+package com.example.testtask.data.remote.category
 
 //Data class for api
 data class Category(

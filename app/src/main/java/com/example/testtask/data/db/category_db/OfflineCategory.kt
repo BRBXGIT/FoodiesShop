@@ -1,4 +1,4 @@
-package com.example.testtask.data.db
+package com.example.testtask.data.db.category_db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

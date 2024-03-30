@@ -1,4 +1,4 @@
-package com.example.testtask.presentation.main_screen
+package com.example.testtask.presentation.main_screen.main_screen
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.testtask.presentation.main_screen.MainScreenViewModel
 
 @Composable
 fun CategoryElement(

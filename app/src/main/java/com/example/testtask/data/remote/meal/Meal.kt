@@ -1,4 +1,4 @@
-package com.example.testtask.data.remote
+package com.example.testtask.data.remote.meal
 
 //One meal for api
 data class Meal(

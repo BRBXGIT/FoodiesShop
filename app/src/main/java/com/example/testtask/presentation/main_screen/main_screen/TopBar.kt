@@ -1,4 +1,4 @@
-package com.example.testtask.presentation.main_screen
+package com.example.testtask.presentation.main_screen.main_screen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -39,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.testtask.R
+import com.example.testtask.presentation.main_screen.MainScreenViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

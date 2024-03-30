@@ -3,10 +3,10 @@ package com.example.testtask.di
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.room.Room
-import com.example.testtask.data.db.CategoryDao
-import com.example.testtask.data.db.CategoryDb
-import com.example.testtask.data.db.MealDB
-import com.example.testtask.data.db.MealDao
+import com.example.testtask.data.db.category_db.CategoryDao
+import com.example.testtask.data.db.category_db.CategoryDb
+import com.example.testtask.data.db.meal_db.MealDB
+import com.example.testtask.data.db.meal_db.MealDao
 import com.example.testtask.data.remote.MealApi
 import com.example.testtask.data.repository.MealRepositoryImpl
 import com.example.testtask.domain.repository.MealRepository

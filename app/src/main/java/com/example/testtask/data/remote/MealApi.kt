@@ -1,5 +1,7 @@
 package com.example.testtask.data.remote
 
+import com.example.testtask.data.remote.category.CategoryList
+import com.example.testtask.data.remote.meal.MealList
 import retrofit2.Response
 import retrofit2.http.GET
 

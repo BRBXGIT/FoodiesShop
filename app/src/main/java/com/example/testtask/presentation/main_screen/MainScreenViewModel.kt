@@ -6,12 +6,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.testtask.data.db.OfflineCategory
-import com.example.testtask.data.db.OfflineMeal
-import com.example.testtask.data.remote.Category
-import com.example.testtask.data.remote.CategoryList
-import com.example.testtask.data.remote.Meal
-import com.example.testtask.data.remote.MealList
+import com.example.testtask.data.db.category_db.OfflineCategory
+import com.example.testtask.data.db.meal_db.OfflineMeal
+import com.example.testtask.data.remote.category.Category
+import com.example.testtask.data.remote.category.CategoryList
+import com.example.testtask.data.remote.meal.Meal
+import com.example.testtask.data.remote.meal.MealList
 import com.example.testtask.data.repository.MealRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -77,12 +77,14 @@ class MainScreenViewModel @Inject constructor(
                             "${sortedMeals[0].strIngredient4}... "
 
                     if(mealRepositoryImpl.getOfflineMealsByCategory(chosenCategory).first().isEmpty()) {
-                        mealRepositoryImpl.upsertMeal(OfflineMeal(
+                        mealRepositoryImpl.upsertMeal(
+                            OfflineMeal(
                             title = sortedMeals[0].strMeal,
                             ingredients = ingredients,
                             cost = "от 365 р",
                             category = sortedMeals[0].strCategory
-                        ))
+                        )
+                        )
                     }
                 }
             } catch(e: Exception) {

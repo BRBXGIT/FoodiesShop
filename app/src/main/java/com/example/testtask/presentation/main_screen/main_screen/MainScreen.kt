@@ -1,4 +1,4 @@
-package com.example.testtask.presentation.main_screen
+package com.example.testtask.presentation.main_screen.main_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -18,8 +18,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.example.testtask.data.remote.Meal
-import com.example.testtask.presentation.BottomBar.BottomBar
+import com.example.testtask.data.remote.meal.Meal
+import com.example.testtask.presentation.bottom_bar.BottomBar
+import com.example.testtask.presentation.main_screen.MainScreenViewModel
 
 @Composable
 fun MainScreen(

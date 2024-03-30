@@ -1,4 +1,4 @@
-package com.example.testtask.data.db
+package com.example.testtask.data.db.category_db
 
 import androidx.room.Dao
 import androidx.room.Query
