@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.testtask.data.db.category_db.OfflineCategory
 import com.example.testtask.data.db.meal_db.OfflineMeal
 import com.example.testtask.data.remote.category.Category
@@ -23,6 +24,8 @@ import javax.inject.Inject
 class MainScreenViewModel @Inject constructor(
     private val mealRepositoryImpl: MealRepositoryImpl,
 ): ViewModel() {
+
+    //Functions for main screen
 
     //Get internet connection
     val internetConnection = mealRepositoryImpl.getInternetConnection()
@@ -96,6 +99,14 @@ class MainScreenViewModel @Inject constructor(
     //Get offline meals from local db if internet connection is false
     fun getOfflineMeals(): Flow<List<OfflineMeal>> {
         return mealRepositoryImpl.getOfflineMealsByCategory(chosenCategory)
+    }
+
+    //Functions for meal screen
+    var mealByName by mutableStateOf(MealList(listOf(Meal())))
+    fun getMealByName(name: String) {
+        viewModelScope.launch {
+            mealByName = mealRepositoryImpl.getMealByName(name).body()!!
+        }
     }
 }
 

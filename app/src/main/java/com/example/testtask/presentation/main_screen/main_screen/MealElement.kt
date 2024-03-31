@@ -103,7 +103,10 @@ fun MealElement(
             ) {
                 Button(
                     contentPadding = PaddingValues(0.dp),
-                    onClick = {  },
+                    onClick = {
+                        mainScreenViewModel.getMealByName(name = title)
+                        navController.navigate("meal_screen")
+                    },
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
                         .border(1.dp, Color(0xfffd3a69), RoundedCornerShape(10.dp))

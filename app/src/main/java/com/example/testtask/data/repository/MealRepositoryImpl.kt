@@ -28,6 +28,10 @@ class MealRepositoryImpl @Inject constructor(
         return mealApi.getMeals()
     }
 
+    override suspend fun getMealByName(name: String): Response<MealList> {
+        return mealApi.getMealByName(name)
+    }
+
     override fun getInternetConnection(): Boolean {
         return internetConnection
     }

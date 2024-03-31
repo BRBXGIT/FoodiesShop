@@ -93,8 +93,8 @@ fun MainScreen(
                             image = meal.strMealThumb,
                             title = meal.strMeal,
                             ingredients = ingredients,
-                            mainScreenViewModel = mainScreenViewModel,
-                            navController = navController
+                            navController = navController,
+                            mainScreenViewModel = mainScreenViewModel
                         )
                     }
                 } else {
@@ -103,8 +103,8 @@ fun MainScreen(
                             image = null,
                             title = meal.title,
                             ingredients = meal.ingredients,
-                            mainScreenViewModel = mainScreenViewModel,
-                            navController = navController
+                            navController = navController,
+                            mainScreenViewModel = mainScreenViewModel
                         )
                     }
                 }

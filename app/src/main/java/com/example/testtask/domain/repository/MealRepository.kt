@@ -14,6 +14,8 @@ interface MealRepository {
 
     suspend fun getMeals(): Response<MealList>
 
+    suspend fun getMealByName(name: String): Response<MealList>
+
     fun getInternetConnection(): Boolean
 
     //Local db functions
