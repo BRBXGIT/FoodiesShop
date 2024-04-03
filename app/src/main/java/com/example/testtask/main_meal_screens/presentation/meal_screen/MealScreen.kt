@@ -21,6 +21,7 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,11 +33,14 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.testtask.R
+import com.example.testtask.bottom_bar.presentation.noRippleClickable
 import com.example.testtask.main_meal_screens.data.remote.meal.Meal
 import com.example.testtask.main_meal_screens.presentation.MainMealScreensVM
 import com.google.accompanist.systemuicontroller.SystemUiController
@@ -122,20 +126,38 @@ fun MealScreen(
             //Box with image
             Box(
                 modifier = Modifier
-                    .padding(top = 8.dp)
                     .fillMaxHeight(0.4f)
-                    .fillMaxWidth(0.8f)
-                    .clip(CircleShape),
+                    .fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
-                if(meal.strMealThumb != "") {
-                    AsyncImage(
-                        model = meal.strMealThumb,
-                        contentDescription = "Meal image",
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    )
+                Box(
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .fillMaxHeight()
+                        .fillMaxWidth(0.8f)
+                        .clip(CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    if(meal.strMealThumb != "") {
+                        AsyncImage(
+                            model = meal.strMealThumb,
+                            contentDescription = "Meal image",
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
                 }
+
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_arrow_left),
+                    contentDescription = "Icon go back",
+                    tint = Color(0xff000000),
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(start = 16.dp, top = 8.dp)
+                        .noRippleClickable { navController.popBackStack() }
+                )
+
             }
 
             Spacer(modifier = Modifier.height(8.dp))
