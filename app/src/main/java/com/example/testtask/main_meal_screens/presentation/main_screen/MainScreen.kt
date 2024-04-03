@@ -1,5 +1,6 @@
 package com.example.testtask.main_meal_screens.presentation.main_screen
 
+import android.view.WindowInsets.Side
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,12 +24,21 @@ import androidx.navigation.NavHostController
 import com.example.testtask.main_meal_screens.data.remote.meal.Meal
 import com.example.testtask.bottom_bar.presentation.BottomBar
 import com.example.testtask.main_meal_screens.presentation.MainMealScreensVM
+import com.google.accompanist.systemuicontroller.SystemUiController
 
 @Composable
 fun MainScreen(
     mainMealScreensVM: MainMealScreensVM,
-    navController: NavHostController
+    navController: NavHostController,
+    systemUiController: SystemUiController
 ) {
+
+    //Change colors of system bars
+    SideEffect {
+        systemUiController.setNavigationBarColor(Color(0xfff0f0f0))
+        systemUiController.setStatusBarColor(Color(0xfffbfbfb))
+    }
+
     //Check visible of advertising banners
     val state = rememberLazyListState()
     var visible by rememberSaveable { mutableStateOf(!state.canScrollBackward) }

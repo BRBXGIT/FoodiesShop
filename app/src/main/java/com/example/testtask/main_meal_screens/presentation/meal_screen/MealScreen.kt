@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -15,14 +16,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,13 +39,21 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.testtask.main_meal_screens.data.remote.meal.Meal
 import com.example.testtask.main_meal_screens.presentation.MainMealScreensVM
+import com.google.accompanist.systemuicontroller.SystemUiController
 import kotlin.reflect.full.memberProperties
 
 @Composable
 fun MealScreen(
     mainMealScreensVM: MainMealScreensVM,
-    navController: NavHostController
+    navController: NavHostController,
+    systemUiController: SystemUiController
 ) {
+
+    SideEffect {
+        systemUiController.setStatusBarColor(Color(0xfffbfbfb))
+        systemUiController.setNavigationBarColor(Color(0xffffffff))
+    }
+
     val meal = mainMealScreensVM.mealByName.meals[0]
 
     //Iterate over data class and add values to ingredients
@@ -65,102 +82,130 @@ fun MealScreen(
     }
 
 
-    //Main column
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xfffbfbfb))
-    ) {
-        //Box with image
-        Box(
-            modifier = Modifier
-                .aspectRatio(1f)
-                .fillMaxWidth()
-                .fillMaxHeight(0.25f)
-                .padding(16.dp)
-                .clip(CircleShape)
-        ) {
-            if(meal.strMealThumb != "") {
-                AsyncImage(
-                    model = meal.strMealThumb,
-                    contentDescription = "Meal image",
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        //Column with text and ingredients
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text(
-                text = meal.strMeal,
-                color = Color(0xff222831),
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold
-            )
-
-            Text(
-                text = ingredients,
-                color = Color(0xffa9aaad),
-                fontSize = 17.sp
-            )
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        //Lazy column with ingredients and measures
-        val ingredientsList = ingredients.split(", ")
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Divider(thickness = 2.dp, color = Color(0xfff6f7f9))
-
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth()
+    //I used scaffold to create bottom add to cart button
+    Scaffold(
+        bottomBar = {
+            BottomAppBar(
+                modifier = Modifier.height(70.dp),
+                containerColor = Color(0xffffffff)
             ) {
-                itemsIndexed(measures) { index, measure ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp)
-                            .padding(start = 16.dp, end = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+                ) {
+                    Button(
+                        onClick = { /*TODO*/ },
+                        shape = RoundedCornerShape(10.dp),
+                        modifier = Modifier.fillMaxSize(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xfffd3a69),
+                            contentColor = Color(0xffffffff)
+                        )
                     ) {
                         Text(
-                            text = ingredientsList[index],
-                            color = Color(0xffa9aaad),
+                            text = "В корзину за 345 р",
                             fontSize = 17.sp
                         )
-
-                        Text(
-                            text = measure,
-                            color = Color(0xff222831),
-                            fontSize = 17.sp,
-                            fontWeight = FontWeight.Bold
-                        )
                     }
-
-                    Divider(thickness = 2.dp, color = Color(0xfff6f7f9))
-
+                }
+            }
+        }
+    ) { innerPadding ->
+        //Main column
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xfffbfbfb)),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            //Box with image
+            Box(
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .fillMaxHeight(0.4f)
+                    .fillMaxWidth(0.8f)
+                    .clip(CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                if(meal.strMealThumb != "") {
+                    AsyncImage(
+                        model = meal.strMealThumb,
+                        contentDescription = "Meal image",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
                 }
             }
 
-            Box(
+            Spacer(modifier = Modifier.height(8.dp))
+
+            //Column with text and ingredients
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(70.dp)
-                    .background(Color.Green)
-                    .align(Alignment.BottomCenter)
+                    .padding(start = 16.dp, end = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                Text(
+                    text = meal.strMeal,
+                    color = Color(0xff222831),
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold
+                )
 
+                Text(
+                    text = ingredients,
+                    color = Color(0xffa9aaad),
+                    fontSize = 17.sp
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            //Lazy column with ingredients and measures
+            val ingredientsList = ingredients.split(", ")
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Divider(thickness = 2.dp, color = Color(0xfff6f7f9))
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(
+                            PaddingValues(
+                                bottom = innerPadding.calculateBottomPadding()
+                            )
+                        ),
+                ) {
+                    itemsIndexed(measures) { index, measure ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp)
+                                .padding(start = 16.dp, end = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = ingredientsList[index].lowercase(),
+                                color = Color(0xffa9aaad),
+                                fontSize = 17.sp
+                            )
+
+                            Text(
+                                text = measure,
+                                color = Color(0xff222831),
+                                fontSize = 17.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+
+                        Divider(thickness = 2.dp, color = Color(0xfff6f7f9))
+
+                    }
+                }
             }
         }
     }
