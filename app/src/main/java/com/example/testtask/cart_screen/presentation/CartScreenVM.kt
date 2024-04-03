@@ -1,6 +1,5 @@
 package com.example.testtask.cart_screen.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testtask.cart_screen.data.db.Product
@@ -35,14 +34,26 @@ class CartScreenVM @Inject constructor(
     }
 
     //Api functions
-    var cartMeals = listOf(CartMeal()).toMutableList()
+    var cartMeals = listOf(CartMeal())
     fun updateCartMealList() {
         viewModelScope.launch {
             val products = getAllProductsFromDb().first()
             for(product in products) {
-                cartMeals += cartRepositoryImpl.getProductByName(product.name).body()!!.meals
+                if(!checkIsMealInList(product.name)) {
+                    cartMeals += cartRepositoryImpl.getProductByName(product.name).body()!!.meals
+                }
             }
         }
-        cartMeals = cartMeals.toSet().toMutableList()
+    }
+
+    private fun checkIsMealInList(name: String): Boolean {
+        var isInList = false
+        for(cartMeal in cartMeals) {
+            if(name == cartMeal.strMeal) {
+                isInList = true
+            }
+        }
+
+        return isInList
     }
 }

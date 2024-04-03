@@ -2,13 +2,13 @@ package com.example.testtask.cart_screen.data.remote.product
 
 //One meal for cart, but i take it from the same api
 data class CartMeal(
-    val dateModified: String? = "",
+    val dateModified: String = "",
     val idMeal: String = "",
     val strArea: String = "",
     val strCategory: String = "",
-    val strCreativeCommonsConfirmed: String? = "",
-    val strDrinkAlternate: String? = "",
-    val strImageSource: String? = "",
+    val strCreativeCommonsConfirmed: String = "",
+    val strDrinkAlternate: String = "",
+    val strImageSource: String = "",
     val strIngredient1: String = "",
     val strIngredient10: String = "",
     val strIngredient11: String = "",

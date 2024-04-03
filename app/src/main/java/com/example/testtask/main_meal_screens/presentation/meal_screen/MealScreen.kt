@@ -52,8 +52,7 @@ import kotlin.reflect.full.memberProperties
 fun MealScreen(
     mainMealScreensVM: MainMealScreensVM,
     navController: NavHostController,
-    systemUiController: SystemUiController,
-    cartScreenVM: CartScreenVM
+    systemUiController: SystemUiController
 ) {
 
     SideEffect {
@@ -107,7 +106,6 @@ fun MealScreen(
                                 name = meal.strMeal,
                                 amount = 1
                             ))
-                            cartScreenVM.updateCartMealList()
                         },
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier.fillMaxSize(),
