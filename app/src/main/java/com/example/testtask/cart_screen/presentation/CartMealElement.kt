@@ -1,5 +1,6 @@
 package com.example.testtask.cart_screen.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -12,6 +13,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -26,6 +28,7 @@ fun CartMealElement(
             .fillMaxWidth()
             .height(110.dp)
             .padding(start = 16.dp, end = 16.dp)
+            .background(Color.Blue)
     ) {
         Box(
             modifier = Modifier

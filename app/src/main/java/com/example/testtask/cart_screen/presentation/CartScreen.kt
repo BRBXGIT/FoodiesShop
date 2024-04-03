@@ -34,6 +34,7 @@ fun CartScreen(
     SideEffect {
         systemUiController.setNavigationBarColor(Color(0xfff0f0f0))
         systemUiController.setStatusBarColor(Color(0xfffbfbfb))
+        cartScreenVM.updateCartMealList()
     }
 
     //Products from local db
@@ -49,9 +50,6 @@ fun CartScreen(
             BottomBar(navController = navController)
         }
     ) { innerPadding ->
-
-        cartScreenVM.updateCartMealList()
-
         if(products.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier
