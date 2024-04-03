@@ -1,6 +1,7 @@
 package com.example.testtask.main_meal_screens.presentation.main_screen
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineBreak
@@ -45,6 +47,9 @@ fun MealElement(
     navController: NavHostController,
     mainMealScreensVM: MainMealScreensVM
 ) {
+
+    val context = LocalContext.current
+
     Divider(thickness = 2.dp, color = Color(0xfff6f7f9))
 
     //Main row
@@ -102,8 +107,12 @@ fun MealElement(
                 Button(
                     contentPadding = PaddingValues(0.dp),
                     onClick = {
-                        mainMealScreensVM.getMealByName(name = title)
-                        navController.navigate("meal_screen")
+                        if(mainMealScreensVM.internetConnection) {
+                            mainMealScreensVM.getMealByName(name = title)
+                            navController.navigate("meal_screen")
+                        } else {
+                            Toast.makeText(context, "Ups, you need internet connection", Toast.LENGTH_LONG).show()
+                        }
                     },
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
