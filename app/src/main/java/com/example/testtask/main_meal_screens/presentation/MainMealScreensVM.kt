@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.testtask.main_meal_screens.data.db.category_db.OfflineCategory
-import com.example.testtask.main_meal_screens.data.db.meal_db.OfflineMeal
+import com.example.testtask.main_meal_screens.data.dbs.category_db.OfflineCategory
+import com.example.testtask.main_meal_screens.data.dbs.meal_db.OfflineMeal
 import com.example.testtask.main_meal_screens.data.remote.category.Category
 import com.example.testtask.main_meal_screens.data.remote.category.CategoryList
 import com.example.testtask.main_meal_screens.data.remote.meal.Meal

@@ -1,4 +1,4 @@
-package com.example.testtask.main_meal_screens.data.db.meal_db
+package com.example.testtask.main_meal_screens.data.dbs.meal_db
 
 import androidx.room.Dao
 import androidx.room.Query

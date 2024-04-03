@@ -1,9 +1,9 @@
 package com.example.testtask.main_meal_screens.data.repository
 
-import com.example.testtask.main_meal_screens.data.db.category_db.CategoryDao
-import com.example.testtask.main_meal_screens.data.db.meal_db.MealDao
-import com.example.testtask.main_meal_screens.data.db.category_db.OfflineCategory
-import com.example.testtask.main_meal_screens.data.db.meal_db.OfflineMeal
+import com.example.testtask.main_meal_screens.data.dbs.category_db.CategoryDao
+import com.example.testtask.main_meal_screens.data.dbs.meal_db.MealDao
+import com.example.testtask.main_meal_screens.data.dbs.category_db.OfflineCategory
+import com.example.testtask.main_meal_screens.data.dbs.meal_db.OfflineMeal
 import com.example.testtask.main_meal_screens.data.remote.category.CategoryList
 import com.example.testtask.main_meal_screens.data.remote.MealApi
 import com.example.testtask.main_meal_screens.data.remote.meal.MealList

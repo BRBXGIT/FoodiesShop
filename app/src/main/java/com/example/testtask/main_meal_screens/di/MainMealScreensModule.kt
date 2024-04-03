@@ -3,10 +3,10 @@ package com.example.testtask.main_meal_screens.di
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.room.Room
-import com.example.testtask.main_meal_screens.data.db.category_db.CategoryDao
-import com.example.testtask.main_meal_screens.data.db.category_db.CategoryDb
-import com.example.testtask.main_meal_screens.data.db.meal_db.MealDB
-import com.example.testtask.main_meal_screens.data.db.meal_db.MealDao
+import com.example.testtask.main_meal_screens.data.dbs.category_db.CategoryDao
+import com.example.testtask.main_meal_screens.data.dbs.category_db.CategoryDb
+import com.example.testtask.main_meal_screens.data.dbs.meal_db.MealDB
+import com.example.testtask.main_meal_screens.data.dbs.meal_db.MealDao
 import com.example.testtask.main_meal_screens.data.remote.MealApi
 import com.example.testtask.main_meal_screens.data.repository.MealRepositoryImpl
 import com.example.testtask.main_meal_screens.domain.repository.MealRepository
