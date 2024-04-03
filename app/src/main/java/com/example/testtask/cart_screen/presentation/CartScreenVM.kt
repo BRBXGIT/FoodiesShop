@@ -1,16 +1,14 @@
 package com.example.testtask.cart_screen.presentation
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testtask.cart_screen.data.db.Product
 import com.example.testtask.cart_screen.data.remote.product.CartMeal
-import com.example.testtask.cart_screen.data.remote.product.CartMealList
 import com.example.testtask.cart_screen.data.repository.CartRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,12 +20,6 @@ class CartScreenVM @Inject constructor(
     //Local db functions
     fun getAllProductsFromDb(): Flow<List<Product>> {
         return cartRepositoryImpl.getAllProducts()
-    }
-
-    fun upsertNewProductToDb(product: Product) {
-        viewModelScope.launch {
-            cartRepositoryImpl.upsertNewProduct(product)
-        }
     }
 
     fun updateExistingProductFromDB(product: Product) {
@@ -43,10 +35,14 @@ class CartScreenVM @Inject constructor(
     }
 
     //Api functions
-    var cartMeal by mutableStateOf(CartMealList(listOf(CartMeal())))
-    fun getProductByName(name: String) {
+    var cartMeals = listOf(CartMeal()).toMutableList()
+    fun updateCartMealList() {
         viewModelScope.launch {
-            cartMeal = cartRepositoryImpl.getProductByName(name).body()!!
+            val products = getAllProductsFromDb().first()
+            for(product in products) {
+                cartMeals += cartRepositoryImpl.getProductByName(product.name).body()!!.meals
+            }
         }
+        cartMeals = cartMeals.toSet().toMutableList()
     }
 }

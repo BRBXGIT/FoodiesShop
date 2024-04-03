@@ -42,6 +42,7 @@ import coil.compose.AsyncImage
 import com.example.testtask.R
 import com.example.testtask.bottom_bar.presentation.noRippleClickable
 import com.example.testtask.cart_screen.data.db.Product
+import com.example.testtask.cart_screen.presentation.CartScreenVM
 import com.example.testtask.main_meal_screens.data.remote.meal.Meal
 import com.example.testtask.main_meal_screens.presentation.MainMealScreensVM
 import com.google.accompanist.systemuicontroller.SystemUiController
@@ -51,7 +52,8 @@ import kotlin.reflect.full.memberProperties
 fun MealScreen(
     mainMealScreensVM: MainMealScreensVM,
     navController: NavHostController,
-    systemUiController: SystemUiController
+    systemUiController: SystemUiController,
+    cartScreenVM: CartScreenVM
 ) {
 
     SideEffect {
@@ -105,6 +107,7 @@ fun MealScreen(
                                 name = meal.strMeal,
                                 amount = 1
                             ))
+                            cartScreenVM.updateCartMealList()
                         },
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier.fillMaxSize(),

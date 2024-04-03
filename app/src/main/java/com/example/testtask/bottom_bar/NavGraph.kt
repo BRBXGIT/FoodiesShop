@@ -33,7 +33,7 @@ fun NavGraph() {
             MainScreen(
                 mainMealScreensVM = mainMealScreensVM,
                 navController = navController,
-                systemUiController = systemUiController
+                systemUiController = systemUiController,
             )
         }
 
@@ -53,7 +53,8 @@ fun NavGraph() {
             MealScreen(
                 navController = navController,
                 mainMealScreensVM = mainMealScreensVM,
-                systemUiController = systemUiController
+                systemUiController = systemUiController,
+                cartScreenVM = cartScreenVM
             )
         }
     }

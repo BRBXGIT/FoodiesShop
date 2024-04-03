@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,6 +42,7 @@ fun CartScreen(
         .collectAsState(initial = emptyList())
         .value
 
+    val cartMeals = cartScreenVM.cartMeals
 
     Scaffold(
         bottomBar = {
@@ -48,8 +50,14 @@ fun CartScreen(
         }
     ) { innerPadding ->
         if(products.isNotEmpty()) {
-            LazyColumn {
-
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xfffbfbfb))
+            ) {
+                items(cartMeals) { cartMeal ->
+                    CartMealElement(cartMeal = cartMeal)
+                }
             }
         } else {
             Box(
