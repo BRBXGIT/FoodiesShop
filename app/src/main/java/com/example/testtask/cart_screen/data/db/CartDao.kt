@@ -7,6 +7,7 @@ import androidx.room.Update
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 
+//Dao for cart
 @Dao
 interface CartDao {
 

@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TestTaskTheme {
                 //I decided to fully create this app, and add navigation and other things
-                //I will add few functions for api, such as get meal by id
+                //I will add few functions for api, such as get meal by name
                 NavGraph()
             }
         }

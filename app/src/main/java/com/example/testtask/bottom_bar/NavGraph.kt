@@ -44,7 +44,8 @@ fun NavGraph() {
         composable(route = "cart_screen") {
             CartScreen(
                 navController = navController,
-                cartScreenVM = cartScreenVM
+                cartScreenVM = cartScreenVM,
+                systemUiController = systemUiController
             )
         }
 

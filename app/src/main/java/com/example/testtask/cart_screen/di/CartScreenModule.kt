@@ -16,10 +16,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import javax.inject.Singleton
 
+//Module for cart screen
 @Module
 @InstallIn(SingletonComponent::class)
 object CartScreenModule {
 
+    //Provide dao for local db
     @Provides
     @Singleton
     fun provideCartDao(@ApplicationContext appContext: Context): CartDao {
@@ -30,6 +32,7 @@ object CartScreenModule {
         ).build().CartDao()
     }
 
+    //Provide api
     @Provides
     @Singleton
     fun provideCartApi(): CartApi {
@@ -40,6 +43,7 @@ object CartScreenModule {
             .create()
     }
 
+    //Provide repository
     @Provides
     @Singleton
     fun provideCartRepositoryImpl(cartDao: CartDao, cartApi: CartApi): CartRepositoryImpl {

@@ -1,6 +1,6 @@
 package com.example.testtask.cart_screen.data.remote.product
 
-//One meal for api
+//One meal for cart, but i take it from the same api
 data class CartMeal(
     val dateModified: String? = "",
     val idMeal: String = "",
