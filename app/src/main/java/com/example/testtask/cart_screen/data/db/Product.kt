@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class Product(
     @PrimaryKey
-    val name: String,
-    val amount: Int
+    val name: String = "",
+    val amount: Int = 1
 )

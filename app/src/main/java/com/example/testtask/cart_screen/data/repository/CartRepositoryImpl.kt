@@ -3,7 +3,7 @@ package com.example.testtask.cart_screen.data.repository
 import com.example.testtask.cart_screen.data.db.CartDao
 import com.example.testtask.cart_screen.data.db.Product
 import com.example.testtask.cart_screen.data.remote.CartApi
-import com.example.testtask.cart_screen.data.remote.product.ProductList
+import com.example.testtask.cart_screen.data.remote.product.CartMealList
 import com.example.testtask.cart_screen.domain.repository.CartRepository
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
@@ -15,7 +15,7 @@ class CartRepositoryImpl @Inject constructor(
 ): CartRepository {
 
     //Api functions
-    override suspend fun getProductByName(name: String): Response<ProductList> {
+    override suspend fun getProductByName(name: String): Response<CartMealList> {
         return cartApi.getProductByName(name)
     }
 

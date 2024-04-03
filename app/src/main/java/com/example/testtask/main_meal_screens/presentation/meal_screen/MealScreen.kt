@@ -41,6 +41,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.testtask.R
 import com.example.testtask.bottom_bar.presentation.noRippleClickable
+import com.example.testtask.cart_screen.data.db.Product
 import com.example.testtask.main_meal_screens.data.remote.meal.Meal
 import com.example.testtask.main_meal_screens.presentation.MainMealScreensVM
 import com.google.accompanist.systemuicontroller.SystemUiController
@@ -99,7 +100,12 @@ fun MealScreen(
                         .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
                 ) {
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            mainMealScreensVM.upsertNewProductToCart(Product(
+                                name = meal.strMeal,
+                                amount = 1
+                            ))
+                        },
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier.fillMaxSize(),
                         colors = ButtonDefaults.buttonColors(

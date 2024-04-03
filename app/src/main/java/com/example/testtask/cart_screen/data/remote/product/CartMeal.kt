@@ -1,7 +1,7 @@
 package com.example.testtask.cart_screen.data.remote.product
 
 //One meal for api
-data class Product(
+data class CartMeal(
     val dateModified: String? = "",
     val idMeal: String = "",
     val strArea: String = "",

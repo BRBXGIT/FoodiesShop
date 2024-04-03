@@ -1,14 +1,14 @@
 package com.example.testtask.cart_screen.domain.repository
 
 import com.example.testtask.cart_screen.data.db.Product
-import com.example.testtask.cart_screen.data.remote.product.ProductList
+import com.example.testtask.cart_screen.data.remote.product.CartMealList
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 interface CartRepository {
 
     //Api functions
-    suspend fun getProductByName(name: String): Response<ProductList>
+    suspend fun getProductByName(name: String): Response<CartMealList>
 
 
     //Local db functions

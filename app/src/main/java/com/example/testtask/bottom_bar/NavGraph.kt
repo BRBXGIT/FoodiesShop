@@ -9,6 +9,7 @@ import com.example.testtask.main_meal_screens.presentation.MainMealScreensVM
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.testtask.cart_screen.presentation.CartScreen
+import com.example.testtask.cart_screen.presentation.CartScreenVM
 import com.example.testtask.main_meal_screens.presentation.main_screen.MainScreen
 import com.example.testtask.main_meal_screens.presentation.meal_screen.MealScreen
 import com.example.testtask.profile_screen.presentation.ProfileScreen
@@ -18,7 +19,10 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 fun NavGraph() {
 
     val systemUiController = rememberSystemUiController()
+
     val mainMealScreensVM = hiltViewModel<MainMealScreensVM>()
+    val cartScreenVM = hiltViewModel<CartScreenVM>()
+
     val navController = rememberNavController()
 
     NavHost(
@@ -38,7 +42,10 @@ fun NavGraph() {
         }
 
         composable(route = "cart_screen") {
-            CartScreen(navController = navController)
+            CartScreen(
+                navController = navController,
+                cartScreenVM = cartScreenVM
+            )
         }
 
         composable(route = "meal_screen") {
