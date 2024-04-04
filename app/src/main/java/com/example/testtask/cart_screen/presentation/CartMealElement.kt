@@ -23,26 +23,5 @@ import com.example.testtask.cart_screen.data.remote.product.CartMeal
 fun CartMealElement(
     cartMeal: CartMeal
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(110.dp)
-            .padding(start = 16.dp, end = 16.dp)
-            .background(Color.Blue)
-    ) {
-        Box(
-            modifier = Modifier
-                .aspectRatio(1f)
-                .fillMaxHeight()
-                .fillMaxWidth(0.25f)
-                .clip(CircleShape)
-        ) {
-            AsyncImage(
-                model = cartMeal.strMealThumb,
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-        }
-    }
+
 }

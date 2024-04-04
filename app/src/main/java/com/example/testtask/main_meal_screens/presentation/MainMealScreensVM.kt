@@ -112,6 +112,7 @@ class MainMealScreensVM @Inject constructor(
         }
     }
 
+    //Functions for cart
     fun upsertNewProductToCart(product: Product) {
         viewModelScope.launch {
             cartRepositoryImpl.upsertNewProduct(product)

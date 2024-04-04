@@ -34,7 +34,6 @@ fun CartScreen(
     SideEffect {
         systemUiController.setNavigationBarColor(Color(0xfff0f0f0))
         systemUiController.setStatusBarColor(Color(0xfffbfbfb))
-        cartScreenVM.updateCartMealList()
     }
 
     //Products from local db
@@ -42,8 +41,6 @@ fun CartScreen(
         .getAllProductsFromDb()
         .collectAsState(initial = emptyList())
         .value
-
-    val cartMeals = cartScreenVM.cartMeals
 
     Scaffold(
         bottomBar = {
@@ -59,11 +56,7 @@ fun CartScreen(
                         bottom = innerPadding.calculateBottomPadding()
                     ))
             ) {
-                items(cartMeals) { cartMeal ->
-                    if(cartMeal.strMeal != "") {
-                        CartMealElement(cartMeal = cartMeal)
-                    }
-                }
+
             }
         } else {
             Box(

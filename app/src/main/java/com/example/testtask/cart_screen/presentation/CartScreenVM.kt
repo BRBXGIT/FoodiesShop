@@ -36,28 +36,4 @@ class CartScreenVM @Inject constructor(
             cartRepositoryImpl.deleteExistingProduct(product)
         }
     }
-
-    //Api functions
-    var cartMeals by mutableStateOf(listOf(CartMeal()))
-    fun updateCartMealList() {
-        viewModelScope.launch {
-            val products = getAllProductsFromDb().first()
-            for(product in products) {
-                if(!checkIsMealInList(product.name)) {
-                    cartMeals += cartRepositoryImpl.getProductByName(product.name).body()!!.meals
-                }
-            }
-        }
-    }
-
-    private fun checkIsMealInList(name: String): Boolean {
-        var isInList = false
-        for(cartMeal in cartMeals) {
-            if(name == cartMeal.strMeal) {
-                isInList = true
-            }
-        }
-
-        return isInList
-    }
 }
