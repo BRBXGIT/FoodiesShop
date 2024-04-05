@@ -1,8 +1,17 @@
 package com.example.testtask.bottom_bar
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import com.example.testtask.main_meal_screens.presentation.MainMealScreensVM
@@ -29,7 +38,15 @@ fun NavGraph() {
         navController = navController,
         startDestination = "main_screen"
     ) {
-        composable(route = "main_screen") {
+        composable(
+            route = "main_screen",
+            enterTransition = {
+                fadeIn(tween(400))
+            },
+            exitTransition = {
+                fadeOut(tween(400))
+            }
+        ) {
             MainScreen(
                 mainMealScreensVM = mainMealScreensVM,
                 navController = navController,
@@ -37,11 +54,27 @@ fun NavGraph() {
             )
         }
 
-        composable(route = "profile_screen") {
+        composable(
+            route = "profile_screen",
+            enterTransition = {
+                fadeIn(tween(400))
+            },
+            exitTransition = {
+                fadeOut(tween(400))
+            }
+        ) {
             ProfileScreen(navController = navController)
         }
 
-        composable(route = "cart_screen") {
+        composable(
+            route = "cart_screen",
+            enterTransition = {
+                fadeIn(tween(400))
+            },
+            exitTransition = {
+                fadeOut(tween(400))
+            }
+        ) {
             CartScreen(
                 navController = navController,
                 cartScreenVM = cartScreenVM,
@@ -49,7 +82,21 @@ fun NavGraph() {
             )
         }
 
-        composable(route = "meal_screen") {
+        composable(
+            route = "meal_screen",
+            enterTransition = { slideInHorizontally(
+                initialOffsetX = { 400 },
+                animationSpec = tween(
+                    durationMillis = 400,
+                )
+            ) + fadeIn(tween(400)) },
+            popExitTransition = { slideOutHorizontally(
+                targetOffsetX = { 400 },
+                animationSpec = tween(
+                    durationMillis = 400
+                )
+            ) + fadeOut(tween(400)) },
+        ) {
             MealScreen(
                 navController = navController,
                 mainMealScreensVM = mainMealScreensVM,
