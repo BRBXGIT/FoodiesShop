@@ -1,6 +1,8 @@
 package com.example.testtask.main_meal_screens.presentation.meal_screen
 
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +27,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -59,6 +65,10 @@ fun MealScreen(
     }
 
     val meal = mainMealScreensVM.mealByName.meals[0]
+    cartScreenVM.checkIsMealInCart(meal.strMeal)
+
+    var textForAddButton by rememberSaveable { mutableStateOf("") }
+    textForAddButton = if(cartScreenVM.isInCart) "В корзине" else "В корзину за 345 р."
 
     //Iterate over data class and add values to ingredients
     var ingredients = ""
@@ -85,9 +95,6 @@ fun MealScreen(
         }
     }
 
-
-    cartScreenVM.checkIsMealInCart(meal.idMeal)
-
     //I used scaffold to create bottom add to cart button
     Scaffold(
         bottomBar = {
@@ -107,6 +114,7 @@ fun MealScreen(
                                 amount = 1,
                                 image = meal.strMealThumb
                             ))
+                            textForAddButton = "В корзине"
                         },
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier.fillMaxSize(),
@@ -116,7 +124,7 @@ fun MealScreen(
                         )
                     ) {
                         Text(
-                            text = "",
+                            text = textForAddButton,
                             fontSize = 17.sp
                         )
                     }

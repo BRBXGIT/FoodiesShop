@@ -1,6 +1,9 @@
 package com.example.testtask.cart_screen.presentation
 
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testtask.cart_screen.data.db.CartMeal
@@ -37,10 +40,10 @@ class CartScreenVM @Inject constructor(
         return cartRepositoryImpl.getAllCartMeals()
     }
 
+    var isInCart = false
     fun checkIsMealInCart(name: String) {
         viewModelScope.launch {
-            Log.d("XXXX", name)
-            Log.d("XXXX", cartRepositoryImpl.checkIsMealInCart(name).toString())
+            isInCart = cartRepositoryImpl.checkIsMealInCart(name)
         }
     }
 }
