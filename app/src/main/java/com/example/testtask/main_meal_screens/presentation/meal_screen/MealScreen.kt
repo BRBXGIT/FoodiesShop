@@ -1,13 +1,14 @@
 package com.example.testtask.main_meal_screens.presentation.meal_screen
 
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,18 +22,22 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,6 +46,8 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.testtask.R
 import com.example.testtask.bottom_bar.presentation.noRippleClickable
+import com.example.testtask.cart_screen.data.db.CartMeal
+import com.example.testtask.cart_screen.presentation.CartScreenVM
 import com.example.testtask.main_meal_screens.data.remote.meal.Meal
 import com.example.testtask.main_meal_screens.presentation.MainMealScreensVM
 import com.google.accompanist.systemuicontroller.SystemUiController
@@ -50,7 +57,8 @@ import kotlin.reflect.full.memberProperties
 fun MealScreen(
     mainMealScreensVM: MainMealScreensVM,
     navController: NavHostController,
-    systemUiController: SystemUiController
+    systemUiController: SystemUiController,
+    cartScreenVM: CartScreenVM
 ) {
 
     SideEffect {
@@ -58,13 +66,19 @@ fun MealScreen(
         systemUiController.setNavigationBarColor(Color(0xffffffff))
     }
 
+    //Get meal and check is it in cart
     val meal = mainMealScreensVM.mealByName.meals[0]
+    cartScreenVM.checkIsMealInCart(meal.strMeal)
+
+    //Changing text if meal in cart
+    var textForAddButton by rememberSaveable { mutableStateOf("") }
+    textForAddButton = if(cartScreenVM.isInCart) "В корзине" else "В корзину за 345 р."
 
     //Iterate over data class and add values to ingredients
     var ingredients = ""
     for(ingredient in Meal::class.memberProperties) {
         if(ingredient.name.take(13) == "strIngredient") {
-            if(ingredient.get(meal) != "") {
+            if((ingredient.get(meal) != "") && ingredient.get(meal) != null) {
                 ingredients += if(ingredients.isNotEmpty()) {
                     "${ingredient.get(meal)}, ".lowercase()
                 } else {
@@ -79,27 +93,35 @@ fun MealScreen(
     val measures = mutableListOf<String>()
     for(measure in Meal::class.memberProperties) {
         if(measure.name.take(10) == "strMeasure") {
-            if((measure.get(meal) != " ") && (measure.get(meal) != "")) {
+            if((measure.get(meal) != " ") && (measure.get(meal) != "") && (measure.get(meal) != null)) {
                 measures += measure.get(meal).toString()
             }
         }
     }
 
-
     //I used scaffold to create bottom add to cart button
     Scaffold(
         bottomBar = {
             BottomAppBar(
-                modifier = Modifier.height(70.dp),
-                containerColor = Color(0xffffffff)
+                modifier = Modifier
+                    .height(70.dp),
+                containerColor = Color(0xffffffff),
             ) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
                 ) {
+                    //Add to cart button
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            cartScreenVM.upsertNewMealToCart(CartMeal(
+                                name = meal.strMeal,
+                                amount = 1,
+                                image = meal.strMealThumb
+                            ))
+                            textForAddButton = "В корзине"
+                        },
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier.fillMaxSize(),
                         colors = ButtonDefaults.buttonColors(
@@ -108,7 +130,7 @@ fun MealScreen(
                         )
                     ) {
                         Text(
-                            text = "В корзину за 345 р",
+                            text = textForAddButton,
                             fontSize = 17.sp
                         )
                     }
@@ -224,7 +246,7 @@ fun MealScreen(
                             )
                         }
 
-                        Divider(thickness = 2.dp, color = Color(0xfff6f7f9))
+                        HorizontalDivider(thickness = 2.dp, color = Color(0xfff6f7f9))
 
                     }
                 }

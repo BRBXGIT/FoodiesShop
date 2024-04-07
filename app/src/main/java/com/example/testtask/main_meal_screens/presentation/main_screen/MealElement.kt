@@ -45,7 +45,7 @@ fun MealElement(
     title: String,
     ingredients: String,
     navController: NavHostController,
-    mainMealScreensVM: MainMealScreensVM
+    mainMealScreensVM: MainMealScreensVM,
 ) {
 
     val context = LocalContext.current

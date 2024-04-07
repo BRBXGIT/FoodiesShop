@@ -42,7 +42,7 @@ object MainMealScreensModule {
         return Room.databaseBuilder(
             appContext,
             MealDB::class.java,
-            "MealDb"
+            "MealDB"
         ).build().MealDao()
     }
 

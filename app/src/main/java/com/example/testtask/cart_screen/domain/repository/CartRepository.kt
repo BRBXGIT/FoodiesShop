@@ -1,22 +1,18 @@
 package com.example.testtask.cart_screen.domain.repository
 
-import com.example.testtask.cart_screen.data.db.Product
-import com.example.testtask.cart_screen.data.remote.product.ProductList
+import com.example.testtask.cart_screen.data.db.CartMeal
 import kotlinx.coroutines.flow.Flow
-import retrofit2.Response
 
 interface CartRepository {
 
-    //Api functions
-    suspend fun getProductByName(name: String): Response<ProductList>
-
-
     //Local db functions
-    suspend fun upsertNewProduct(product: Product)
+    suspend fun upsertNewCartMeal(cartMeal: CartMeal)
 
-    suspend fun updateExistingProduct(product: Product)
+    suspend fun updateCartMeal(cartMeal: CartMeal)
 
-    suspend fun deleteExistingProduct(product: Product)
+    suspend fun deleteCartMeal(cartMeal: CartMeal)
 
-    fun getAllProducts(): Flow<List<Product>>
+    fun getAllCartMeals(): Flow<List<CartMeal>>
+
+    suspend fun checkIsMealInCart(name: String): Boolean
 }

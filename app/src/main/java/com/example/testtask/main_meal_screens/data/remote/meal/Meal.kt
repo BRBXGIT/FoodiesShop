@@ -2,13 +2,13 @@ package com.example.testtask.main_meal_screens.data.remote.meal
 
 //One meal for api
 data class Meal(
-    val dateModified: String? = "",
+    val dateModified: String = "",
     val idMeal: String = "",
     val strArea: String = "",
     val strCategory: String = "",
-    val strCreativeCommonsConfirmed: String? = "",
-    val strDrinkAlternate: String? = "",
-    val strImageSource: String? = "",
+    val strCreativeCommonsConfirmed: String = "",
+    val strDrinkAlternate: String = "",
+    val strImageSource: String = "",
     val strIngredient1: String = "",
     val strIngredient10: String = "",
     val strIngredient11: String = "",

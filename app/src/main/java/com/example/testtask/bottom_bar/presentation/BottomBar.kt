@@ -1,5 +1,6 @@
 package com.example.testtask.bottom_bar.presentation
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -30,15 +32,17 @@ fun BottomBar(
     navController: NavHostController
 ) {
 
+    //Colors for active and basic destinations
     val activeIconColor by remember { mutableStateOf(Color(0xfffd3a69)) }
     val basicIconColor by remember { mutableStateOf(Color(0xff7b7b7b)) }
     val currentDestination = navController.currentDestination!!.route
 
     BottomAppBar(
         containerColor = Color(0xfff0f0f0),
-        modifier = Modifier.height(50.dp)
+        modifier = Modifier.height(50.dp),
     ) {
         //Row with icons and titles
+        //Need to change to normal bottom bar, but not now)
         Row(
             modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
@@ -114,6 +118,7 @@ fun BottomBar(
 }
 
 //Modifier extension for clicking without ripple
+@SuppressLint("ModifierFactoryUnreferencedReceiver")
 fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
     clickable(indication = null,
         interactionSource = remember { MutableInteractionSource() }) {

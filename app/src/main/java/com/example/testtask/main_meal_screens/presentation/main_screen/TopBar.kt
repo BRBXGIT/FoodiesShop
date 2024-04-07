@@ -26,6 +26,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -163,6 +164,6 @@ fun TopBar(
             }
         }
 
-        Divider(thickness = 2.dp, color = Color(0xfff6f7f9))
+        HorizontalDivider(thickness = 2.dp, color = Color(0xfff6f7f9))
     }
 }

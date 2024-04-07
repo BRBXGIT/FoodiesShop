@@ -1,6 +1,5 @@
 package com.example.testtask.main_meal_screens.presentation.main_screen
 
-import android.view.WindowInsets.Side
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,10 +18,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.testtask.main_meal_screens.data.remote.meal.Meal
 import com.example.testtask.bottom_bar.presentation.BottomBar
+import com.example.testtask.main_meal_screens.data.remote.meal.Meal
 import com.example.testtask.main_meal_screens.presentation.MainMealScreensVM
 import com.google.accompanist.systemuicontroller.SystemUiController
 
@@ -30,7 +31,7 @@ import com.google.accompanist.systemuicontroller.SystemUiController
 fun MainScreen(
     mainMealScreensVM: MainMealScreensVM,
     navController: NavHostController,
-    systemUiController: SystemUiController
+    systemUiController: SystemUiController,
 ) {
 
     //Change colors of system bars
@@ -57,7 +58,7 @@ fun MainScreen(
             )
 
             //Get meals from api
-            //Or if it's no internet connection load it from local db
+            //Or if it's no internet connection load them from local db
             mainMealScreensVM.getMeals()
 
             //Meals sorted by category
