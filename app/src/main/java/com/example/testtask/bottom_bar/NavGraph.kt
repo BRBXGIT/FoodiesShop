@@ -70,7 +70,8 @@ fun NavGraph() {
         ) {
             CartScreen(
                 navController = navController,
-                systemUiController = systemUiController
+                systemUiController = systemUiController,
+                cartScreenVM = cartScreenVM
             )
         }
 
