@@ -3,6 +3,7 @@ package com.example.testtask.cart_screen.data.db
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+//Cart meal
 @Entity
 data class CartMeal(
     @PrimaryKey

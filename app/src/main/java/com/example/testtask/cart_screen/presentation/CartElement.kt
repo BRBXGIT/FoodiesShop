@@ -1,5 +1,7 @@
 package com.example.testtask.cart_screen.presentation
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -30,26 +33,39 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.testtask.R
 import com.example.testtask.cart_screen.data.db.CartMeal
+import com.example.testtask.main_meal_screens.presentation.MainMealScreensVM
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CartElement(
+fun LazyItemScope.CartElement(
     cartMeal: CartMeal,
-    cartScreenVM: CartScreenVM
+    cartScreenVM: CartScreenVM,
+    mainMealScreensVM: MainMealScreensVM,
+    navController: NavHostController
 ) {
 
+    //Delete cart meal if amount <= 0
     if(cartMeal.amount <= 0) {
         cartScreenVM.deleteCartMeal(cartMeal)
     }
 
+    //Main row
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(130.dp)
-            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
+            .clickable {
+                mainMealScreensVM.getMealByName(cartMeal.name)
+                navController.navigate("meal_screen")
+            }
+            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+            .animateItemPlacement(),
     ) {
+        //Box with image
         Box(
             modifier = Modifier
                 .fillMaxHeight()
@@ -57,6 +73,7 @@ fun CartElement(
                 .aspectRatio(1f)
                 .clip(CircleShape)
         ) {
+            //Need to provide internet connection check here
             AsyncImage(
                 model = cartMeal.image,
                 contentDescription = "Product image",
@@ -65,6 +82,7 @@ fun CartElement(
             )
         }
 
+        //Column with name and increase/decrease buttons
         Column(
             modifier = Modifier
                 .fillMaxHeight()
@@ -72,6 +90,7 @@ fun CartElement(
                 .padding(start = 16.dp, end = 16.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
+            //Box with name
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -84,6 +103,7 @@ fun CartElement(
                 )
             }
 
+            //Row with buttons and amount
             Row(
                 modifier = Modifier
                     .fillMaxHeight()
@@ -91,6 +111,7 @@ fun CartElement(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
+                //Decrease button
                 Button(
                     contentPadding = PaddingValues(0.dp),
                     onClick = {
@@ -101,7 +122,7 @@ fun CartElement(
                         ))
                     },
                     shape = RoundedCornerShape(10.dp),
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier.size(40.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xfff5f5f5),
                         contentColor = Color(0xfffd3a69)
@@ -113,13 +134,15 @@ fun CartElement(
                     )
                 }
 
+                //Amount
                 Text(
                     text = cartMeal.amount.toString(),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 22.sp,
+                    fontSize = 20.sp,
                     color = Color(0xff222831)
                 )
 
+                //Increase button
                 Button(
                     contentPadding = PaddingValues(0.dp),
                     onClick = {
@@ -130,7 +153,7 @@ fun CartElement(
                         ))
                     },
                     shape = RoundedCornerShape(10.dp),
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier.size(40.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xfff5f5f5),
                         contentColor = Color(0xfffd3a69)
@@ -144,6 +167,7 @@ fun CartElement(
             }
         }
 
+        //Column with price
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -161,7 +185,7 @@ fun CartElement(
                 Text(
                     text = "345 р.",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 22.sp,
+                    fontSize = 20.sp,
                     color = Color(0xff222831)
                 )
             }
@@ -169,5 +193,4 @@ fun CartElement(
     }
 
     HorizontalDivider(thickness = 2.dp, color = Color(0xfff6f7f9))
-
 }

@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {
 
+    //Local db functions
     suspend fun upsertNewCartMeal(cartMeal: CartMeal)
 
     suspend fun updateCartMeal(cartMeal: CartMeal)

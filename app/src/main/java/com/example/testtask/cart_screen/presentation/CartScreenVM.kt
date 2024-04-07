@@ -18,6 +18,7 @@ class CartScreenVM @Inject constructor(
     private val cartRepositoryImpl: CartRepositoryImpl
 ): ViewModel() {
 
+    //Local db functions
     fun upsertNewMealToCart(cartMeal: CartMeal) {
         viewModelScope.launch {
             cartRepositoryImpl.upsertNewCartMeal(cartMeal)
@@ -40,6 +41,7 @@ class CartScreenVM @Inject constructor(
         return cartRepositoryImpl.getAllCartMeals()
     }
 
+    //Check if meal is in cart
     var isInCart = false
     fun checkIsMealInCart(name: String) {
         viewModelScope.launch {

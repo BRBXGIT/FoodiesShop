@@ -1,6 +1,7 @@
 package com.example.testtask.cart_screen.presentation
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,6 +37,7 @@ import com.example.testtask.R
 import com.example.testtask.bottom_bar.presentation.BottomBar
 import com.example.testtask.bottom_bar.presentation.noRippleClickable
 import com.example.testtask.cart_screen.data.db.CartMeal
+import com.example.testtask.main_meal_screens.presentation.MainMealScreensVM
 import com.google.accompanist.systemuicontroller.SystemUiController
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,13 +46,17 @@ import com.google.accompanist.systemuicontroller.SystemUiController
 fun CartScreen(
     navController: NavHostController,
     systemUiController: SystemUiController,
-    cartScreenVM: CartScreenVM
+    cartScreenVM: CartScreenVM,
+    mainMealScreensVM: MainMealScreensVM
 ) {
     //Change colors of system bars
     SideEffect {
         systemUiController.setNavigationBarColor(Color(0xfff0f0f0))
         systemUiController.setStatusBarColor(Color(0xfffbfbfb))
     }
+
+    val cartItems = cartScreenVM.getAllCartMeals().collectAsState(initial = emptyList()).value
+    val context = LocalContext.current
 
     Scaffold(
         bottomBar = {
@@ -76,7 +83,11 @@ fun CartScreen(
                         contentDescription = "Action icon",
                         modifier = Modifier
                             .noRippleClickable {
-
+                                if(cartItems.isEmpty()) {
+                                    Toast.makeText(context, "Сначала что-нибудь добавьте :)", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(context, "Для такого у меня апи нет, хотя возможно я подключу FireBase", Toast.LENGTH_SHORT).show()
+                                }
                             }
                             .padding(end = 16.dp)
                     )
@@ -90,9 +101,6 @@ fun CartScreen(
             )
         }
     ) { innerPadding ->
-
-        val cartItems = cartScreenVM.getAllCartMeals().collectAsState(initial = emptyList()).value
-
         if(cartItems.isEmpty()) {
             Box(
                 modifier = Modifier
@@ -126,10 +134,12 @@ fun CartScreen(
                         )
                     )
             ) {
-                items(cartItems) { cartMeal ->
+                items(cartItems, key = { cartMeal -> cartMeal.name }) { cartMeal ->
                     CartElement(
                         cartMeal = cartMeal,
-                        cartScreenVM = cartScreenVM
+                        cartScreenVM = cartScreenVM,
+                        mainMealScreensVM = mainMealScreensVM,
+                        navController = navController
                     )
                 }
             }

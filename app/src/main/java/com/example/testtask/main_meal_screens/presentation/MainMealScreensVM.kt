@@ -64,7 +64,7 @@ class MainMealScreensVM @Inject constructor(
                 if(internetConnection) {
                     meals = mealRepositoryImpl.getMeals().body()!!
 
-                    //Load data to db if it's empty
+                    //Sort meals for local db
                     val sortedMeals = emptyList<Meal>().toMutableList()
                     for(meal in meals.meals) {
                         if(meal.strCategory == chosenCategory) {
@@ -79,15 +79,14 @@ class MainMealScreensVM @Inject constructor(
                             "${sortedMeals[0].strIngredient3}, " +
                             "${sortedMeals[0].strIngredient4}... "
 
+                    //if db is empty, then add data there
                     if(mealRepositoryImpl.getOfflineMealsByCategory(chosenCategory).first().isEmpty()) {
-                        mealRepositoryImpl.upsertMeal(
-                            OfflineMeal(
+                        mealRepositoryImpl.upsertMeal(OfflineMeal(
                             title = sortedMeals[0].strMeal,
                             ingredients = ingredients,
                             cost = "от 365 р",
                             category = sortedMeals[0].strCategory
-                        )
-                        )
+                        ))
                     }
                 }
             } catch(e: Exception) {

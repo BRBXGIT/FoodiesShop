@@ -21,8 +21,10 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @Composable
 fun NavGraph() {
 
+    //Initialize systemUiController
     val systemUiController = rememberSystemUiController()
 
+    //Initialize viewModels and navController
     val mainMealScreensVM = hiltViewModel<MainMealScreensVM>()
     val cartScreenVM = hiltViewModel<CartScreenVM>()
     val navController = rememberNavController()
@@ -71,7 +73,8 @@ fun NavGraph() {
             CartScreen(
                 navController = navController,
                 systemUiController = systemUiController,
-                cartScreenVM = cartScreenVM
+                cartScreenVM = cartScreenVM,
+                mainMealScreensVM = mainMealScreensVM
             )
         }
 

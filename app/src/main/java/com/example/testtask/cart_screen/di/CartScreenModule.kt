@@ -16,6 +16,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object CartScreenModule {
 
+    //Provide cart dao
     @Provides
     @Singleton
     fun provideCartDao(@ApplicationContext appContext: Context): CartDao {
@@ -26,6 +27,7 @@ object CartScreenModule {
         ).build().cartDao()
     }
 
+    //Provide repository implementation
     @Provides
     @Singleton
     fun provideCartRepositoryImpl(cartDao: CartDao): CartRepositoryImpl {

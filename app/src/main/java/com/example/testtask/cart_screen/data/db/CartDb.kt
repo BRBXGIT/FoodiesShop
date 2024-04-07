@@ -3,6 +3,7 @@ package com.example.testtask.cart_screen.data.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 
+//Cart db
 @Database(
     entities = [CartMeal::class],
     version = 1

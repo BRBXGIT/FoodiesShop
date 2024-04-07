@@ -10,6 +10,7 @@ class CartRepositoryImpl @Inject constructor(
     private val cartDao: CartDao
 ): CartRepository {
 
+    //Local db functions
     override suspend fun upsertNewCartMeal(cartMeal: CartMeal) {
         cartDao.upsertNewCartMeal(cartMeal)
     }

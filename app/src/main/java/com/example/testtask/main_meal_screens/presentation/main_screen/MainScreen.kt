@@ -58,7 +58,7 @@ fun MainScreen(
             )
 
             //Get meals from api
-            //Or if it's no internet connection load it from local db
+            //Or if it's no internet connection load them from local db
             mainMealScreensVM.getMeals()
 
             //Meals sorted by category

@@ -22,6 +22,7 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -65,9 +66,11 @@ fun MealScreen(
         systemUiController.setNavigationBarColor(Color(0xffffffff))
     }
 
+    //Get meal and check is it in cart
     val meal = mainMealScreensVM.mealByName.meals[0]
     cartScreenVM.checkIsMealInCart(meal.strMeal)
 
+    //Changing text if meal in cart
     var textForAddButton by rememberSaveable { mutableStateOf("") }
     textForAddButton = if(cartScreenVM.isInCart) "В корзине" else "В корзину за 345 р."
 
@@ -109,6 +112,7 @@ fun MealScreen(
                         .fillMaxSize()
                         .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
                 ) {
+                    //Add to cart button
                     Button(
                         onClick = {
                             cartScreenVM.upsertNewMealToCart(CartMeal(
@@ -242,7 +246,7 @@ fun MealScreen(
                             )
                         }
 
-                        Divider(thickness = 2.dp, color = Color(0xfff6f7f9))
+                        HorizontalDivider(thickness = 2.dp, color = Color(0xfff6f7f9))
 
                     }
                 }
