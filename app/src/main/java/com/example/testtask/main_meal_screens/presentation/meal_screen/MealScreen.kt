@@ -74,7 +74,7 @@ fun MealScreen(
     var ingredients = ""
     for(ingredient in Meal::class.memberProperties) {
         if(ingredient.name.take(13) == "strIngredient") {
-            if(ingredient.get(meal) != "") {
+            if((ingredient.get(meal) != "") && ingredient.get(meal) != null) {
                 ingredients += if(ingredients.isNotEmpty()) {
                     "${ingredient.get(meal)}, ".lowercase()
                 } else {
@@ -89,7 +89,7 @@ fun MealScreen(
     val measures = mutableListOf<String>()
     for(measure in Meal::class.memberProperties) {
         if(measure.name.take(10) == "strMeasure") {
-            if((measure.get(meal) != " ") && (measure.get(meal) != "")) {
+            if((measure.get(meal) != " ") && (measure.get(meal) != "") && (measure.get(meal) != null)) {
                 measures += measure.get(meal).toString()
             }
         }
