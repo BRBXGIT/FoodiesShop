@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -38,7 +39,7 @@ fun BottomBar(
 
     BottomAppBar(
         containerColor = Color(0xfff0f0f0),
-        modifier = Modifier.height(50.dp)
+        modifier = Modifier.height(50.dp),
     ) {
         //Row with icons and titles
         //Need to change to normal bottom bar, but not now)
