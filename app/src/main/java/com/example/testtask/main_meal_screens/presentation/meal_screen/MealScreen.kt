@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,10 +28,8 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,7 +38,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.testtask.R
 import com.example.testtask.bottom_bar.presentation.noRippleClickable
-import com.example.testtask.cart_screen.data.db.Product
+import com.example.testtask.cart_screen.data.db.CartMeal
 import com.example.testtask.cart_screen.presentation.CartScreenVM
 import com.example.testtask.main_meal_screens.data.remote.meal.Meal
 import com.example.testtask.main_meal_screens.presentation.MainMealScreensVM
@@ -52,7 +49,8 @@ import kotlin.reflect.full.memberProperties
 fun MealScreen(
     mainMealScreensVM: MainMealScreensVM,
     navController: NavHostController,
-    systemUiController: SystemUiController
+    systemUiController: SystemUiController,
+    cartScreenVM: CartScreenVM
 ) {
 
     SideEffect {
@@ -88,6 +86,8 @@ fun MealScreen(
     }
 
 
+    cartScreenVM.checkIsMealInCart(meal.idMeal)
+
     //I used scaffold to create bottom add to cart button
     Scaffold(
         bottomBar = {
@@ -102,9 +102,10 @@ fun MealScreen(
                 ) {
                     Button(
                         onClick = {
-                            mainMealScreensVM.upsertNewProductToCart(Product(
+                            cartScreenVM.upsertNewMealToCart(CartMeal(
                                 name = meal.strMeal,
-                                amount = 1
+                                amount = 1,
+                                image = meal.strMealThumb
                             ))
                         },
                         shape = RoundedCornerShape(10.dp),
@@ -115,7 +116,7 @@ fun MealScreen(
                         )
                     ) {
                         Text(
-                            text = "В корзину за 345 р",
+                            text = "",
                             fontSize = 17.sp
                         )
                     }

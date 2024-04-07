@@ -1,17 +1,11 @@
 package com.example.testtask.bottom_bar
 
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import com.example.testtask.main_meal_screens.presentation.MainMealScreensVM
@@ -31,7 +25,6 @@ fun NavGraph() {
 
     val mainMealScreensVM = hiltViewModel<MainMealScreensVM>()
     val cartScreenVM = hiltViewModel<CartScreenVM>()
-
     val navController = rememberNavController()
 
     NavHost(
@@ -77,7 +70,6 @@ fun NavGraph() {
         ) {
             CartScreen(
                 navController = navController,
-                cartScreenVM = cartScreenVM,
                 systemUiController = systemUiController
             )
         }
@@ -100,7 +92,8 @@ fun NavGraph() {
             MealScreen(
                 navController = navController,
                 mainMealScreensVM = mainMealScreensVM,
-                systemUiController = systemUiController
+                systemUiController = systemUiController,
+                cartScreenVM = cartScreenVM
             )
         }
     }

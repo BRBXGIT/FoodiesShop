@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.example.testtask.cart_screen.presentation.CartScreenVM
 import com.example.testtask.main_meal_screens.presentation.MainMealScreensVM
 
 @SuppressLint("InvalidColorHexValue")

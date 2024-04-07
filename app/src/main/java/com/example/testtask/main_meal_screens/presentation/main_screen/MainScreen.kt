@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import com.example.testtask.bottom_bar.presentation.BottomBar
-import com.example.testtask.cart_screen.presentation.CartScreenVM
 import com.example.testtask.main_meal_screens.data.remote.meal.Meal
 import com.example.testtask.main_meal_screens.presentation.MainMealScreensVM
 import com.google.accompanist.systemuicontroller.SystemUiController

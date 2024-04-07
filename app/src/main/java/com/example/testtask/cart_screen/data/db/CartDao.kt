@@ -7,19 +7,21 @@ import androidx.room.Update
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 
-//Dao for cart
 @Dao
 interface CartDao {
 
     @Upsert
-    suspend fun upsertNewProduct(product: Product)
+    suspend fun upsertNewCartMeal(cartMeal: CartMeal)
 
     @Update
-    suspend fun updateExistingProduct(product: Product)
+    suspend fun updateCartMeal(cartMeal: CartMeal)
 
     @Delete
-    suspend fun deleteExistingProduct(product: Product)
+    suspend fun deleteCartMeal(cartMeal: CartMeal)
 
-    @Query("SELECT * FROM product")
-    fun getAllProducts(): Flow<List<Product>>
+    @Query("SELECT * FROM cartmeal")
+    fun getAllCartMeals(): Flow<List<CartMeal>>
+
+    @Query("SELECT EXISTS(SELECT * FROM cartmeal WHERE name = :name)")
+    suspend fun checkIsMealInCart(name: String): Boolean
 }

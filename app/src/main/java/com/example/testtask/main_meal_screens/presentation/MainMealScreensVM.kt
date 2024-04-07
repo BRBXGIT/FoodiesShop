@@ -6,8 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.testtask.cart_screen.data.db.Product
-import com.example.testtask.cart_screen.data.repository.CartRepositoryImpl
 import com.example.testtask.main_meal_screens.data.dbs.category_db.OfflineCategory
 import com.example.testtask.main_meal_screens.data.dbs.meal_db.OfflineMeal
 import com.example.testtask.main_meal_screens.data.remote.category.Category
@@ -23,8 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainMealScreensVM @Inject constructor(
-    private val mealRepositoryImpl: MealRepositoryImpl,
-    private val cartRepositoryImpl: CartRepositoryImpl
+    private val mealRepositoryImpl: MealRepositoryImpl
 ): ViewModel() {
 
     //Functions for main screen
@@ -109,13 +106,6 @@ class MainMealScreensVM @Inject constructor(
     fun getMealByName(name: String) {
         viewModelScope.launch {
             mealByName = mealRepositoryImpl.getMealByName(name).body()!!
-        }
-    }
-
-    //Functions for cart
-    fun upsertNewProductToCart(product: Product) {
-        viewModelScope.launch {
-            cartRepositoryImpl.upsertNewProduct(product)
         }
     }
 }

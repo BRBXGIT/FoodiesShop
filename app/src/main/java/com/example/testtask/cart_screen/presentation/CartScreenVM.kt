@@ -1,17 +1,12 @@
 package com.example.testtask.cart_screen.presentation
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.testtask.cart_screen.data.db.Product
-import com.example.testtask.cart_screen.data.remote.product.CartMeal
+import com.example.testtask.cart_screen.data.db.CartMeal
 import com.example.testtask.cart_screen.data.repository.CartRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,20 +15,32 @@ class CartScreenVM @Inject constructor(
     private val cartRepositoryImpl: CartRepositoryImpl
 ): ViewModel() {
 
-    //Local db functions
-    fun getAllProductsFromDb(): Flow<List<Product>> {
-        return cartRepositoryImpl.getAllProducts()
-    }
-
-    fun updateExistingProductFromDB(product: Product) {
+    fun upsertNewMealToCart(cartMeal: CartMeal) {
         viewModelScope.launch {
-            cartRepositoryImpl.updateExistingProduct(product)
+            cartRepositoryImpl.upsertNewCartMeal(cartMeal)
         }
     }
 
-    fun deleteProductFromDb(product: Product) {
+    fun updateCartMeal(cartMeal: CartMeal) {
         viewModelScope.launch {
-            cartRepositoryImpl.deleteExistingProduct(product)
+            cartRepositoryImpl.updateCartMeal(cartMeal)
+        }
+    }
+
+    fun deleteCartMeal(cartMeal: CartMeal) {
+        viewModelScope.launch {
+            cartRepositoryImpl.deleteCartMeal(cartMeal)
+        }
+    }
+
+    fun getAllCartMeals(): Flow<List<CartMeal>> {
+        return cartRepositoryImpl.getAllCartMeals()
+    }
+
+    fun checkIsMealInCart(name: String) {
+        viewModelScope.launch {
+            Log.d("XXXX", name)
+            Log.d("XXXX", cartRepositoryImpl.checkIsMealInCart(name).toString())
         }
     }
 }
