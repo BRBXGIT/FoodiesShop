@@ -10,11 +10,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.testtask"
+    namespace = "com.example.foodies"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.testtask"
+        applicationId = "com.example.foodies"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

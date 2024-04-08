@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">TestTask</string>
+    <string name="app_name">Foodies</string>
+    <string name="web_client_id">861118951351-5sc7200f2tq4mctvn7pkgjdgmntarqor.apps.googleusercontent.com</string>
 </resources>
