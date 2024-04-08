@@ -4,4 +4,6 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.9.0" apply false
     //Hilt
     id("com.google.dagger.hilt.android") version "2.50" apply false
+    //Firebase
+    id("com.google.gms.google-services") version "4.4.1" apply false
 }

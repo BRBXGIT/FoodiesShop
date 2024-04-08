@@ -1,4 +1,4 @@
-package com.example.testtask.profile_screen.presentation
+package com.example.testtask.auth.presentation
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column

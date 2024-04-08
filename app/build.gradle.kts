@@ -5,6 +5,8 @@ plugins {
     id("kotlin-kapt")
     //Hilt
     id("com.google.dagger.hilt.android")
+    //Firebase
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -75,7 +77,10 @@ dependencies {
     implementation(kotlin("reflect"))
     //System bars color impl
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
-
+    //Firebase impl
+    implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
 
     //Basic impl
     implementation("androidx.compose.animation:animation-graphics-android:1.6.5")
@@ -97,4 +102,8 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation(kotlin("reflect"))
+}
+
+kapt {
+    correctErrorTypes = true
 }

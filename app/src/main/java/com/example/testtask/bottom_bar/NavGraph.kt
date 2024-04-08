@@ -11,11 +11,12 @@ import androidx.navigation.compose.NavHost
 import com.example.testtask.main_meal_screens.presentation.MainMealScreensVM
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.testtask.auth.presentation.AuthScreen
 import com.example.testtask.cart_screen.presentation.CartScreen
 import com.example.testtask.cart_screen.presentation.CartScreenVM
 import com.example.testtask.main_meal_screens.presentation.main_screen.MainScreen
 import com.example.testtask.main_meal_screens.presentation.meal_screen.MealScreen
-import com.example.testtask.profile_screen.presentation.ProfileScreen
+import com.example.testtask.auth.presentation.ProfileScreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -31,7 +32,7 @@ fun NavGraph() {
 
     NavHost(
         navController = navController,
-        startDestination = "main_screen"
+        startDestination = "auth_screen"
     ) {
         composable(
             route = "main_screen",
@@ -99,6 +100,10 @@ fun NavGraph() {
                 systemUiController = systemUiController,
                 cartScreenVM = cartScreenVM
             )
+        }
+        
+        composable(route = "auth_screen") {
+            AuthScreen(navController = navController)
         }
     }
 }
