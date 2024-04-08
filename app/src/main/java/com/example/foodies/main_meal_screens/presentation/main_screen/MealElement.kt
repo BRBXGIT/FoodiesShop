@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -50,7 +51,7 @@ fun MealElement(
 
     val context = LocalContext.current
 
-    Divider(thickness = 2.dp, color = Color(0xfff6f7f9))
+    HorizontalDivider(thickness = 2.dp, color = Color(0xfff6f7f9))
 
     //Main row
     Row(

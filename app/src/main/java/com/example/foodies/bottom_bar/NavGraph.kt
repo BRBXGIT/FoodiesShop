@@ -172,7 +172,9 @@ fun NavGraph(
                             ).build()
                         )
                     }
-                }
+                },
+                systemUiController = systemUiController,
+                navController = navController
             )
         }
     }
