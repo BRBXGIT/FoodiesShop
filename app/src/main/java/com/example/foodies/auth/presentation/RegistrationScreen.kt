@@ -79,7 +79,7 @@ fun RegistrationScreen(
             contentAlignment = Alignment.BottomStart
         ) {
             Text(
-                text = "Register",
+                text = "Регистрация",
                 color = Color(0xff222831),
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold
@@ -98,7 +98,7 @@ fun RegistrationScreen(
             TextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text(text = "Email") },
+                label = { Text(text = "Почта") },
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = Color(0xFFF897B0),
@@ -114,7 +114,7 @@ fun RegistrationScreen(
             TextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text(text = "Password") },
+                label = { Text(text = "Пароль") },
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = Color(0xFFF897B0),
@@ -157,7 +157,7 @@ fun RegistrationScreen(
             elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp)
         ) {
             Text(
-                text = "Register",
+                text = "Зарегистрироваться",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -179,7 +179,7 @@ fun RegistrationScreen(
             )
 
             Text(
-                text = "OR",
+                text = "ИЛИ",
                 color = Color(0xffc3c4c9),
                 fontSize = 15.sp
             )
@@ -219,7 +219,7 @@ fun RegistrationScreen(
                 )
 
                 Text(
-                    text = "Connect with Google",
+                    text = "Войдите с Google",
                     fontSize = 16.sp,
                     color = Color(0xfffd3a69),
                     fontWeight = FontWeight.Bold
@@ -239,7 +239,7 @@ fun RegistrationScreen(
                     color = Color(0xFFF897B0),
                     fontSize = 16.sp,
                 )) {
-                    append("Existing user? ")
+                    append("Уже зарегистрированы? ")
                 }
                 pushStringAnnotation(tag = "login", annotation = "login")
                 withStyle(SpanStyle(
@@ -247,7 +247,7 @@ fun RegistrationScreen(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )) {
-                    append("Login")
+                    append("Вход")
                 }
             }
 

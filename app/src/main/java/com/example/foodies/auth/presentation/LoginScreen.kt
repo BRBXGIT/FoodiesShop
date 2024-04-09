@@ -89,7 +89,7 @@ fun LoginScreen(
             contentAlignment = Alignment.BottomStart
         ) {
             Text(
-                text = "Login",
+                text = "Вход",
                 color = Color(0xff222831),
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold
@@ -109,7 +109,7 @@ fun LoginScreen(
             TextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text(text = "Email") },
+                label = { Text(text = "Почта") },
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = Color(0xFFF897B0),
@@ -125,7 +125,7 @@ fun LoginScreen(
             TextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text(text = "Password") },
+                label = { Text(text = "Пароль") },
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = Color(0xFFF897B0),
@@ -168,7 +168,7 @@ fun LoginScreen(
             elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp)
         ) {
             Text(
-                text = "Log in",
+                text = "Войти",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -190,7 +190,7 @@ fun LoginScreen(
             )
 
             Text(
-                text = "OR",
+                text = "ИЛИ",
                 color = Color(0xffc3c4c9),
                 fontSize = 15.sp
             )
@@ -230,7 +230,7 @@ fun LoginScreen(
                 )
 
                 Text(
-                    text = "Log in with Google",
+                    text = "Войдите с Google",
                     fontSize = 16.sp,
                     color = Color(0xfffd3a69),
                     fontWeight = FontWeight.Bold
@@ -250,7 +250,7 @@ fun LoginScreen(
                     color = Color(0xFFF897B0),
                     fontSize = 16.sp,
                 )) {
-                    append("New user? ")
+                    append("Новый пользователь? ")
                 }
                 pushStringAnnotation(tag = "register", annotation = "register")
                 withStyle(SpanStyle(
@@ -258,7 +258,7 @@ fun LoginScreen(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )) {
-                    append("Register")
+                    append("Регистрация")
                 }
             }
 
