@@ -2,6 +2,7 @@ package com.example.foodies.auth.presentation
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CompletableDeferred
 
 class SignInEmailVM: ViewModel() {
@@ -24,8 +25,8 @@ class SignInEmailVM: ViewModel() {
         return result.await()
     }
 
-    fun getSignedInUser(): String? {
-        return firebaseAuth.currentUser?.email
+    fun getSignedInUser(): FirebaseUser? {
+        return firebaseAuth.currentUser
     }
 
     fun signOutWithEmail() {

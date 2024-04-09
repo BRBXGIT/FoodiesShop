@@ -1,4 +1,4 @@
-package com.example.foodies.auth.presentation
+package com.example.foodies.auth.presentation.login_screen
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.foodies.R
 import com.example.foodies.auth.google_auth.SignInState
+import com.example.foodies.auth.presentation.SignInEmailVM
 import com.google.accompanist.systemuicontroller.SystemUiController
 import kotlinx.coroutines.launch
 

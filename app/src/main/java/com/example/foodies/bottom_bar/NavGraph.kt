@@ -1,6 +1,7 @@
 package com.example.foodies.bottom_bar
 
 import android.app.Activity.RESULT_OK
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -22,17 +24,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.foodies.auth.google_auth.GoogleAuthUiClient
 import com.example.foodies.auth.presentation.SignInGoogleVM
-import com.example.foodies.auth.presentation.LoginScreen
+import com.example.foodies.auth.presentation.login_screen.LoginScreen
 import com.example.foodies.cart_screen.presentation.CartScreen
 import com.example.foodies.cart_screen.presentation.CartScreenVM
 import com.example.foodies.main_meal_screens.presentation.main_screen.MainScreen
 import com.example.foodies.main_meal_screens.presentation.meal_screen.MealScreen
-import com.example.foodies.auth.presentation.ProfileScreen
-import com.example.foodies.auth.presentation.RegistrationScreen
+import com.example.foodies.auth.presentation.profile_screen.ProfileScreen
+import com.example.foodies.auth.presentation.registration_screen.RegistrationScreen
 import com.example.foodies.auth.presentation.SignInEmailVM
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
-import kotlin.math.sign
 
 @Composable
 fun NavGraph(
@@ -50,8 +51,9 @@ fun NavGraph(
 
     val navController = rememberNavController()
 
-    //Initialize coroutineScope
+    //Initialize coroutineScope and context
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     //Changing start destination if user signed in
     var startDestination = "login_screen"
@@ -95,10 +97,10 @@ fun NavGraph(
         composable(
             route = "main_screen",
             enterTransition = {
-                fadeIn(tween(400))
+                fadeIn(tween(500))
             },
             exitTransition = {
-                fadeOut(tween(400))
+                fadeOut(tween(500))
             }
         ) {
             MainScreen(
@@ -112,15 +114,26 @@ fun NavGraph(
         composable(
             route = "profile_screen",
             enterTransition = {
-                fadeIn(tween(400))
+                fadeIn(tween(500))
             },
             exitTransition = {
-                fadeOut(tween(400))
+                fadeOut(tween(500))
             }
         ) {
             ProfileScreen(
                 navController = navController,
-                signInEmailVM = signInEmailVM
+                signInEmailVM = signInEmailVM,
+                onSignOut = {
+                    scope.launch {
+                        googleAuthUiClient.signOut()
+                        Toast.makeText(
+                            context, "Вы вышли из аккаунта", Toast.LENGTH_LONG
+                        ).show()
+                        navController.navigate("login_screen")
+                    }
+                },
+                systemUiController = systemUiController,
+                userData = googleAuthUiClient.getSignedInUser()
             )
         }
 
@@ -128,10 +141,10 @@ fun NavGraph(
         composable(
             route = "cart_screen",
             enterTransition = {
-                fadeIn(tween(400))
+                fadeIn(tween(500))
             },
             exitTransition = {
-                fadeOut(tween(400))
+                fadeOut(tween(500))
             }
         ) {
             CartScreen(
@@ -146,17 +159,17 @@ fun NavGraph(
         composable(
             route = "meal_screen",
             enterTransition = { slideInHorizontally(
-                initialOffsetX = { 400 },
+                initialOffsetX = { 500 },
                 animationSpec = tween(
-                    durationMillis = 400,
+                    durationMillis = 500,
                 )
-            ) + fadeIn(tween(400)) },
+            ) + fadeIn(tween(500)) },
             popExitTransition = { slideOutHorizontally(
-                targetOffsetX = { 400 },
+                targetOffsetX = { 500 },
                 animationSpec = tween(
-                    durationMillis = 400
+                    durationMillis = 500
                 )
-            ) + fadeOut(tween(400)) },
+            ) + fadeOut(tween(500)) },
         ) {
             MealScreen(
                 navController = navController,
@@ -167,7 +180,15 @@ fun NavGraph(
         }
 
         //Login screen composable
-        composable(route = "login_screen") {
+        composable(
+            route = "login_screen",
+            enterTransition = {
+                fadeIn(tween(500))
+            },
+            exitTransition = {
+                fadeOut(tween(500))
+            }
+        ) {
             LoginScreen(
                 googleState = state,
                 onSignInClick = {
@@ -186,7 +207,15 @@ fun NavGraph(
             )
         }
 
-        composable(route = "registration_screen") {
+        composable(
+            route = "registration_screen",
+            enterTransition = {
+                fadeIn(tween(500))
+            },
+            exitTransition = {
+                fadeOut(tween(500))
+            }
+        ) {
             RegistrationScreen(
                 systemUiController = systemUiController,
                 navController = navController,
