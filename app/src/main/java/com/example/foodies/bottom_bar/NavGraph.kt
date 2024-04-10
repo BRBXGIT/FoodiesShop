@@ -134,7 +134,9 @@ fun NavGraph(
                 },
                 systemUiController = systemUiController,
                 userData = googleAuthUiClient.getSignedInUser(),
-                preferencesManager = preferencesManager
+                preferencesManager = preferencesManager,
+                context = context,
+                scope = scope
             )
         }
 

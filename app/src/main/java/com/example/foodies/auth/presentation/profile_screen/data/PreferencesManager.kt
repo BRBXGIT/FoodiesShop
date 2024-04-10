@@ -3,8 +3,9 @@ package com.example.foodies.auth.presentation.profile_screen.data
 import android.content.Context
 import android.content.SharedPreferences
 
+//This is used for saving what king of sign in method was used
 class PreferencesManager(
-    context: Context,
+    context: Context
 ) {
 
     private val sharedPreferences: SharedPreferences =

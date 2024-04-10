@@ -31,11 +31,13 @@ fun ProfileElement(
     signInWithGoogle: Boolean = true,
     navController: NavHostController
 ) {
+    //Main row
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(60.dp)
             .clickable {
+                //If section is "Выйти из аккаунта", user will quit from acc
                 if(signInWithGoogle) {
                     onSignOut()
                 } else {

@@ -16,7 +16,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AuthModule {
 
-    //Provide google authUiClient
+    //Provide googleAuthUiClient
     @Provides
     @Singleton
     fun provideGoogleAuthUiClient(@ApplicationContext appContext: Context): GoogleAuthUiClient {
@@ -26,6 +26,7 @@ object AuthModule {
         )
     }
 
+    //Provide preferencesManager
     @Provides
     @Singleton
     fun providePreferencesManager(@ApplicationContext appContext: Context): PreferencesManager {

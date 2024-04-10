@@ -1,6 +1,6 @@
 package com.example.foodies.auth.presentation.profile_screen.presentation
 
-import android.net.Uri
+import android.content.Context
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -28,7 +28,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -37,7 +36,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -50,6 +48,7 @@ import com.example.foodies.auth.presentation.profile_screen.data.User
 import com.example.foodies.bottom_bar.presentation.BottomBar
 import com.example.foodies.bottom_bar.presentation.noRippleClickable
 import com.google.accompanist.systemuicontroller.SystemUiController
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,7 +59,9 @@ fun ProfileScreen(
     onSignOut: () -> Unit,
     userData: UserData?,
     systemUiController: SystemUiController,
-    preferencesManager: PreferencesManager
+    preferencesManager: PreferencesManager,
+    context: Context,
+    scope: CoroutineScope
 ) {
 
     //Change colors of system bars
@@ -69,12 +70,10 @@ fun ProfileScreen(
         systemUiController.setNavigationBarColor(Color(0xfff0f0f0))
     }
 
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-
+    //Check if user sign in with google
     val signInWithGoogle = preferencesManager.getData("googleSignIn", false)
 
-    val user = if(signInWithGoogle) {
+    var user = if(signInWithGoogle) {
         User(
             profilePictureUrl = userData?.profilePictureUrl,
             userName = userData?.userName
@@ -86,22 +85,34 @@ fun ProfileScreen(
         )
     }
 
+    //Initialize profile picture with state to change it without recomposition
+    var profilePicture by rememberSaveable { mutableStateOf(user.profilePictureUrl) }
+
+    //Photo picker
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
+        //Upload image to firebase and change profile picture
         onResult = { uri ->
-            scope.launch {
-                if(signInEmailVM.updateUserProfile(image = uri!!, name = "BRBX")) {
-                    Toast.makeText(
-                        context,
-                        "Изменения сохранены",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    Toast.makeText(
-                        context,
-                        "Что-то пошло не так",
-                        Toast.LENGTH_SHORT
-                    ).show()
+            if(uri != null) {
+                scope.launch {
+                    if(signInEmailVM.updateUserProfile(image = uri, name = "BRBX")) {
+                        Toast.makeText(
+                            context,
+                            "Изменения сохранены",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        user = User(
+                            profilePictureUrl = signInEmailVM.getSignedInUser()?.photoUrl.toString(),
+                            userName = signInEmailVM.getSignedInUser()?.displayName
+                        )
+                        profilePicture = user.profilePictureUrl
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "Что-то пошло не так",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }
@@ -134,6 +145,7 @@ fun ProfileScreen(
             )
         }
     ) { innerPadding ->
+        //Main column
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -145,6 +157,7 @@ fun ProfileScreen(
                     )
                 )
         )  {
+            //Box with image
             Box(
                 modifier = Modifier
                     .fillMaxHeight(0.3f)
@@ -157,8 +170,10 @@ fun ProfileScreen(
                         .clip(CircleShape)
                         .border(width = 1.dp, color = Color(0xfffd3a69), shape = CircleShape)
                         .clickable {
+                            //If user sign in with google, he can't change profile picture'
                             if (signInWithGoogle) {
-                                Toast.makeText(
+                                Toast
+                                    .makeText(
                                         context,
                                         "Добавить фото можно только с аккаунта приложения",
                                         Toast.LENGTH_SHORT
@@ -172,9 +187,10 @@ fun ProfileScreen(
                         },
                     contentAlignment = Alignment.Center
                 ) {
+                    //Check is picture null
                     if((user.profilePictureUrl != null) && (user.profilePictureUrl != "null")) {
                         AsyncImage(
-                            model = user.profilePictureUrl,
+                            model = profilePicture,
                             contentDescription = "Profile picture",
                             modifier = Modifier.fillMaxSize(),
                             contentScale = ContentScale.Crop
@@ -195,6 +211,7 @@ fun ProfileScreen(
             ) {
                 HorizontalDivider(thickness = 2.dp, color = Color(0xfff6f7f9))
 
+                //Elements of column
                 ProfileElement(icon = R.drawable.ic_settings, section = "Настройки", navController = navController)
                 ProfileElement(icon = R.drawable.ic_info, section = "Информация", navController = navController)
                 ProfileElement(
