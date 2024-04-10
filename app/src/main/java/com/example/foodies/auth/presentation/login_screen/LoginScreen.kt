@@ -47,6 +47,7 @@ import androidx.navigation.NavHostController
 import com.example.foodies.R
 import com.example.foodies.auth.google_auth.SignInState
 import com.example.foodies.auth.presentation.SignInEmailVM
+import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.google.accompanist.systemuicontroller.SystemUiController
 import kotlinx.coroutines.launch
 
@@ -57,7 +58,8 @@ fun LoginScreen(
     onSignInClick: () -> Unit,
     systemUiController: SystemUiController,
     navController: NavHostController,
-    signInEmailVM: SignInEmailVM
+    signInEmailVM: SignInEmailVM,
+    preferencesManager: PreferencesManager
 ) {
 
     //Change system bars color
@@ -67,6 +69,7 @@ fun LoginScreen(
 
     //Make toast if error
     val context = LocalContext.current
+
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = googleState.signInErrorMessage) {
         googleState.signInErrorMessage?.let { errorMessage ->
@@ -149,6 +152,7 @@ fun LoginScreen(
                     scope.launch {
                         if(signInEmailVM.signInWithEmail(email, password)) {
                             Toast.makeText(context, "Вы успешно вошли", Toast.LENGTH_SHORT).show()
+                            preferencesManager.saveData("googleSignIn", false)
                             navController.navigate("main_screen")
                         } else {
                             Toast.makeText(context, "Что-то пошло не так", Toast.LENGTH_SHORT).show()
@@ -209,6 +213,7 @@ fun LoginScreen(
         Button(
             onClick = {
                 onSignInClick()
+                preferencesManager.saveData("googleSignIn", true)
             },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier

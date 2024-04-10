@@ -29,15 +29,17 @@ import com.example.foodies.cart_screen.presentation.CartScreen
 import com.example.foodies.cart_screen.presentation.CartScreenVM
 import com.example.foodies.main_meal_screens.presentation.main_screen.MainScreen
 import com.example.foodies.main_meal_screens.presentation.meal_screen.MealScreen
-import com.example.foodies.auth.presentation.profile_screen.ProfileScreen
+import com.example.foodies.auth.presentation.profile_screen.presentation.ProfileScreen
 import com.example.foodies.auth.presentation.registration_screen.RegistrationScreen
 import com.example.foodies.auth.presentation.SignInEmailVM
+import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 
 @Composable
 fun NavGraph(
-    googleAuthUiClient: GoogleAuthUiClient
+    googleAuthUiClient: GoogleAuthUiClient,
+    preferencesManager: PreferencesManager
 ) {
 
     //Initialize systemUiController
@@ -57,9 +59,7 @@ fun NavGraph(
 
     //Changing start destination if user signed in
     var startDestination = "login_screen"
-    if(googleAuthUiClient.getSignedInUser() != null) {
-        startDestination = "main_screen"
-    } else if(signInEmailVM.getSignedInUser() != null) {
+    if(signInEmailVM.getSignedInUser() != null) {
         startDestination = "main_screen"
     }
 
@@ -133,7 +133,8 @@ fun NavGraph(
                     }
                 },
                 systemUiController = systemUiController,
-                userData = googleAuthUiClient.getSignedInUser()
+                userData = googleAuthUiClient.getSignedInUser(),
+                preferencesManager = preferencesManager
             )
         }
 
@@ -203,7 +204,8 @@ fun NavGraph(
                 },
                 systemUiController = systemUiController,
                 navController = navController,
-                signInEmailVM = signInEmailVM
+                signInEmailVM = signInEmailVM,
+                preferencesManager = preferencesManager
             )
         }
 
@@ -229,7 +231,8 @@ fun NavGraph(
                         )
                     }
                 },
-                signInEmailVM = signInEmailVM
+                signInEmailVM = signInEmailVM,
+                preferencesManager = preferencesManager
             )
         }
     }

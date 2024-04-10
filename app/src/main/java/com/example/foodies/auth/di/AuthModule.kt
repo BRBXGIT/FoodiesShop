@@ -2,6 +2,7 @@ package com.example.foodies.auth.di
 
 import android.content.Context
 import com.example.foodies.auth.google_auth.GoogleAuthUiClient
+import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import dagger.Module
@@ -23,5 +24,11 @@ object AuthModule {
             context = appContext,
             oneTapClient = Identity.getSignInClient(appContext)
         )
+    }
+
+    @Provides
+    @Singleton
+    fun providePreferencesManager(@ApplicationContext appContext: Context): PreferencesManager {
+        return PreferencesManager(appContext)
     }
 }

@@ -1,10 +1,9 @@
-@file:Suppress("IMPLICIT_CAST_TO_ANY")
+package com.example.foodies.auth.presentation.profile_screen.presentation
 
-package com.example.foodies.auth.presentation.profile_screen
-
-import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -36,19 +36,21 @@ import coil.compose.AsyncImage
 import com.example.foodies.R
 import com.example.foodies.auth.google_auth.UserData
 import com.example.foodies.auth.presentation.SignInEmailVM
+import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
+import com.example.foodies.auth.presentation.profile_screen.data.User
 import com.example.foodies.bottom_bar.presentation.BottomBar
 import com.example.foodies.bottom_bar.presentation.noRippleClickable
 import com.google.accompanist.systemuicontroller.SystemUiController
 
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ProfileScreen(
     navController: NavHostController,
     signInEmailVM: SignInEmailVM,
     onSignOut: () -> Unit,
     userData: UserData?,
-    systemUiController: SystemUiController
+    systemUiController: SystemUiController,
+    preferencesManager: PreferencesManager
 ) {
 
     //Change colors of system bars
@@ -57,15 +59,19 @@ fun ProfileScreen(
         systemUiController.setNavigationBarColor(Color(0xfff0f0f0))
     }
 
-    val user = if(signInEmailVM.getSignedInUser() != null) {
+    val context = LocalContext.current
+
+    val signInWithGoogle = preferencesManager.getData("googleSignIn", false)
+
+    val user = if(signInWithGoogle) {
         User(
-            profilePictureUrl = signInEmailVM.getSignedInUser()?.photoUrl.toString(),
-            userName = signInEmailVM.getSignedInUser()?.displayName.toString()
+            profilePictureUrl = userData?.profilePictureUrl,
+            userName = userData?.userName
         )
     } else {
         User(
-            profilePictureUrl = userData?.profilePictureUrl.toString(),
-            userName = userData?.userName.toString()
+            profilePictureUrl = signInEmailVM.getSignedInUser()?.photoUrl.toString(),
+            userName = signInEmailVM.getSignedInUser()?.displayName
         )
     }
 
@@ -117,29 +123,57 @@ fun ProfileScreen(
                     modifier = Modifier
                         .size(150.dp)
                         .clip(CircleShape)
-                        .background(Color.Green)
+                        .border(width = 1.dp, color = Color(0xfffd3a69), shape = CircleShape)
+                        .clickable {
+                            if(signInWithGoogle) {
+                                Toast.makeText(
+                                    context,
+                                    "Добавить фото можно только с аккаунта приложения",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                signInEmailVM.updateUserProfile()
+                                Toast.makeText(
+                                    context,
+                                    "or",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        },
+                    contentAlignment = Alignment.Center
                 ) {
-                    if(user.profilePictureUrl != null) {
+                    if((user.profilePictureUrl != null) && (user.profilePictureUrl != "null")) {
                         AsyncImage(
                             model = user.profilePictureUrl,
                             contentDescription = "Profile picture",
                             modifier = Modifier.fillMaxSize(),
                             contentScale = ContentScale.Crop
                         )
+                    } else {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_plus),
+                            contentDescription = "Add profile picture icon",
+                            modifier = Modifier.size(50.dp),
+                            tint = Color(0xfffd3a69)
+                        )
                     }
                 }
             }
 
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 16.dp, end = 16.dp)
+                modifier = Modifier.fillMaxSize()
             ) {
                 HorizontalDivider(thickness = 2.dp, color = Color(0xfff6f7f9))
 
-                ProfileElement(icon = R.drawable.ic_settings, section = "Настройки")
-                ProfileElement(icon = R.drawable.ic_info, section = "Информация")
-                ProfileElement(icon = R.drawable.ic_logout, section = "Выйти из аккаунта")
+                ProfileElement(icon = R.drawable.ic_settings, section = "Настройки", navController = navController)
+                ProfileElement(icon = R.drawable.ic_info, section = "Информация", navController = navController)
+                ProfileElement(
+                    icon = R.drawable.ic_logout,
+                    section = "Выйти из аккаунта",
+                    onSignOut = onSignOut,
+                    signInWithGoogle = signInWithGoogle,
+                    navController = navController
+                )
             }
         }
     }

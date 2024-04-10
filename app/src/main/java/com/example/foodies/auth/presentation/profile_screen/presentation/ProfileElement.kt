@@ -1,9 +1,11 @@
-package com.example.foodies.auth.presentation.profile_screen
+package com.example.foodies.auth.presentation.profile_screen.presentation
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -15,17 +17,33 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.foodies.R
+import com.example.foodies.auth.presentation.SignInEmailVM
 
 @Composable
 fun ProfileElement(
     icon: Int,
     section: String,
+    signInEmailVM: SignInEmailVM = viewModel(),
+    onSignOut: () -> Unit = {},
+    signInWithGoogle: Boolean = true,
+    navController: NavHostController
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(60.dp),
+            .height(60.dp)
+            .clickable {
+                if(signInWithGoogle) {
+                    onSignOut()
+                } else {
+                    signInEmailVM.signOutWithEmail()
+                    navController.navigate("login_screen")
+                }
+            }
+            .padding(start = 16.dp, end = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.foodies.R
 import com.example.foodies.auth.presentation.SignInEmailVM
+import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.google.accompanist.systemuicontroller.SystemUiController
 import kotlinx.coroutines.launch
 
@@ -54,7 +55,8 @@ fun RegistrationScreen(
     systemUiController: SystemUiController,
     navController: NavHostController,
     onSignInClick: () -> Unit,
-    signInEmailVM: SignInEmailVM
+    signInEmailVM: SignInEmailVM,
+    preferencesManager: PreferencesManager
 ) {
     //Change system bars color
     SideEffect {
@@ -198,6 +200,7 @@ fun RegistrationScreen(
         Button(
             onClick = {
                 onSignInClick()
+                preferencesManager.saveData("googleSignIn", true)
             },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
