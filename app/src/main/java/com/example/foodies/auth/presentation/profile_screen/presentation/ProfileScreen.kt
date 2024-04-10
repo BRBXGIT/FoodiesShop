@@ -28,7 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -73,22 +73,22 @@ fun ProfileScreen(
     //Check if user sign in with google
     val signInWithGoogle = preferencesManager.getData("googleSignIn", false)
 
-    var user = if(signInWithGoogle) {
-        User(
-            profilePictureUrl = userData?.profilePictureUrl,
-            userName = userData?.userName
-        )
-    } else {
-        User(
-            profilePictureUrl = signInEmailVM.getSignedInUser()?.photoUrl.toString(),
-            userName = signInEmailVM.getSignedInUser()?.displayName
-        )
-    }
+    val userStateFlow = remember { mutableStateOf(
+        if(signInWithGoogle) {
+            User(
+                profilePictureUrl = userData?.profilePictureUrl,
+                userName = userData?.userName
+            )
+        } else {
+            User(
+                profilePictureUrl = signInEmailVM.getSignedInUser()?.photoUrl.toString(),
+                userName = signInEmailVM.getSignedInUser()?.displayName
+            )
+        }
+    ) }
 
-    //Initialize profile picture with state to change it without recomposition
-    var profilePicture by rememberSaveable { mutableStateOf(user.profilePictureUrl) }
+    var user by userStateFlow
 
-    //Photo picker
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         //Upload image to firebase and change profile picture
@@ -105,7 +105,6 @@ fun ProfileScreen(
                             profilePictureUrl = signInEmailVM.getSignedInUser()?.photoUrl.toString(),
                             userName = signInEmailVM.getSignedInUser()?.displayName
                         )
-                        profilePicture = user.profilePictureUrl
                     } else {
                         Toast.makeText(
                             context,
@@ -172,13 +171,11 @@ fun ProfileScreen(
                         .clickable {
                             //If user sign in with google, he can't change profile picture'
                             if (signInWithGoogle) {
-                                Toast
-                                    .makeText(
-                                        context,
-                                        "Добавить фото можно только с аккаунта приложения",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                    .show()
+                                Toast.makeText(
+                                    context,
+                                    "Добавить фото можно только с аккаунта приложения",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             } else {
                                 singlePhotoPickerLauncher.launch(
                                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
@@ -190,7 +187,7 @@ fun ProfileScreen(
                     //Check is picture null
                     if((user.profilePictureUrl != null) && (user.profilePictureUrl != "null")) {
                         AsyncImage(
-                            model = profilePicture,
+                            model = user.profilePictureUrl,
                             contentDescription = "Profile picture",
                             modifier = Modifier.fillMaxSize(),
                             contentScale = ContentScale.Crop

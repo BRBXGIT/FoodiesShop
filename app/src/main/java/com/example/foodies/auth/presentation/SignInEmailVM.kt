@@ -41,17 +41,15 @@ class SignInEmailVM: ViewModel() {
         val upload = storageRef.putFile(image)
 
         val result = CompletableDeferred<Boolean>()
-        upload.addOnCompleteListener {
-            result.complete(it.isSuccessful)
-        }
-
-        storageRef.downloadUrl.addOnSuccessListener { uri ->
-            val profileUpdates = userProfileChangeRequest {
-                displayName = name
-                photoUri = Uri.parse(uri.toString())
-            }
-            firebaseAuth.currentUser?.updateProfile(profileUpdates)?.addOnCompleteListener {
-                result.complete(it.isSuccessful)
+        upload.addOnSuccessListener {
+            storageRef.downloadUrl.addOnSuccessListener { uri ->
+                val profileUpdates = userProfileChangeRequest {
+                    displayName = name
+                    photoUri = Uri.parse(uri.toString())
+                }
+                firebaseAuth.currentUser?.updateProfile(profileUpdates)?.addOnSuccessListener {
+                    result.complete(true)
+                }
             }
         }
 
