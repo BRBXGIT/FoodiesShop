@@ -1,10 +1,14 @@
 package com.example.foodies.auth.presentation
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.userProfileChangeRequest
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.storage
 import kotlinx.coroutines.CompletableDeferred
 
 class SignInEmailVM: ViewModel() {
@@ -31,13 +35,27 @@ class SignInEmailVM: ViewModel() {
         return firebaseAuth.currentUser
     }
 
-    fun updateUserProfile() {
-        val profileUpdates = userProfileChangeRequest {
-            displayName = "BRBX"
-            photoUri = Uri.parse("https://static.wikia.nocookie.net/shingekinokyojin/images/5/56/Bertholdt_Hoover_%28Anime%29_character_image.png/revision/latest?cb=20210109234137&path-prefix=ru")
+    suspend fun updateUserProfile(image: Uri, name: String): Boolean {
+        val storageRef = FirebaseStorage.getInstance().reference.child("Users/${firebaseAuth.currentUser?.uid}/${image.lastPathSegment}")
+        val upload = storageRef.putFile(image)
+
+        val result = CompletableDeferred<Boolean>()
+        upload.addOnCompleteListener {
+            result.complete(it.isSuccessful)
         }
 
-        firebaseAuth.currentUser?.updateProfile(profileUpdates)
+        storageRef.downloadUrl.addOnSuccessListener { uri ->
+            val profileUpdates = userProfileChangeRequest {
+                displayName = name
+                photoUri = Uri.parse(uri.toString())
+            }
+            firebaseAuth.currentUser?.updateProfile(profileUpdates)?.addOnCompleteListener {
+                result.complete(it.isSuccessful)
+            }
+        }
+
+        return result.await()
+
     }
 
     fun signOutWithEmail() {

@@ -62,6 +62,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     //Room db impl
     implementation("androidx.room:room-ktx:2.6.1")
+    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
     kapt("androidx.room:room-compiler:2.6.1")
     //Hilt impl
     implementation("com.google.dagger:hilt-android:2.50")
