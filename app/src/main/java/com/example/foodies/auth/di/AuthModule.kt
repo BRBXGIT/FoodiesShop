@@ -5,6 +5,7 @@ import com.example.foodies.auth.google_auth.GoogleAuthUiClient
 import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,5 +32,12 @@ object AuthModule {
     @Singleton
     fun providePreferencesManager(@ApplicationContext appContext: Context): PreferencesManager {
         return PreferencesManager(appContext)
+    }
+
+    //Provide firebaseAuth
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth(): FirebaseAuth {
+        return FirebaseAuth.getInstance()
     }
 }

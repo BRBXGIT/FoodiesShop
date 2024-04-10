@@ -1,4 +1,4 @@
-package com.example.foodies.auth.presentation
+package com.example.foodies.auth.presentation.profile_screen.presentation
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
@@ -6,31 +6,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.userProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CompletableDeferred
+import javax.inject.Inject
 
-class SignInEmailVM: ViewModel() {
-
-    //Initialize auth
-    private val firebaseAuth = FirebaseAuth.getInstance()
-
-    //Create new user
-    suspend fun createNewUserWithEmail(email: String, password: String): Boolean {
-        val result = CompletableDeferred<Boolean>()
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-            result.complete(it.isSuccessful)
-        }
-        return result.await()
-    }
-
-    //Sign in with email function
-    suspend fun signInWithEmail(email: String, password: String): Boolean {
-        val result = CompletableDeferred<Boolean>()
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-            result.complete(it.isSuccessful)
-        }
-        return result.await()
-    }
-
+@HiltViewModel
+class ProfileScreenVM @Inject constructor(
+    private val firebaseAuth: FirebaseAuth
+): ViewModel() {
     fun getSignedInUser(): FirebaseUser? {
         return firebaseAuth.currentUser
     }
@@ -51,6 +34,8 @@ class SignInEmailVM: ViewModel() {
                     result.complete(true)
                 }
             }
+        }.addOnFailureListener {
+            result.complete(false)
         }
 
         return result.await()

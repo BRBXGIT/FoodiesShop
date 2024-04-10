@@ -1,4 +1,4 @@
-package com.example.foodies.auth.presentation.login_screen
+package com.example.foodies.auth.presentation.auth_screens.presentation
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -25,7 +25,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,37 +44,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.foodies.R
-import com.example.foodies.auth.google_auth.SignInState
-import com.example.foodies.auth.presentation.SignInEmailVM
 import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.google.accompanist.systemuicontroller.SystemUiController
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(
-    googleState: SignInState,
-    onSignInClick: () -> Unit,
+fun RegistrationScreen(
     systemUiController: SystemUiController,
     navController: NavHostController,
+    onSignInClick: () -> Unit,
     signInEmailVM: SignInEmailVM,
     preferencesManager: PreferencesManager
 ) {
-
     //Change system bars color
     SideEffect {
         systemUiController.setSystemBarsColor(Color(0xfffbfbfb))
     }
 
-    //Make toast if error
     val context = LocalContext.current
-
     val scope = rememberCoroutineScope()
-    LaunchedEffect(key1 = googleState.signInErrorMessage) {
-        googleState.signInErrorMessage?.let { errorMessage ->
-            Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
-        }
-    }
 
     //Main column
     Column(
@@ -85,7 +73,7 @@ fun LoginScreen(
             .padding(start = 16.dp, end = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        //Box with Login text
+        //Box with register text
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -93,7 +81,7 @@ fun LoginScreen(
             contentAlignment = Alignment.BottomStart
         ) {
             Text(
-                text = "Вход",
+                text = "Регистрация",
                 color = Color(0xff222831),
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold
@@ -103,13 +91,12 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(75.dp))
 
         //Column with textFields
-        var password by rememberSaveable { mutableStateOf("") }
         var email by rememberSaveable { mutableStateOf("") }
+        var password by rememberSaveable { mutableStateOf("") }
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-
             TextField(
                 value = email,
                 onValueChange = { email = it },
@@ -145,15 +132,14 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(75.dp))
 
-        //Button to sign in
+        //Button to register in
         Button(
             onClick = {
                 if((password.isNotBlank()) && (email.isNotBlank())) {
                     scope.launch {
-                        if(signInEmailVM.signInWithEmail(email, password)) {
-                            Toast.makeText(context, "Вы успешно вошли", Toast.LENGTH_SHORT).show()
-                            preferencesManager.saveData("googleSignIn", false)
-                            navController.navigate("main_screen")
+                        if(signInEmailVM.createNewUserWithEmail(email, password)) {
+                            Toast.makeText(context, "Регистрация успешна", Toast.LENGTH_SHORT).show()
+                            navController.navigate("login_screen")
                         } else {
                             Toast.makeText(context, "Что-то пошло не так", Toast.LENGTH_SHORT).show()
                         }
@@ -173,7 +159,7 @@ fun LoginScreen(
             elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp)
         ) {
             Text(
-                text = "Войти",
+                text = "Зарегистрироваться",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -256,23 +242,23 @@ fun LoginScreen(
                     color = Color(0xFFF897B0),
                     fontSize = 16.sp,
                 )) {
-                    append("Новый пользователь? ")
+                    append("Уже зарегистрированы? ")
                 }
-                pushStringAnnotation(tag = "register", annotation = "register")
+                pushStringAnnotation(tag = "login", annotation = "login")
                 withStyle(SpanStyle(
                     color = Color(0xfffd3a69),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )) {
-                    append("Регистрация")
+                    append("Вход")
                 }
             }
 
-            //Clickable text for register screen
+            //Clickable text for login screen
             ClickableText(text = registerText, onClick = { offset ->
-                registerText.getStringAnnotations(tag = "register", start = offset, end = offset).firstOrNull()
+                registerText.getStringAnnotations(tag = "login", start = offset, end = offset).firstOrNull()
                     ?.let {
-                        navController.navigate("registration_screen")
+                        navController.navigate("login_screen")
                     }
             })
         }

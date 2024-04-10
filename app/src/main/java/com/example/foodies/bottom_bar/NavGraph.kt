@@ -23,15 +23,16 @@ import com.example.foodies.main_meal_screens.presentation.MainMealScreensVM
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.foodies.auth.google_auth.GoogleAuthUiClient
+import com.example.foodies.auth.presentation.profile_screen.presentation.ProfileScreenVM
 import com.example.foodies.auth.presentation.SignInGoogleVM
-import com.example.foodies.auth.presentation.login_screen.LoginScreen
+import com.example.foodies.auth.presentation.auth_screens.presentation.LoginScreen
 import com.example.foodies.cart_screen.presentation.CartScreen
 import com.example.foodies.cart_screen.presentation.CartScreenVM
 import com.example.foodies.main_meal_screens.presentation.main_screen.MainScreen
 import com.example.foodies.main_meal_screens.presentation.meal_screen.MealScreen
 import com.example.foodies.auth.presentation.profile_screen.presentation.ProfileScreen
-import com.example.foodies.auth.presentation.registration_screen.RegistrationScreen
-import com.example.foodies.auth.presentation.SignInEmailVM
+import com.example.foodies.auth.presentation.auth_screens.presentation.RegistrationScreen
+import com.example.foodies.auth.presentation.auth_screens.presentation.SignInEmailVM
 import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
@@ -48,7 +49,8 @@ fun NavGraph(
     //Initialize viewModels and navController
     val mainMealScreensVM = hiltViewModel<MainMealScreensVM>()
     val cartScreenVM = hiltViewModel<CartScreenVM>()
-    val signInEmailVM = viewModel<SignInEmailVM>()
+    val signInEmailVM = hiltViewModel<SignInEmailVM>()
+    val profileScreenVM = hiltViewModel<ProfileScreenVM>()
     val signInGoogleVM = viewModel<SignInGoogleVM>()
 
     val navController = rememberNavController()
@@ -59,7 +61,7 @@ fun NavGraph(
 
     //Changing start destination if user signed in
     var startDestination = "login_screen"
-    if(signInEmailVM.getSignedInUser() != null) {
+    if(profileScreenVM.getSignedInUser() != null) {
         startDestination = "main_screen"
     }
 
@@ -122,7 +124,7 @@ fun NavGraph(
         ) {
             ProfileScreen(
                 navController = navController,
-                signInEmailVM = signInEmailVM,
+                profileScreenVM = profileScreenVM,
                 onSignOut = {
                     scope.launch {
                         googleAuthUiClient.signOut()

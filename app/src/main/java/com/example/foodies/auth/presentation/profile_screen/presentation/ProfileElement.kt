@@ -17,16 +17,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.foodies.R
-import com.example.foodies.auth.presentation.SignInEmailVM
+import com.example.foodies.auth.presentation.auth_screens.presentation.SignInEmailVM
 
 @Composable
 fun ProfileElement(
     icon: Int,
     section: String,
-    signInEmailVM: SignInEmailVM = viewModel(),
+    profileScreenVM: ProfileScreenVM = hiltViewModel(),
     onSignOut: () -> Unit = {},
     signInWithGoogle: Boolean = true,
     navController: NavHostController
@@ -38,10 +38,10 @@ fun ProfileElement(
             .height(60.dp)
             .clickable {
                 //If section is "Выйти из аккаунта", user will quit from acc
-                if(signInWithGoogle) {
+                if (signInWithGoogle) {
                     onSignOut()
                 } else {
-                    signInEmailVM.signOutWithEmail()
+                    profileScreenVM.signOutWithEmail()
                     navController.navigate("login_screen")
                 }
             }

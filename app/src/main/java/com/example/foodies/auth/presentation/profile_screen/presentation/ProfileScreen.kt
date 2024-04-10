@@ -42,7 +42,6 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.foodies.R
 import com.example.foodies.auth.google_auth.UserData
-import com.example.foodies.auth.presentation.SignInEmailVM
 import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.example.foodies.auth.presentation.profile_screen.data.User
 import com.example.foodies.bottom_bar.presentation.BottomBar
@@ -55,7 +54,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ProfileScreen(
     navController: NavHostController,
-    signInEmailVM: SignInEmailVM,
+    profileScreenVM: ProfileScreenVM,
     onSignOut: () -> Unit,
     userData: UserData?,
     systemUiController: SystemUiController,
@@ -81,8 +80,8 @@ fun ProfileScreen(
             )
         } else {
             User(
-                profilePictureUrl = signInEmailVM.getSignedInUser()?.photoUrl.toString(),
-                userName = signInEmailVM.getSignedInUser()?.displayName
+                profilePictureUrl = profileScreenVM.getSignedInUser()?.photoUrl.toString(),
+                userName = profileScreenVM.getSignedInUser()?.displayName
             )
         }
     ) }
@@ -95,15 +94,15 @@ fun ProfileScreen(
         onResult = { uri ->
             if(uri != null) {
                 scope.launch {
-                    if(signInEmailVM.updateUserProfile(image = uri, name = "BRBX")) {
+                    if(profileScreenVM.updateUserProfile(image = uri, name = "BRBX")) {
                         Toast.makeText(
                             context,
                             "Изменения сохранены",
                             Toast.LENGTH_SHORT
                         ).show()
                         user = User(
-                            profilePictureUrl = signInEmailVM.getSignedInUser()?.photoUrl.toString(),
-                            userName = signInEmailVM.getSignedInUser()?.displayName
+                            profilePictureUrl = profileScreenVM.getSignedInUser()?.photoUrl.toString(),
+                            userName = profileScreenVM.getSignedInUser()?.displayName
                         )
                     } else {
                         Toast.makeText(
