@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,28 +17,41 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.foodies.R
@@ -72,7 +86,7 @@ fun ProfileScreen(
     //Check if user sign in with google
     val signInWithGoogle = preferencesManager.getData("googleSignIn", false)
 
-    val userStateFlow = remember { mutableStateOf(
+    var user by remember { mutableStateOf(
         if(signInWithGoogle) {
             User(
                 profilePictureUrl = userData?.profilePictureUrl,
@@ -86,7 +100,13 @@ fun ProfileScreen(
         }
     ) }
 
-    var user by userStateFlow
+    var name by rememberSaveable { mutableStateOf(
+        if(user.userName == null) {
+            "Пользователь"
+        } else {
+            user.userName
+        }
+    ) }
 
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
@@ -94,12 +114,11 @@ fun ProfileScreen(
         onResult = { uri ->
             if(uri != null) {
                 scope.launch {
-                    if(profileScreenVM.updateUserProfile(image = uri, name = "BRBX")) {
+                    if(profileScreenVM.updateUserPicture(image = uri, name = name.toString())) {
                         Toast.makeText(
                             context,
                             "Изменения сохранены",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                            Toast.LENGTH_SHORT).show()
                         user = User(
                             profilePictureUrl = profileScreenVM.getSignedInUser()?.photoUrl.toString(),
                             userName = profileScreenVM.getSignedInUser()?.displayName
@@ -108,8 +127,7 @@ fun ProfileScreen(
                         Toast.makeText(
                             context,
                             "Что-то пошло не так",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                            Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -156,11 +174,13 @@ fun ProfileScreen(
                 )
         )  {
             //Box with image
-            Box(
+            Column(
                 modifier = Modifier
-                    .fillMaxHeight(0.3f)
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center
+                    .fillMaxHeight(0.4f)
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Box(
                     modifier = Modifier
@@ -170,11 +190,13 @@ fun ProfileScreen(
                         .clickable {
                             //If user sign in with google, he can't change profile picture'
                             if (signInWithGoogle) {
-                                Toast.makeText(
-                                    context,
-                                    "Добавить фото можно только с аккаунта приложения",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                Toast
+                                    .makeText(
+                                        context,
+                                        "Добавить фото можно только с аккаунта приложения",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                    .show()
                             } else {
                                 singlePhotoPickerLauncher.launch(
                                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
@@ -200,6 +222,55 @@ fun ProfileScreen(
                         )
                     }
                 }
+
+                val focusRequester = remember { FocusRequester() }
+                val focusManager = LocalFocusManager.current
+                TextField(
+                    value = name.toString(),
+                    onValueChange = { name = it },
+                    modifier = Modifier
+                        .width(150.dp)
+                        .focusRequester(focusRequester),
+                    textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xfffd3a69),
+                        unfocusedBorderColor = Color(0xfffd3a69),
+                        focusedLabelColor = Color(0xfffd3a69),
+                        unfocusedLabelColor = Color(0xfffd3a69),
+                        focusedTextColor = Color(0xff222831),
+                        unfocusedTextColor = Color(0xff222831),
+                        cursorColor = Color(0xff222831)
+                    ),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                    keyboardActions = KeyboardActions(onDone = {
+                        focusManager.clearFocus()
+                        if (signInWithGoogle) {
+                            Toast.makeText(
+                                context,
+                                "Изменить имя можно только с аккаунта приложения",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            scope.launch {
+                                if(profileScreenVM.updateUserName(image = user.profilePictureUrl.toString(), name = name.toString())) {
+                                    Toast.makeText(
+                                        context,
+                                        "Изменения сохранены",
+                                        Toast.LENGTH_SHORT).show()
+                                    user = User(
+                                        profilePictureUrl = profileScreenVM.getSignedInUser()?.photoUrl.toString(),
+                                        userName = profileScreenVM.getSignedInUser()?.displayName
+                                    )
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        "Что-то пошло не так",
+                                        Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    })
+                )
             }
 
             Column(

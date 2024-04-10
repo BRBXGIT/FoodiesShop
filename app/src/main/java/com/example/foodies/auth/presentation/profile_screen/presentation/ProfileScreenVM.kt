@@ -19,7 +19,7 @@ class ProfileScreenVM @Inject constructor(
     }
 
     //Update user profile function
-    suspend fun updateUserProfile(image: Uri, name: String): Boolean {
+    suspend fun updateUserPicture(image: Uri, name: String): Boolean {
         val storageRef = FirebaseStorage.getInstance().reference.child("Users/${firebaseAuth.currentUser?.uid}/${image.lastPathSegment}")
         val upload = storageRef.putFile(image)
 
@@ -36,6 +36,20 @@ class ProfileScreenVM @Inject constructor(
             }
         }.addOnFailureListener {
             result.complete(false)
+        }
+
+        return result.await()
+    }
+
+    suspend fun updateUserName(image: String, name: String): Boolean {
+        val result = CompletableDeferred<Boolean>()
+        val profileUpdates = userProfileChangeRequest {
+            displayName = name
+            photoUri = Uri.parse(image)
+        }
+
+        firebaseAuth.currentUser?.updateProfile(profileUpdates)?.addOnSuccessListener {
+            result.complete(true)
         }
 
         return result.await()
