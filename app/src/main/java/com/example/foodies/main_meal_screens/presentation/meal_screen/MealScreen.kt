@@ -22,6 +22,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -57,12 +58,6 @@ fun MealScreen(
     systemUiController: SystemUiController,
     cartScreenVM: CartScreenVM
 ) {
-
-    SideEffect {
-        systemUiController.setStatusBarColor(Color(0xfffbfbfb))
-        systemUiController.setNavigationBarColor(Color(0xffffffff))
-    }
-
     //Get meal and check is it in cart
     val meal = mainMealScreensVM.mealByName.meals[0]
     cartScreenVM.checkIsMealInCart(meal.strMeal)
@@ -102,7 +97,7 @@ fun MealScreen(
             BottomAppBar(
                 modifier = Modifier
                     .height(70.dp),
-                containerColor = Color(0xffffffff),
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
             ) {
                 Box(
                     modifier = Modifier
@@ -122,8 +117,8 @@ fun MealScreen(
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier.fillMaxSize(),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xfffd3a69),
-                            contentColor = Color(0xffffffff)
+                            containerColor = MaterialTheme.colorScheme.tertiary,
+                            contentColor = MaterialTheme.colorScheme.tertiaryContainer
                         )
                     ) {
                         Text(
@@ -139,7 +134,7 @@ fun MealScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xfffbfbfb)),
+                .background(MaterialTheme.colorScheme.surface),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             //Box with image
@@ -170,13 +165,12 @@ fun MealScreen(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_left),
                     contentDescription = "Icon go back",
-                    tint = Color(0xff000000),
+                    tint = MaterialTheme.colorScheme.tertiary,
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .padding(start = 16.dp, top = 8.dp)
                         .noRippleClickable { navController.popBackStack() }
                 )
-
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -190,14 +184,14 @@ fun MealScreen(
             ) {
                 Text(
                     text = meal.strMeal,
-                    color = Color(0xff222831),
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold
                 )
 
                 Text(
                     text = ingredients,
-                    color = Color(0xffa9aaad),
+                    color = MaterialTheme.colorScheme.secondary,
                     fontSize = 17.sp
                 )
             }
@@ -209,7 +203,7 @@ fun MealScreen(
             Box(
                 modifier = Modifier.fillMaxSize()
             ) {
-                Divider(thickness = 2.dp, color = Color(0xfff6f7f9))
+                Divider(thickness = 2.dp, color = MaterialTheme.colorScheme.surfaceTint)
 
                 LazyColumn(
                     modifier = Modifier
@@ -231,20 +225,19 @@ fun MealScreen(
                         ) {
                             Text(
                                 text = ingredientsList[index].lowercase(),
-                                color = Color(0xffa9aaad),
+                                color = MaterialTheme.colorScheme.secondary,
                                 fontSize = 17.sp
                             )
 
                             Text(
                                 text = measure,
-                                color = Color(0xff222831),
+                                color = MaterialTheme.colorScheme.primary,
                                 fontSize = 17.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         }
 
-                        HorizontalDivider(thickness = 2.dp, color = Color(0xfff6f7f9))
-
+                        HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.surfaceTint)
                     }
                 }
             }

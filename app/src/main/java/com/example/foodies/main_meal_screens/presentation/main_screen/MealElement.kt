@@ -7,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -18,10 +17,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -52,7 +49,7 @@ fun MealElement(
 
     val context = LocalContext.current
 
-    HorizontalDivider(thickness = 2.dp, color = Color(0xfff6f7f9))
+    HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.surfaceTint)
 
     //Main row
     Row(
@@ -104,12 +101,12 @@ fun MealElement(
                     text = title,
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
-                    color = Color(0xff222831)
+                    color = MaterialTheme.colorScheme.primary
                 )
 
                 Text(
                     text = ingredients,
-                    color = Color(0xffa9aaad),
+                    color = MaterialTheme.colorScheme.secondary,
                     fontSize = 16.sp,
                     overflow = TextOverflow.Ellipsis,
                     style = TextStyle.Default.copy(
@@ -124,7 +121,7 @@ fun MealElement(
             ) {
                 Box(
                     modifier = Modifier
-                        .border(1.dp, Color(0xfffd3a69), RoundedCornerShape(10.dp))
+                        .border(1.dp, MaterialTheme.colorScheme.tertiary, RoundedCornerShape(10.dp))
                         .height(40.dp)
                         .width(100.dp)
                         .clip(RoundedCornerShape(10.dp))
@@ -134,7 +131,7 @@ fun MealElement(
                     Text(
                         text = "от 345 р",
                         fontSize = 16.sp,
-                        color = Color(0xfffd3a69)
+                        color = MaterialTheme.colorScheme.tertiary
                     )
                 }
             }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -31,13 +32,6 @@ fun MainScreen(
     navController: NavHostController,
     systemUiController: SystemUiController,
 ) {
-
-    //Change colors of system bars
-    SideEffect {
-        systemUiController.setNavigationBarColor(Color(0xfff0f0f0))
-        systemUiController.setStatusBarColor(Color(0xfffbfbfb))
-    }
-
     //Check visible of advertising banners
     val state = rememberLazyListState()
     var visible by rememberSaveable { mutableStateOf(!state.canScrollBackward) }
@@ -80,7 +74,7 @@ fun MainScreen(
                 state = state,
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xfffbfbfb))
+                    .background(MaterialTheme.colorScheme.surface)
                     .padding(
                         PaddingValues(
                             bottom = innerPadding.calculateBottomPadding()

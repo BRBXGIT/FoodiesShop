@@ -21,15 +21,14 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -45,11 +44,6 @@ fun InfoScreen(
     systemUiController: SystemUiController,
     context: Context
 ) {
-
-    SideEffect {
-        systemUiController.setSystemBarsColor(Color(0xfffbfbfb))
-    }
-
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -66,9 +60,9 @@ fun InfoScreen(
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xfffbfbfb),
-                    titleContentColor = Color(0xff222831),
-                    navigationIconContentColor = Color(0xfffd3a69)
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.tertiary
                 ),
                 modifier = Modifier.shadow(4.dp)
             )
@@ -77,7 +71,7 @@ fun InfoScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xfffbfbfb))
+                .background(MaterialTheme.colorScheme.surface)
                 .padding(
                     PaddingValues(
                         bottom = innerPadding.calculateBottomPadding(),
@@ -99,7 +93,7 @@ fun InfoScreen(
 
                 HorizontalDivider(
                     thickness = 2.dp,
-                    color = Color(0xfff6f7f9),
+                    color = MaterialTheme.colorScheme.surfaceTint,
                     modifier = Modifier.align(Alignment.BottomStart)
                 )
             }
@@ -118,12 +112,12 @@ fun InfoScreen(
                 ) {
                     Text(
                         text = "Версия",
-                        color = Color(0xff222831),
+                        color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(start = 16.dp)
                     )
                     Text(
                         text = "Stable 0.15.3 (12.04.2024 17:01)",
-                        color = Color(0xffa9aaad),
+                        color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier.padding(start = 16.dp)
                     )
                 }
@@ -133,15 +127,17 @@ fun InfoScreen(
                         .height(50.dp)
                         .fillMaxWidth()
                         .clickable {
-                            context.startActivity(Intent(
-                                Intent.ACTION_VIEW, Uri.parse("https://github.com/BRBXGIT")
-                            ))
+                            context.startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW, Uri.parse("https://github.com/BRBXGIT")
+                                )
+                            )
                         },
                     contentAlignment = Alignment.CenterStart
                 ) {
                     Text(
                         text = "Политика конфиденциальности",
-                        color = Color(0xff222831),
+                        color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(start = 16.dp)
                     )
                 }
@@ -159,52 +155,63 @@ fun InfoScreen(
                         Icon(
                             painter = painterResource(id = R.drawable.ic_git),
                             contentDescription = "Git icon",
-                            tint = Color(0xfffd3a69),
+                            tint = MaterialTheme.colorScheme.tertiary,
                             modifier = Modifier
                                 .size(30.dp)
                                 .noRippleClickable {
-                                    context.startActivity(Intent(
-                                        Intent.ACTION_VIEW, Uri.parse("https://github.com/BRBXGIT")
-                                    ))
+                                    context.startActivity(
+                                        Intent(
+                                            Intent.ACTION_VIEW,
+                                            Uri.parse("https://github.com/BRBXGIT")
+                                        )
+                                    )
                                 }
                         )
 
                         Icon(
                             painter = painterResource(id = R.drawable.ic_vk),
                             contentDescription = "VK icon",
-                            tint = Color(0xfffd3a69),
+                            tint = MaterialTheme.colorScheme.tertiary,
                             modifier = Modifier
                                 .size(30.dp)
                                 .noRippleClickable {
-                                    context.startActivity(Intent(
-                                        Intent.ACTION_VIEW, Uri.parse("https://vk.com/brbxb")
-                                    ))
+                                    context.startActivity(
+                                        Intent(
+                                            Intent.ACTION_VIEW, Uri.parse("https://vk.com/brbxb")
+                                        )
+                                    )
                                 }
                         )
 
                         Icon(
                             painter = painterResource(id = R.drawable.ic_telegram),
                             contentDescription = "Telegram icon",
-                            tint = Color(0xfffd3a69),
+                            tint = MaterialTheme.colorScheme.tertiary,
                             modifier = Modifier
                                 .size(30.dp)
                                 .noRippleClickable {
-                                    context.startActivity(Intent(
-                                        Intent.ACTION_VIEW, Uri.parse("https://web.telegram.org/k/")
-                                    ))
+                                    context.startActivity(
+                                        Intent(
+                                            Intent.ACTION_VIEW,
+                                            Uri.parse("https://web.telegram.org/k/")
+                                        )
+                                    )
                                 }
                         )
 
                         Icon(
                             painter = painterResource(id = R.drawable.ic_instagram),
                             contentDescription = "Instagram icon",
-                            tint = Color(0xfffd3a69),
+                            tint = MaterialTheme.colorScheme.tertiary,
                             modifier = Modifier
                                 .size(30.dp)
                                 .noRippleClickable {
-                                    context.startActivity(Intent(
-                                        Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/brbx16/")
-                                    ))
+                                    context.startActivity(
+                                        Intent(
+                                            Intent.ACTION_VIEW,
+                                            Uri.parse("https://www.instagram.com/brbx16/")
+                                        )
+                                    )
                                 }
                         )
                     }

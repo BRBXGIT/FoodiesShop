@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -43,12 +44,6 @@ fun CartScreen(
     cartScreenVM: CartScreenVM,
     mainMealScreensVM: MainMealScreensVM
 ) {
-    //Change colors of system bars
-    SideEffect {
-        systemUiController.setNavigationBarColor(Color(0xfff0f0f0))
-        systemUiController.setStatusBarColor(Color(0xfffbfbfb))
-    }
-
     val cartItems = cartScreenVM.getAllCartMeals().collectAsState(initial = emptyList()).value
     val context = LocalContext.current
 
@@ -72,7 +67,7 @@ fun CartScreen(
                 },
                 actions = {
                     Icon(
-                        tint = Color(0xfffd3a69),
+                        tint = MaterialTheme.colorScheme.tertiary,
                         painter = painterResource(id = R.drawable.ic_order),
                         contentDescription = "Action icon",
                         modifier = Modifier
@@ -87,9 +82,9 @@ fun CartScreen(
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xfffbfbfb),
-                    titleContentColor = Color(0xff222831),
-                    navigationIconContentColor = Color(0xfffd3a69)
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.tertiary
                 ),
                 modifier = Modifier.shadow(4.dp)
             )
@@ -99,7 +94,7 @@ fun CartScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = Color(0xfffbfbfb))
+                    .background(color = MaterialTheme.colorScheme.surface)
                     .padding(
                         PaddingValues(
                             bottom = innerPadding.calculateBottomPadding(),
@@ -112,15 +107,15 @@ fun CartScreen(
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "Пусто, выберите блюда", color = Color(0xffa9aaad))
-                    Text(text = "в каталоге :)", color = Color(0xffa9aaad))
+                    Text(text = "Пусто, выберите блюда", color = MaterialTheme.colorScheme.secondary)
+                    Text(text = "в каталоге :)", color = MaterialTheme.colorScheme.secondary)
                 }
             }
         } else {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = Color(0xfffbfbfb))
+                    .background(color = MaterialTheme.colorScheme.surface)
                     .padding(
                         PaddingValues(
                             bottom = innerPadding.calculateBottomPadding(),

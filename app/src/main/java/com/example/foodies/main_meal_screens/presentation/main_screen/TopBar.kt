@@ -27,6 +27,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -49,7 +50,7 @@ fun TopBar(
 ) {
     //Main column
     Column(
-        modifier = Modifier.background(Color(0xfffbfbfb))
+        modifier = Modifier.background(MaterialTheme.colorScheme.surface),
     ) {
         //Row with qr scanner and city
         Row(
@@ -58,7 +59,7 @@ fun TopBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(70.dp)
-                .background(Color(0xfffbfbfb))
+                .background(MaterialTheme.colorScheme.surface)
                 .padding(start = 16.dp, end = 16.dp)
         ) {
             Row(
@@ -69,13 +70,13 @@ fun TopBar(
                     text = "Москва",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xff000000)
+                    color = MaterialTheme.colorScheme.primary
                 )
 
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_down),
                     contentDescription = "show more arrow icon",
-                    tint = Color(0xff000000),
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(14.dp),
                 )
             }
@@ -83,7 +84,7 @@ fun TopBar(
             Icon(
                 painter = painterResource(id = R.drawable.ic_qr),
                 contentDescription = "qr icon",
-                tint = Color(0xff000000),
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(28.dp)
             )
 
@@ -105,7 +106,7 @@ fun TopBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(130.dp)
-                    .background(Color(0xfffbfbfb)),
+                    .background(MaterialTheme.colorScheme.surface),
                 verticalAlignment = Alignment.CenterVertically,
                 state = pagerState
             ) {
@@ -140,7 +141,7 @@ fun TopBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(70.dp)
-                .background(Color(0xfffbfbfb))
+                .background(MaterialTheme.colorScheme.surface)
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -163,6 +164,6 @@ fun TopBar(
             }
         }
 
-        HorizontalDivider(thickness = 2.dp, color = Color(0xfff6f7f9))
+        HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.surfaceTint)
     }
 }

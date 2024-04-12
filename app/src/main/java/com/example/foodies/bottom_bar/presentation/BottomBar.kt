@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,12 +34,12 @@ fun BottomBar(
 ) {
 
     //Colors for active and basic destinations
-    val activeIconColor by remember { mutableStateOf(Color(0xfffd3a69)) }
-    val basicIconColor by remember { mutableStateOf(Color(0xff7b7b7b)) }
+    val activeIconColor = MaterialTheme.colorScheme.tertiary
+    val basicIconColor = MaterialTheme.colorScheme.onBackground
     val currentDestination = navController.currentDestination!!.route
 
     BottomAppBar(
-        containerColor = Color(0xfff0f0f0),
+        containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier.height(54.dp),
     ) {
         //Row with icons and titles

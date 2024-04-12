@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -80,26 +81,26 @@ fun ProfileElement(
             Icon(
                 painter = painterResource(id = icon), 
                 contentDescription = "Section icon",
-                tint = Color(0xff222831),
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(26.dp)
             )
 
             Text(
                 text = section,
                 fontSize = 18.sp,
-                color = Color(0xff222831)
+                color = MaterialTheme.colorScheme.primary
             )
         }
 
         Icon(
             painter = painterResource(id = R.drawable.ic_arrow_right),
             contentDescription = "Icon arrow right",
-            tint = Color(0xff222831),
+            tint = MaterialTheme.colorScheme.primary,
             modifier = Modifier.size(30.dp)
         )
     }
 
-    HorizontalDivider(thickness = 2.dp, color = Color(0xfff6f7f9))
+    HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.surfaceTint)
 }
 
 @Composable
@@ -113,14 +114,14 @@ fun QuitDialog(
                 painter = painterResource(id = R.drawable.ic_logout),
                 contentDescription = "Quit icon",
                 modifier = Modifier.size(24.dp),
-                tint = Color(0xfffd3a69)
+                tint = MaterialTheme.colorScheme.tertiary
             )
         },
         title = {
             Text(
                 text = "Выйти из аккаунта?",
                 fontSize = 20.sp,
-                color = Color(0xff7b7b7b)
+                color = MaterialTheme.colorScheme.onBackground
             )
         },
         onDismissRequest = {
@@ -135,7 +136,7 @@ fun QuitDialog(
                 Text(
                     text = "Да",
                     fontSize = 15.sp,
-                    color = Color(0xff222831)
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
         },
@@ -148,10 +149,10 @@ fun QuitDialog(
                 Text(
                     text = "Нет",
                     fontSize = 15.sp,
-                    color = Color(0xff222831)
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
         },
-        containerColor = Color(0xfffbfbfb),
+        containerColor = MaterialTheme.colorScheme.surface,
     )
 }

@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import com.example.foodies.auth.google_auth.GoogleAuthUiClient
 import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.example.foodies.bottom_bar.NavGraph
-import com.example.foodies.ui.theme.TestTaskTheme
+import com.example.foodies.ui.theme.FoodiesTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TestTaskTheme {
+            FoodiesTheme {
                 NavGraph(
                     googleAuthUiClient = googleAuthUiClient,
                     preferencesManager = preferencesManager

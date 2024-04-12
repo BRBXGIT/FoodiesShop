@@ -21,6 +21,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -61,12 +62,6 @@ fun LoginScreen(
     signInEmailVM: SignInEmailVM,
     preferencesManager: PreferencesManager
 ) {
-
-    //Change system bars color
-    SideEffect {
-        systemUiController.setSystemBarsColor(Color(0xfffbfbfb))
-    }
-
     //Make toast if error
     val context = LocalContext.current
 
@@ -81,7 +76,7 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xfffbfbfb))
+            .background(MaterialTheme.colorScheme.surface)
             .padding(start = 16.dp, end = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -94,7 +89,7 @@ fun LoginScreen(
         ) {
             Text(
                 text = "Вход",
-                color = Color(0xff222831),
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -116,13 +111,13 @@ fun LoginScreen(
                 label = { Text(text = "Почта") },
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color(0xFFF897B0),
-                    unfocusedBorderColor = Color(0xFFF897B0),
-                    focusedLabelColor = Color(0xFFF897B0),
-                    unfocusedLabelColor = Color(0xFFF897B0),
-                    focusedTextColor = Color(0xff222831),
-                    unfocusedTextColor = Color(0xff222831),
-                    cursorColor = Color(0xff222831)
+                    focusedBorderColor = MaterialTheme.colorScheme.outline,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedLabelColor = MaterialTheme.colorScheme.outline,
+                    unfocusedLabelColor = MaterialTheme.colorScheme.outline,
+                    focusedTextColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.primary,
+                    cursorColor = MaterialTheme.colorScheme.primary
                 )
             )
 
@@ -132,13 +127,13 @@ fun LoginScreen(
                 label = { Text(text = "Пароль") },
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color(0xFFF897B0),
-                    unfocusedBorderColor = Color(0xFFF897B0),
-                    focusedLabelColor = Color(0xFFF897B0),
-                    unfocusedLabelColor = Color(0xFFF897B0),
-                    focusedTextColor = Color(0xff222831),
-                    unfocusedTextColor = Color(0xff222831),
-                    cursorColor = Color(0xff222831)
+                    focusedBorderColor = MaterialTheme.colorScheme.outline,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedLabelColor = MaterialTheme.colorScheme.outline,
+                    unfocusedLabelColor = MaterialTheme.colorScheme.outline,
+                    focusedTextColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.primary,
+                    cursorColor = MaterialTheme.colorScheme.primary
                 )
             )
         }
@@ -167,8 +162,8 @@ fun LoginScreen(
                 .fillMaxWidth()
                 .height(54.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xfffd3a69),
-                contentColor = Color(0xffffffff)
+                containerColor = MaterialTheme.colorScheme.tertiary,
+                contentColor = MaterialTheme.colorScheme.tertiaryContainer
             ),
             elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp)
         ) {
@@ -190,19 +185,19 @@ fun LoginScreen(
 
             HorizontalDivider(
                 thickness = 1.dp,
-                color = Color(0xffc3c4c9),
+                color = MaterialTheme.colorScheme.onTertiary,
                 modifier = Modifier.weight(0.45f)
             )
 
             Text(
                 text = "ИЛИ",
-                color = Color(0xffc3c4c9),
+                color = MaterialTheme.colorScheme.onTertiary,
                 fontSize = 15.sp
             )
 
             HorizontalDivider(
                 thickness = 1.dp,
-                color = Color(0xffc3c4c9),
+                color = MaterialTheme.colorScheme.onTertiary,
                 modifier = Modifier.weight(0.45f)
             )
         }
@@ -217,7 +212,7 @@ fun LoginScreen(
             },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
-                .border(1.dp, Color(0xfffd3a69), RoundedCornerShape(0.dp))
+                .border(1.dp, MaterialTheme.colorScheme.tertiary, RoundedCornerShape(0.dp))
                 .fillMaxWidth()
                 .height(54.dp),
             colors = ButtonDefaults.buttonColors(
@@ -238,7 +233,7 @@ fun LoginScreen(
                 Text(
                     text = "Войдите с Google",
                     fontSize = 16.sp,
-                    color = Color(0xfffd3a69),
+                    color = MaterialTheme.colorScheme.tertiary,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -253,14 +248,14 @@ fun LoginScreen(
         ) {
             val registerText = buildAnnotatedString {
                 withStyle(SpanStyle(
-                    color = Color(0xFFF897B0),
+                    color = MaterialTheme.colorScheme.outline,
                     fontSize = 16.sp,
                 )) {
                     append("Новый пользователь? ")
                 }
                 pushStringAnnotation(tag = "register", annotation = "register")
                 withStyle(SpanStyle(
-                    color = Color(0xfffd3a69),
+                    color = MaterialTheme.colorScheme.tertiary,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )) {

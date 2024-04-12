@@ -27,6 +27,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -78,13 +79,6 @@ fun ProfileScreen(
     context: Context,
     scope: CoroutineScope
 ) {
-
-    //Change colors of system bars
-    SideEffect {
-        systemUiController.setStatusBarColor(Color(0xfffbfbfb))
-        systemUiController.setNavigationBarColor(Color(0xfff0f0f0))
-    }
-
     //Check if user sign in with google
     val signInWithGoogle = preferencesManager.getData("googleSignIn", false)
 
@@ -149,9 +143,9 @@ fun ProfileScreen(
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xfffbfbfb),
-                    titleContentColor = Color(0xff222831),
-                    navigationIconContentColor = Color(0xfffd3a69)
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.tertiary
                 ),
                 modifier = Modifier.shadow(4.dp)
             )
@@ -161,7 +155,7 @@ fun ProfileScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xfffbfbfb))
+                .background(MaterialTheme.colorScheme.surface)
                 .padding(
                     PaddingValues(
                         bottom = innerPadding.calculateBottomPadding(),
@@ -182,11 +176,18 @@ fun ProfileScreen(
                     modifier = Modifier
                         .size(150.dp)
                         .clip(CircleShape)
-                        .border(width = 1.dp, color = Color(0xfffd3a69), shape = CircleShape)
+                        .border(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.tertiary,
+                            shape = CircleShape
+                        )
                         .clickable {
                             //If user sign in with google, he can't change profile picture'
                             if (signInWithGoogle) {
-                                showToast(context, "Добавить фото можно только с аккаунта приложения")
+                                showToast(
+                                    context,
+                                    "Добавить фото можно только с аккаунта приложения"
+                                )
                             } else {
                                 singlePhotoPickerLauncher.launch(
                                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
@@ -208,7 +209,7 @@ fun ProfileScreen(
                             painter = painterResource(id = R.drawable.ic_plus),
                             contentDescription = "Add profile picture icon",
                             modifier = Modifier.size(50.dp),
-                            tint = Color(0xfffd3a69)
+                            tint = MaterialTheme.colorScheme.tertiary
                         )
                     }
                 }
@@ -223,13 +224,13 @@ fun ProfileScreen(
                         .focusRequester(focusRequester),
                     textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color(0xfffd3a69),
-                        unfocusedBorderColor = Color(0xfffd3a69),
-                        focusedLabelColor = Color(0xfffd3a69),
-                        unfocusedLabelColor = Color(0xfffd3a69),
-                        focusedTextColor = Color(0xff222831),
-                        unfocusedTextColor = Color(0xff222831),
-                        cursorColor = Color(0xff222831)
+                        focusedBorderColor = MaterialTheme.colorScheme.tertiary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.tertiary,
+                        focusedLabelColor = MaterialTheme.colorScheme.tertiary,
+                        unfocusedLabelColor = MaterialTheme.colorScheme.tertiary,
+                        focusedTextColor = MaterialTheme.colorScheme.primary,
+                        unfocusedTextColor = MaterialTheme.colorScheme.primary,
+                        cursorColor = MaterialTheme.colorScheme.primary
                     ),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(onDone = {
@@ -256,7 +257,7 @@ fun ProfileScreen(
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                HorizontalDivider(thickness = 2.dp, color = Color(0xfff6f7f9))
+                HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.surfaceTint)
 
                 //Elements of column
                 ProfileElement(icon = R.drawable.ic_settings, section = "Настройки", navController = navController)

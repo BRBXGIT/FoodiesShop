@@ -9,10 +9,13 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -34,6 +37,7 @@ import com.example.foodies.auth.presentation.auth_screens.presentation.Registrat
 import com.example.foodies.auth.presentation.auth_screens.presentation.SignInEmailVM
 import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.example.foodies.info_screen.presentation.InfoScreen
+import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 
@@ -105,6 +109,10 @@ fun NavGraph(
                 fadeOut(tween(500))
             }
         ) {
+
+            systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
+            systemUiController.setNavigationBarColor(MaterialTheme.colorScheme.background)
+
             MainScreen(
                 mainMealScreensVM = mainMealScreensVM,
                 navController = navController,
@@ -122,6 +130,10 @@ fun NavGraph(
                 fadeOut(tween(500))
             }
         ) {
+
+            systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
+            systemUiController.setNavigationBarColor(MaterialTheme.colorScheme.background)
+
             ProfileScreen(
                 navController = navController,
                 profileScreenVM = profileScreenVM,
@@ -149,6 +161,10 @@ fun NavGraph(
                 fadeOut(tween(500))
             }
         ) {
+
+            systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
+            systemUiController.setNavigationBarColor(MaterialTheme.colorScheme.background)
+
             CartScreen(
                 navController = navController,
                 systemUiController = systemUiController,
@@ -173,6 +189,10 @@ fun NavGraph(
                 )
             ) + fadeOut(tween(500)) }
         ) {
+
+            systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
+            systemUiController.setNavigationBarColor(MaterialTheme.colorScheme.tertiaryContainer)
+
             MealScreen(
                 navController = navController,
                 mainMealScreensVM = mainMealScreensVM,
@@ -191,6 +211,10 @@ fun NavGraph(
                 fadeOut(tween(500))
             }
         ) {
+
+            systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
+            systemUiController.setNavigationBarColor(MaterialTheme.colorScheme.surface)
+
             LoginScreen(
                 googleState = state,
                 onSignInClick = {
@@ -219,6 +243,10 @@ fun NavGraph(
                 fadeOut(tween(500))
             }
         ) {
+
+            systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
+            systemUiController.setNavigationBarColor(MaterialTheme.colorScheme.surface)
+
             RegistrationScreen(
                 systemUiController = systemUiController,
                 navController = navController,
@@ -252,6 +280,10 @@ fun NavGraph(
                 )
             ) + fadeOut(tween(500)) }
         ) {
+
+            systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
+            systemUiController.setNavigationBarColor(MaterialTheme.colorScheme.surface)
+
             InfoScreen(
                 navController = navController,
                 systemUiController = systemUiController,

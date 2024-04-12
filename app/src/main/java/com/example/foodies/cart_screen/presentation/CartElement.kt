@@ -22,6 +22,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -98,7 +99,7 @@ fun LazyItemScope.CartElement(
             ) {
                 Text(
                     text = cartMeal.name,
-                    color = Color(0xff222831),
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = 20.sp,
                 )
             }
@@ -124,8 +125,8 @@ fun LazyItemScope.CartElement(
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier.size(40.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xfff5f5f5),
-                        contentColor = Color(0xfffd3a69)
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+                        contentColor = MaterialTheme.colorScheme.tertiary
                     )
                 ) {
                     Icon(
@@ -139,7 +140,7 @@ fun LazyItemScope.CartElement(
                     text = cartMeal.amount.toString(),
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
-                    color = Color(0xff222831)
+                    color = MaterialTheme.colorScheme.primary
                 )
 
                 //Increase button
@@ -155,8 +156,8 @@ fun LazyItemScope.CartElement(
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier.size(40.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xfff5f5f5),
-                        contentColor = Color(0xfffd3a69)
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+                        contentColor = MaterialTheme.colorScheme.tertiary
                     )
                 ) {
                     Icon(
@@ -186,11 +187,11 @@ fun LazyItemScope.CartElement(
                     text = "345 р.",
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
-                    color = Color(0xff222831)
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
         }
     }
 
-    HorizontalDivider(thickness = 2.dp, color = Color(0xfff6f7f9))
+    HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.surfaceTint)
 }
