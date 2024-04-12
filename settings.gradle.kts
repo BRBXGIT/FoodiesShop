@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "TestTask"
+rootProject.name = "Foodies"
 include(":app")
  

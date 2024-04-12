@@ -10,11 +10,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.testtask"
+    namespace = "com.example.foodies"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.testtask"
+        applicationId = "com.example.foodies"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -62,6 +62,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     //Room db impl
     implementation("androidx.room:room-ktx:2.6.1")
+    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
     kapt("androidx.room:room-compiler:2.6.1")
     //Hilt impl
     implementation("com.google.dagger:hilt-android:2.50")
@@ -81,6 +82,8 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+    //DataStore impl
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     //Basic impl
     implementation("androidx.compose.animation:animation-graphics-android:1.6.5")
