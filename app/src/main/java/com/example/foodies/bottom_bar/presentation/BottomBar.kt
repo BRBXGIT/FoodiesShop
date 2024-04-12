@@ -1,6 +1,7 @@
 package com.example.foodies.bottom_bar.presentation
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -58,7 +59,9 @@ fun BottomBar(
                     modifier = Modifier
                         .size(21.dp)
                         .noRippleClickable {
-                            navController.navigate("main_screen")
+                            if(currentDestination != "main_screen") {
+                                navController.navigate("main_screen")
+                            }
                         }
                     //I don't know why, but this icon slightly less others,
                     //That's why i gave 21.sp instead of 20.sp
@@ -81,7 +84,9 @@ fun BottomBar(
                     modifier = Modifier
                         .size(20.dp)
                         .noRippleClickable {
-                            navController.navigate("profile_screen")
+                            if(currentDestination != "profile_screen") {
+                                navController.navigate("profile_screen")
+                            }
                         }
                 )
                 Text(
@@ -103,7 +108,9 @@ fun BottomBar(
                     modifier = Modifier
                         .size(20.dp)
                         .noRippleClickable {
-                            navController.navigate("cart_screen")
+                            if(currentDestination != "cart_screen") {
+                                navController.navigate("cart_screen")
+                            }
                         }
                 )
                 Text(

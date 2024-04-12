@@ -1,7 +1,6 @@
 package com.example.foodies.bottom_bar
 
 import android.app.Activity.RESULT_OK
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -34,6 +33,7 @@ import com.example.foodies.auth.presentation.profile_screen.presentation.Profile
 import com.example.foodies.auth.presentation.auth_screens.presentation.RegistrationScreen
 import com.example.foodies.auth.presentation.auth_screens.presentation.SignInEmailVM
 import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
+import com.example.foodies.info_screen.presentation.InfoScreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 
@@ -128,9 +128,6 @@ fun NavGraph(
                 onSignOut = {
                     scope.launch {
                         googleAuthUiClient.signOut()
-                        Toast.makeText(
-                            context, "Вы вышли из аккаунта", Toast.LENGTH_LONG
-                        ).show()
                         navController.navigate("login_screen")
                     }
                 },
@@ -164,17 +161,17 @@ fun NavGraph(
         composable(
             route = "meal_screen",
             enterTransition = { slideInHorizontally(
-                initialOffsetX = { 500 },
+                initialOffsetX = { 1000 },
                 animationSpec = tween(
                     durationMillis = 500,
                 )
             ) + fadeIn(tween(500)) },
             popExitTransition = { slideOutHorizontally(
-                targetOffsetX = { 500 },
+                targetOffsetX = { 1000 },
                 animationSpec = tween(
                     durationMillis = 500
                 )
-            ) + fadeOut(tween(500)) },
+            ) + fadeOut(tween(500)) }
         ) {
             MealScreen(
                 navController = navController,
@@ -237,6 +234,28 @@ fun NavGraph(
                 },
                 signInEmailVM = signInEmailVM,
                 preferencesManager = preferencesManager
+            )
+        }
+
+        composable(
+            route = "info_screen",
+            enterTransition = { slideInHorizontally(
+                initialOffsetX = { 1000 },
+                animationSpec = tween(
+                    durationMillis = 500,
+                )
+            ) + fadeIn(tween(500)) },
+            popExitTransition = { slideOutHorizontally(
+                targetOffsetX = { 1000 },
+                animationSpec = tween(
+                    durationMillis = 500
+                )
+            ) + fadeOut(tween(500)) }
+        ) {
+            InfoScreen(
+                navController = navController,
+                systemUiController = systemUiController,
+                context = context
             )
         }
     }

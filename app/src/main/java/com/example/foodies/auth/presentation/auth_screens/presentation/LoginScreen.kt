@@ -47,6 +47,7 @@ import androidx.navigation.NavHostController
 import com.example.foodies.R
 import com.example.foodies.auth.google_auth.SignInState
 import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
+import com.example.foodies.auth.presentation.profile_screen.presentation.showToast
 import com.google.accompanist.systemuicontroller.SystemUiController
 import kotlinx.coroutines.launch
 
@@ -150,15 +151,15 @@ fun LoginScreen(
                 if((password.isNotBlank()) && (email.isNotBlank())) {
                     scope.launch {
                         if(signInEmailVM.signInWithEmail(email, password)) {
-                            Toast.makeText(context, "Вы успешно вошли", Toast.LENGTH_SHORT).show()
+                            showToast(context, "Вы успешно авторизовались")
                             preferencesManager.saveData("googleSignIn", false)
                             navController.navigate("main_screen")
                         } else {
-                            Toast.makeText(context, "Что-то пошло не так", Toast.LENGTH_SHORT).show()
+                            showToast(context, "Ошибка при авторизации")
                         }
                     }
                 } else {
-                    Toast.makeText(context, "Сначала заполните поля", Toast.LENGTH_SHORT).show()
+                    showToast(context, "Сначала заполните поля")
                 }
             },
             shape = RoundedCornerShape(0.dp),

@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.foodies.R
 import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
+import com.example.foodies.auth.presentation.profile_screen.presentation.showToast
 import com.google.accompanist.systemuicontroller.SystemUiController
 import kotlinx.coroutines.launch
 
@@ -116,7 +117,7 @@ fun RegistrationScreen(
             TextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text(text = "Пароль") },
+                label = { Text(text = "Пароль(минимум 6 символов)") },
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = Color(0xFFF897B0),
@@ -138,14 +139,14 @@ fun RegistrationScreen(
                 if((password.isNotBlank()) && (email.isNotBlank())) {
                     scope.launch {
                         if(signInEmailVM.createNewUserWithEmail(email, password)) {
-                            Toast.makeText(context, "Регистрация успешна", Toast.LENGTH_SHORT).show()
+                            showToast(context, "Регистрация успешна")
                             navController.navigate("login_screen")
                         } else {
-                            Toast.makeText(context, "Что-то пошло не так", Toast.LENGTH_SHORT).show()
+                            showToast(context, "Ошибка при регистрации")
                         }
                     }
                 } else {
-                    Toast.makeText(context, "Сначала заполните поля", Toast.LENGTH_SHORT).show()
+                    showToast(context, "Сначала заполните поля")
                 }
             },
             shape = RoundedCornerShape(0.dp),

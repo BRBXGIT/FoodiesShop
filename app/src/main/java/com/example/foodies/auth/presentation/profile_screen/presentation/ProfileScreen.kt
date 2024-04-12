@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -28,6 +29,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
@@ -115,19 +117,13 @@ fun ProfileScreen(
             if(uri != null) {
                 scope.launch {
                     if(profileScreenVM.updateUserPicture(image = uri, name = name.toString())) {
-                        Toast.makeText(
-                            context,
-                            "Изменения сохранены",
-                            Toast.LENGTH_SHORT).show()
+                        showToast(context, "Изменения сохранены")
                         user = User(
                             profilePictureUrl = profileScreenVM.getSignedInUser()?.photoUrl.toString(),
                             userName = profileScreenVM.getSignedInUser()?.displayName
                         )
                     } else {
-                        Toast.makeText(
-                            context,
-                            "Что-то пошло не так",
-                            Toast.LENGTH_SHORT).show()
+                        showToast(context, "Что-то пошло не так")
                     }
                 }
             }
@@ -190,13 +186,7 @@ fun ProfileScreen(
                         .clickable {
                             //If user sign in with google, he can't change profile picture'
                             if (signInWithGoogle) {
-                                Toast
-                                    .makeText(
-                                        context,
-                                        "Добавить фото можно только с аккаунта приложения",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                    .show()
+                                showToast(context, "Добавить фото можно только с аккаунта приложения")
                             } else {
                                 singlePhotoPickerLauncher.launch(
                                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
@@ -245,27 +235,17 @@ fun ProfileScreen(
                     keyboardActions = KeyboardActions(onDone = {
                         focusManager.clearFocus()
                         if (signInWithGoogle) {
-                            Toast.makeText(
-                                context,
-                                "Изменить имя можно только с аккаунта приложения",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            showToast(context, "Изменить имя можно только с аккаунта приложения")
                         } else {
                             scope.launch {
                                 if(profileScreenVM.updateUserName(image = user.profilePictureUrl.toString(), name = name.toString())) {
-                                    Toast.makeText(
-                                        context,
-                                        "Изменения сохранены",
-                                        Toast.LENGTH_SHORT).show()
+                                    showToast(context, "Изменения сохранены")
                                     user = User(
                                         profilePictureUrl = profileScreenVM.getSignedInUser()?.photoUrl.toString(),
                                         userName = profileScreenVM.getSignedInUser()?.displayName
                                     )
                                 } else {
-                                    Toast.makeText(
-                                        context,
-                                        "Что-то пошло не так",
-                                        Toast.LENGTH_SHORT).show()
+                                    showToast(context, "Что-то пошло не так")
                                 }
                             }
                         }
@@ -291,4 +271,12 @@ fun ProfileScreen(
             }
         }
     }
+}
+
+fun showToast(context: Context, message: String) {
+    Toast.makeText(
+        context,
+        message,
+        Toast.LENGTH_SHORT
+    ).show()
 }
