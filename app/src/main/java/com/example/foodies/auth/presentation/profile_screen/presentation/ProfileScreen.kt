@@ -75,7 +75,6 @@ fun ProfileScreen(
     profileScreenVM: ProfileScreenVM,
     onSignOut: () -> Unit,
     userData: UserData?,
-    systemUiController: SystemUiController,
     preferencesManager: PreferencesManager,
     context: Context,
     scope: CoroutineScope

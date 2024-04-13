@@ -27,41 +27,39 @@ fun CategoryElement(
     title: String = "Beef",
     mainMealScreensVM: MainMealScreensVM
 ) {
-    FoodiesTheme {
-        //Check if current category chosen
-        val chosen = mainMealScreensVM.chosenCategory == title
+    //Check if current category chosen
+    val chosen = mainMealScreensVM.chosenCategory == title
 
-        val chosenBoxColor by animateColorAsState(
-            if (chosen) MaterialTheme.colorScheme.onTertiaryContainer else MaterialTheme.colorScheme.tertiaryContainer,
-            label = "animated color for box"
+    val chosenBoxColor by animateColorAsState(
+        if (chosen) MaterialTheme.colorScheme.onTertiaryContainer else MaterialTheme.colorScheme.tertiaryContainer,
+        label = "animated color for box"
+    )
+
+    val chosenTextColor = if(chosen) {
+        MaterialTheme.colorScheme.tertiary
+    } else {
+        MaterialTheme.colorScheme.onTertiary
+    }
+
+    //Category ui
+    Box(
+        modifier = Modifier
+            .fillMaxHeight()
+            .width(100.dp)
+            .shadow(2.dp, shape = RoundedCornerShape(10.dp))
+            .clip(RoundedCornerShape(10.dp))
+            .drawBehind { drawRect(chosenBoxColor) }
+            .clickable {
+                mainMealScreensVM.chosenCategory = title
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = title,
+            fontSize = 15.sp,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            color = chosenTextColor,
         )
-
-        val chosenTextColor = if(chosen) {
-            MaterialTheme.colorScheme.tertiary
-        } else {
-            MaterialTheme.colorScheme.onTertiary
-        }
-
-        //Category ui
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(100.dp)
-                .shadow(2.dp, shape = RoundedCornerShape(10.dp))
-                .clip(RoundedCornerShape(10.dp))
-                .drawBehind { drawRect(chosenBoxColor) }
-                .clickable {
-                    mainMealScreensVM.chosenCategory = title
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = title,
-                fontSize = 15.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                color = chosenTextColor,
-            )
-        }
     }
 }

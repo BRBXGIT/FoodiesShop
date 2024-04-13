@@ -35,13 +35,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.foodies.R
 import com.example.foodies.bottom_bar.presentation.noRippleClickable
-import com.google.accompanist.systemuicontroller.SystemUiController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InfoScreen(
     navController: NavHostController,
-    systemUiController: SystemUiController,
     context: Context
 ) {
     Scaffold(
@@ -74,7 +72,6 @@ fun InfoScreen(
                 .background(MaterialTheme.colorScheme.surface)
                 .padding(
                     PaddingValues(
-                        bottom = innerPadding.calculateBottomPadding(),
                         top = innerPadding.calculateTopPadding()
                     )
                 )

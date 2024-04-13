@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -19,17 +20,17 @@ class PreferencesManager(
         preferencesDataStore(name = "foodies_preferences")
 
     // Define a key for the dark mode
-    private val DARK_MODE_KEY = booleanPreferencesKey("dark_mode")
+    private val DARK_MODE_KEY = stringPreferencesKey("dark_mode")
 
     // Function to store the toggle value
-    suspend fun storeDarkMode(isOn: Boolean) {
+    suspend fun storeDarkMode(isOn: String) {
         context.dataStore.edit { preferences ->
             preferences[DARK_MODE_KEY] = isOn
         }
     }
 
     // Function to retrieve the dark mode value
-    val darkModeFlow: Flow<Boolean?> = context.dataStore.data.map { preferences ->
+    val darkModeFlow: Flow<String?> = context.dataStore.data.map { preferences ->
         preferences[DARK_MODE_KEY]
     }
 
@@ -40,7 +41,7 @@ class PreferencesManager(
         }
     }
 
-    // Function to retrieve the dark mode value
+    // Function to retrieve the "google sign in" value
     val googleSighIn: Flow<Boolean?> = context.dataStore.data.map { preferences ->
         preferences[SIGN_IN_WITH_GOOGLE_KEY]
     }
