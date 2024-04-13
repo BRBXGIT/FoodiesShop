@@ -11,11 +11,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.lifecycleScope
 import com.example.foodies.auth.google_auth.GoogleAuthUiClient
 import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.example.foodies.bottom_bar.NavGraph
 import com.example.foodies.ui.theme.FoodiesTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,15 +27,20 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var googleAuthUiClient: GoogleAuthUiClient
 
     @Inject lateinit var preferencesManager: PreferencesManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
-            val darkTheme = preferencesManager.darkModeFlow.collectAsState(initial = isSystemInDarkTheme()).value
-            val isDarkTheme = darkTheme ?: isSystemInDarkTheme()
+            val darkTheme = preferencesManager.darkModeFlow.collectAsState(initial = null).value
 
             FoodiesTheme(
-                darkTheme = isDarkTheme
+                darkTheme = if((darkTheme == null) || (darkTheme == "system")) {
+                    isSystemInDarkTheme()
+                } else if(darkTheme == "light") {
+                    false
+                } else {
+                    true
+                }
             ) {
                 NavGraph(
                     googleAuthUiClient = googleAuthUiClient,

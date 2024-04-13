@@ -37,6 +37,7 @@ import com.example.foodies.auth.presentation.auth_screens.presentation.Registrat
 import com.example.foodies.auth.presentation.auth_screens.presentation.SignInEmailVM
 import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.example.foodies.info_screen.presentation.InfoScreen
+import com.example.foodies.settings_screen.presentation.SettingsScreen
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
@@ -143,7 +144,6 @@ fun NavGraph(
                         navController.navigate("login_screen")
                     }
                 },
-                systemUiController = systemUiController,
                 userData = googleAuthUiClient.getSignedInUser(),
                 preferencesManager = preferencesManager,
                 context = context,
@@ -286,9 +286,35 @@ fun NavGraph(
 
             InfoScreen(
                 navController = navController,
-                systemUiController = systemUiController,
                 context = context
             )
         }
+
+        composable(
+            route = "settings_screen",
+            enterTransition = { slideInHorizontally(
+                initialOffsetX = { 1000 },
+                animationSpec = tween(
+                    durationMillis = 500,
+                )
+            ) + fadeIn(tween(500)) },
+            popExitTransition = { slideOutHorizontally(
+                targetOffsetX = { 1000 },
+                animationSpec = tween(
+                    durationMillis = 500
+                )
+            ) + fadeOut(tween(500)) }
+        ) {
+
+            systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
+            systemUiController.setNavigationBarColor(MaterialTheme.colorScheme.surface)
+
+            SettingsScreen(
+                navController = navController,
+                preferencesManager = preferencesManager,
+                scope = scope
+            )
+        }
+
     }
 }

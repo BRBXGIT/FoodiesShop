@@ -69,6 +69,9 @@ fun ProfileElement(
                 if(section == "Информация") {
                     navController.navigate("info_screen")
                 }
+                if(section == "Настройки") {
+                    navController.navigate("settings_screen")
+                }
             }
             .padding(start = 16.dp, end = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
