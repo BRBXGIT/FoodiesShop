@@ -196,7 +196,7 @@ fun RegistrationScreen(
         Button(
             onClick = {
                 onSignInClick()
-                preferencesManager.saveData("googleSignIn", true)
+                scope.launch { preferencesManager.storeGoogleSignIn(true) }
             },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier

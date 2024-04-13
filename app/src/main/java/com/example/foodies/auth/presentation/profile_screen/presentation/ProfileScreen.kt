@@ -36,6 +36,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -80,10 +81,10 @@ fun ProfileScreen(
     scope: CoroutineScope
 ) {
     //Check if user sign in with google
-    val signInWithGoogle = preferencesManager.getData("googleSignIn", false)
+    val signInWithGoogle = preferencesManager.googleSighIn.collectAsState(initial = false).value
 
     var user by remember { mutableStateOf(
-        if(signInWithGoogle) {
+        if(signInWithGoogle!!) {
             User(
                 profilePictureUrl = userData?.profilePictureUrl,
                 userName = userData?.userName
@@ -183,7 +184,7 @@ fun ProfileScreen(
                         )
                         .clickable {
                             //If user sign in with google, he can't change profile picture'
-                            if (signInWithGoogle) {
+                            if (signInWithGoogle!!) {
                                 showToast(
                                     context,
                                     "Добавить фото можно только с аккаунта приложения"
@@ -235,7 +236,7 @@ fun ProfileScreen(
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(onDone = {
                         focusManager.clearFocus()
-                        if (signInWithGoogle) {
+                        if (signInWithGoogle!!) {
                             showToast(context, "Изменить имя можно только с аккаунта приложения")
                         } else {
                             scope.launch {
@@ -266,7 +267,7 @@ fun ProfileScreen(
                     icon = R.drawable.ic_logout,
                     section = "Выйти из аккаунта",
                     onSignOut = onSignOut,
-                    signInWithGoogle = signInWithGoogle,
+                    signInWithGoogle = signInWithGoogle!!,
                     navController = navController
                 )
             }

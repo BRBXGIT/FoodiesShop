@@ -3,11 +3,20 @@ package com.example.foodies
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.Button
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import com.example.foodies.auth.google_auth.GoogleAuthUiClient
 import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.example.foodies.bottom_bar.NavGraph
 import com.example.foodies.ui.theme.FoodiesTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -19,7 +28,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            FoodiesTheme {
+
+            val darkTheme = preferencesManager.darkModeFlow.collectAsState(initial = isSystemInDarkTheme()).value
+            val isDarkTheme = darkTheme ?: isSystemInDarkTheme()
+
+            FoodiesTheme(
+                darkTheme = isDarkTheme
+            ) {
                 NavGraph(
                     googleAuthUiClient = googleAuthUiClient,
                     preferencesManager = preferencesManager

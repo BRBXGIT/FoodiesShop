@@ -1,23 +1,47 @@
 package com.example.foodies.auth.presentation.profile_screen.data
 
 import android.content.Context
-import android.content.SharedPreferences
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 //This is used for saving what king of sign in method was used
 class PreferencesManager(
-    context: Context
+    private val context: Context
 ) {
 
-    private val sharedPreferences: SharedPreferences =
-        context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+    // Define a DataStore for user preferences
+    private val Context.dataStore: DataStore<Preferences> by
+        preferencesDataStore(name = "foodies_preferences")
 
-    fun saveData(key: String, value: Boolean) {
-        val editor = sharedPreferences.edit()
-        editor.putBoolean(key, value)
-        editor.apply()
+    // Define a key for the dark mode
+    private val DARK_MODE_KEY = booleanPreferencesKey("dark_mode")
+
+    // Function to store the toggle value
+    suspend fun storeDarkMode(isOn: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[DARK_MODE_KEY] = isOn
+        }
     }
 
-    fun getData(key: String, defaultValue: Boolean): Boolean {
-        return sharedPreferences.getBoolean(key, defaultValue)
+    // Function to retrieve the dark mode value
+    val darkModeFlow: Flow<Boolean?> = context.dataStore.data.map { preferences ->
+        preferences[DARK_MODE_KEY]
+    }
+
+    private val SIGN_IN_WITH_GOOGLE_KEY = booleanPreferencesKey("sign_in_with_google")
+    suspend fun storeGoogleSignIn(isOn: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[SIGN_IN_WITH_GOOGLE_KEY] = isOn
+        }
+    }
+
+    // Function to retrieve the dark mode value
+    val googleSighIn: Flow<Boolean?> = context.dataStore.data.map { preferences ->
+        preferences[SIGN_IN_WITH_GOOGLE_KEY]
     }
 }

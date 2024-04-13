@@ -147,7 +147,7 @@ fun LoginScreen(
                     scope.launch {
                         if(signInEmailVM.signInWithEmail(email, password)) {
                             showToast(context, "Вы успешно авторизовались")
-                            preferencesManager.saveData("googleSignIn", false)
+                            preferencesManager.storeGoogleSignIn(false)
                             navController.navigate("main_screen")
                         } else {
                             showToast(context, "Ошибка при авторизации")
@@ -208,7 +208,7 @@ fun LoginScreen(
         Button(
             onClick = {
                 onSignInClick()
-                preferencesManager.saveData("googleSignIn", true)
+                scope.launch { preferencesManager.storeGoogleSignIn(true) }
             },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
