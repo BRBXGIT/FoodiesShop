@@ -102,8 +102,8 @@ fun NavGraph(
         "light" -> false
         else -> true
     }
-    val enterAnimation = fadeIn(tween(300))
-    val exitAnimation = fadeOut(tween(300))
+    val enterAnimation = fadeIn(tween(500))
+    val exitAnimation = fadeOut(tween(500))
 
     NavHost(
         navController = navController,
