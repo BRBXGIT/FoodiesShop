@@ -4,41 +4,40 @@ import android.app.Activity.RESULT_OK
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
-import com.example.foodies.main_meal_screens.presentation.MainMealScreensVM
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.foodies.auth.google_auth.GoogleAuthUiClient
-import com.example.foodies.auth.presentation.profile_screen.presentation.ProfileScreenVM
 import com.example.foodies.auth.presentation.SignInGoogleVM
 import com.example.foodies.auth.presentation.auth_screens.presentation.LoginScreen
-import com.example.foodies.cart_screen.presentation.CartScreen
-import com.example.foodies.cart_screen.presentation.CartScreenVM
-import com.example.foodies.main_meal_screens.presentation.main_screen.MainScreen
-import com.example.foodies.main_meal_screens.presentation.meal_screen.MealScreen
-import com.example.foodies.auth.presentation.profile_screen.presentation.ProfileScreen
 import com.example.foodies.auth.presentation.auth_screens.presentation.RegistrationScreen
 import com.example.foodies.auth.presentation.auth_screens.presentation.SignInEmailVM
 import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
+import com.example.foodies.auth.presentation.profile_screen.presentation.ProfileScreen
+import com.example.foodies.auth.presentation.profile_screen.presentation.ProfileScreenVM
+import com.example.foodies.cart_screen.presentation.CartScreen
+import com.example.foodies.cart_screen.presentation.CartScreenVM
 import com.example.foodies.info_screen.presentation.InfoScreen
+import com.example.foodies.main_meal_screens.presentation.MainMealScreensVM
+import com.example.foodies.main_meal_screens.presentation.main_screen.MainScreen
+import com.example.foodies.main_meal_screens.presentation.meal_screen.MealScreen
 import com.example.foodies.settings_screen.presentation.SettingsScreen
-import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 
@@ -96,6 +95,16 @@ fun NavGraph(
         }
     }
 
+    val darkTheme = preferencesManager.darkModeFlow.collectAsState(initial = null).value
+    val enabledDarkTheme = when(darkTheme) {
+        null -> isSystemInDarkTheme()
+        "system" -> isSystemInDarkTheme()
+        "light" -> false
+        else -> true
+    }
+    val enterAnimation = fadeIn(tween(300))
+    val exitAnimation = fadeOut(tween(300))
+
     NavHost(
         navController = navController,
         startDestination = startDestination
@@ -103,12 +112,8 @@ fun NavGraph(
         //Main screen composable
         composable(
             route = "main_screen",
-            enterTransition = {
-                fadeIn(tween(500))
-            },
-            exitTransition = {
-                fadeOut(tween(500))
-            }
+            enterTransition = {enterAnimation},
+            exitTransition = {exitAnimation}
         ) {
 
             systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
@@ -124,12 +129,8 @@ fun NavGraph(
         //Profile screen composable
         composable(
             route = "profile_screen",
-            enterTransition = {
-                fadeIn(tween(500))
-            },
-            exitTransition = {
-                fadeOut(tween(500))
-            }
+            enterTransition = {enterAnimation},
+            exitTransition = {exitAnimation}
         ) {
 
             systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
@@ -154,12 +155,8 @@ fun NavGraph(
         //Cart screen composable
         composable(
             route = "cart_screen",
-            enterTransition = {
-                fadeIn(tween(500))
-            },
-            exitTransition = {
-                fadeOut(tween(500))
-            }
+            enterTransition = {enterAnimation},
+            exitTransition = {exitAnimation}
         ) {
 
             systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
@@ -176,18 +173,8 @@ fun NavGraph(
         //Meal screen composable
         composable(
             route = "meal_screen",
-            enterTransition = { slideInHorizontally(
-                initialOffsetX = { 1000 },
-                animationSpec = tween(
-                    durationMillis = 500,
-                )
-            ) + fadeIn(tween(500)) },
-            popExitTransition = { slideOutHorizontally(
-                targetOffsetX = { 1000 },
-                animationSpec = tween(
-                    durationMillis = 500
-                )
-            ) + fadeOut(tween(500)) }
+            enterTransition = {enterAnimation},
+            exitTransition = {exitAnimation}
         ) {
 
             systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
@@ -204,12 +191,8 @@ fun NavGraph(
         //Login screen composable
         composable(
             route = "login_screen",
-            enterTransition = {
-                fadeIn(tween(500))
-            },
-            exitTransition = {
-                fadeOut(tween(500))
-            }
+            enterTransition = {enterAnimation},
+            exitTransition = {exitAnimation}
         ) {
 
             systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
@@ -236,12 +219,8 @@ fun NavGraph(
 
         composable(
             route = "registration_screen",
-            enterTransition = {
-                fadeIn(tween(500))
-            },
-            exitTransition = {
-                fadeOut(tween(500))
-            }
+            enterTransition = {enterAnimation},
+            exitTransition = {exitAnimation}
         ) {
 
             systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
@@ -267,18 +246,8 @@ fun NavGraph(
 
         composable(
             route = "info_screen",
-            enterTransition = { slideInHorizontally(
-                initialOffsetX = { 1000 },
-                animationSpec = tween(
-                    durationMillis = 500,
-                )
-            ) + fadeIn(tween(500)) },
-            popExitTransition = { slideOutHorizontally(
-                targetOffsetX = { 1000 },
-                animationSpec = tween(
-                    durationMillis = 500
-                )
-            ) + fadeOut(tween(500)) }
+            enterTransition = {enterAnimation},
+            exitTransition = {exitAnimation}
         ) {
 
             systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
@@ -292,18 +261,8 @@ fun NavGraph(
 
         composable(
             route = "settings_screen",
-            enterTransition = { slideInHorizontally(
-                initialOffsetX = { 1000 },
-                animationSpec = tween(
-                    durationMillis = 500,
-                )
-            ) + fadeIn(tween(500)) },
-            popExitTransition = { slideOutHorizontally(
-                targetOffsetX = { 1000 },
-                animationSpec = tween(
-                    durationMillis = 500
-                )
-            ) + fadeOut(tween(500)) }
+            enterTransition = {enterAnimation},
+            exitTransition = {exitAnimation}
         ) {
 
             systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
@@ -315,6 +274,5 @@ fun NavGraph(
                 scope = scope
             )
         }
-
     }
 }
