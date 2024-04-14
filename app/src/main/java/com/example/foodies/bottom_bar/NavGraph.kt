@@ -123,7 +123,7 @@ fun NavGraph(
             popEnterTransition = { fadeIn(tween(400)) }
         ) {
 
-            systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
+            systemUiController.setStatusBarColor(MaterialTheme.colorScheme.tertiaryContainer)
             systemUiController.setNavigationBarColor(MaterialTheme.colorScheme.background)
 
             ProfileScreen(
@@ -150,7 +150,7 @@ fun NavGraph(
             popEnterTransition = { fadeIn(tween(400)) }
         ) {
 
-            systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
+            systemUiController.setStatusBarColor(MaterialTheme.colorScheme.tertiaryContainer)
             systemUiController.setNavigationBarColor(MaterialTheme.colorScheme.background)
 
             CartScreen(
@@ -240,7 +240,7 @@ fun NavGraph(
             popExitTransition = { fadeOut(tween(400)) },
         ) {
 
-            systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
+            systemUiController.setStatusBarColor(MaterialTheme.colorScheme.tertiaryContainer)
             systemUiController.setNavigationBarColor(MaterialTheme.colorScheme.surface)
 
             InfoScreen(
@@ -255,7 +255,7 @@ fun NavGraph(
             popExitTransition = { fadeOut(tween(400)) },
         ) {
 
-            systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
+            systemUiController.setStatusBarColor(MaterialTheme.colorScheme.tertiaryContainer)
             systemUiController.setNavigationBarColor(MaterialTheme.colorScheme.surface)
 
             SettingsScreen(
