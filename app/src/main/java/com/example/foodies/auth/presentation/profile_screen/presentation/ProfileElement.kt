@@ -46,6 +46,7 @@ fun ProfileElement(
             onDismissRequest = { openQuitDialog = false },
             onConfirmation = {
                 if (signInWithGoogle) {
+                    openQuitDialog = false
                     onSignOut()
                 } else {
                     openQuitDialog = false

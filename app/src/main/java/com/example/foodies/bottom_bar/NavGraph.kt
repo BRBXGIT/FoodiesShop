@@ -4,9 +4,12 @@ import android.app.Activity.RESULT_OK
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -94,14 +97,6 @@ fun NavGraph(
     }
 
     val darkTheme = preferencesManager.darkModeFlow.collectAsState(initial = null).value
-    val enabledDarkTheme = when(darkTheme) {
-        null -> isSystemInDarkTheme()
-        "system" -> isSystemInDarkTheme()
-        "light" -> false
-        else -> true
-    }
-    val enterAnimation = fadeIn(tween(500))
-    val exitAnimation = fadeOut(tween(500))
 
     NavHost(
         navController = navController,
@@ -110,8 +105,9 @@ fun NavGraph(
         //Main screen composable
         composable(
             route = "main_screen",
-            enterTransition = {enterAnimation},
-            exitTransition = {exitAnimation}
+            enterTransition = { fadeIn(tween(400)) },
+            exitTransition = { fadeOut(tween(400)) },
+            popEnterTransition = { fadeIn(tween(400)) }
         ) {
 
             systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
@@ -127,8 +123,9 @@ fun NavGraph(
         //Profile screen composable
         composable(
             route = "profile_screen",
-            enterTransition = {enterAnimation},
-            exitTransition = {exitAnimation}
+            enterTransition = { fadeIn(tween(400)) },
+            exitTransition = { fadeOut(tween(400)) },
+            popEnterTransition = { fadeIn(tween(400)) }
         ) {
 
             systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
@@ -153,8 +150,9 @@ fun NavGraph(
         //Cart screen composable
         composable(
             route = "cart_screen",
-            enterTransition = {enterAnimation},
-            exitTransition = {exitAnimation}
+            enterTransition = { fadeIn(tween(400)) },
+            exitTransition = { fadeOut(tween(400)) },
+            popEnterTransition = { fadeIn(tween(400)) }
         ) {
 
             systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
@@ -170,8 +168,8 @@ fun NavGraph(
         //Meal screen composable
         composable(
             route = "meal_screen",
-            enterTransition = {enterAnimation},
-            exitTransition = {exitAnimation}
+            enterTransition = { fadeIn(tween(350)) },
+            popExitTransition = { fadeOut(tween(350)) },
         ) {
 
             systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
@@ -188,8 +186,8 @@ fun NavGraph(
         //Login screen composable
         composable(
             route = "login_screen",
-            enterTransition = {enterAnimation},
-            exitTransition = {exitAnimation}
+            enterTransition = { fadeIn(tween(400)) },
+            exitTransition = { fadeOut(tween(400)) }
         ) {
 
             systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
@@ -216,8 +214,8 @@ fun NavGraph(
 
         composable(
             route = "registration_screen",
-            enterTransition = {enterAnimation},
-            exitTransition = {exitAnimation}
+            enterTransition = { fadeIn(tween(400)) },
+            exitTransition = { fadeOut(tween(400)) }
         ) {
 
             systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
@@ -243,8 +241,8 @@ fun NavGraph(
 
         composable(
             route = "info_screen",
-            enterTransition = {enterAnimation},
-            exitTransition = {exitAnimation}
+            enterTransition = { fadeIn(tween(400)) },
+            popExitTransition = { fadeOut(tween(400)) },
         ) {
 
             systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
@@ -258,8 +256,8 @@ fun NavGraph(
 
         composable(
             route = "settings_screen",
-            enterTransition = {enterAnimation},
-            exitTransition = {exitAnimation}
+            enterTransition = { fadeIn(tween(400)) },
+            popExitTransition = { fadeOut(tween(400)) },
         ) {
 
             systemUiController.setStatusBarColor(MaterialTheme.colorScheme.surface)
