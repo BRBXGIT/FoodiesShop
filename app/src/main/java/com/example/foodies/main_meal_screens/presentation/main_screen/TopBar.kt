@@ -40,13 +40,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.foodies.R
+import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.example.foodies.main_meal_screens.presentation.MainMealScreensVM
+import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TopBar(
     visible: Boolean,
-    mainMealScreensVM: MainMealScreensVM
+    mainMealScreensVM: MainMealScreensVM,
+    preferencesManager: PreferencesManager,
+    scope: CoroutineScope
 ) {
     //Main column
     Column(
@@ -62,24 +66,10 @@ fun TopBar(
                 .background(MaterialTheme.colorScheme.surface)
                 .padding(start = 16.dp, end = 16.dp)
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Text(
-                    text = "Москва",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_arrow_down),
-                    contentDescription = "show more arrow icon",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(14.dp),
-                )
-            }
+            CityDropDownMenu(
+                preferencesManager = preferencesManager,
+                scope = scope
+            )
 
             Icon(
                 painter = painterResource(id = R.drawable.ic_qr),
@@ -87,7 +77,6 @@ fun TopBar(
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(28.dp)
             )
-
         }
 
         //Pager with banners

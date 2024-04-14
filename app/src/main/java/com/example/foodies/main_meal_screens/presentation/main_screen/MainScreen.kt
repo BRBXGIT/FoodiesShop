@@ -20,17 +20,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation.NavHostController
+import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.example.foodies.bottom_bar.presentation.BottomBar
 import com.example.foodies.main_meal_screens.data.remote.meal.Meal
 import com.example.foodies.main_meal_screens.presentation.MainMealScreensVM
 import com.google.accompanist.systemuicontroller.SystemUiController
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun MainScreen(
     mainMealScreensVM: MainMealScreensVM,
     navController: NavHostController,
-    systemUiController: SystemUiController,
+    preferencesManager: PreferencesManager,
+    scope: CoroutineScope
 ) {
     //Check visible of advertising banners
     val state = rememberLazyListState()
@@ -46,7 +50,9 @@ fun MainScreen(
         Column {
             TopBar(
                 visible = visible,
-                mainMealScreensVM = mainMealScreensVM
+                mainMealScreensVM = mainMealScreensVM,
+                preferencesManager = preferencesManager,
+                scope = scope
             )
 
             //Get meals from api

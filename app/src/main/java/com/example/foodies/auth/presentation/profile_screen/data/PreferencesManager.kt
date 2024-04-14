@@ -15,21 +15,21 @@ class PreferencesManager(
     private val context: Context
 ) {
 
-    // Define a DataStore for user preferences
+    //Define a DataStore for user preferences
     private val Context.dataStore: DataStore<Preferences> by
         preferencesDataStore(name = "foodies_preferences")
 
-    // Define a key for the dark mode
+    //Define a key for the dark mode
     private val DARK_MODE_KEY = stringPreferencesKey("dark_mode")
 
-    // Function to store the toggle value
+    //Function to store the toggle value
     suspend fun storeDarkMode(isOn: String) {
         context.dataStore.edit { preferences ->
             preferences[DARK_MODE_KEY] = isOn
         }
     }
 
-    // Function to retrieve the dark mode value
+    //Function to retrieve the dark mode value
     val darkModeFlow: Flow<String?> = context.dataStore.data.map { preferences ->
         preferences[DARK_MODE_KEY]
     }
@@ -41,8 +41,22 @@ class PreferencesManager(
         }
     }
 
-    // Function to retrieve the "google sign in" value
+    //Function to retrieve the "google sign in" value
     val googleSighIn: Flow<Boolean?> = context.dataStore.data.map { preferences ->
         preferences[SIGN_IN_WITH_GOOGLE_KEY]
+    }
+
+    private val CITY_KEY = stringPreferencesKey("city_name")
+
+    // Function to store the toggle value
+    suspend fun storeCityName(name: String) {
+        context.dataStore.edit { preferences ->
+            preferences[CITY_KEY] = name
+        }
+    }
+
+    //Function to retrieve the city name value
+    val cityNameFlow: Flow<String?> = context.dataStore.data.map { preferences ->
+        preferences[CITY_KEY]
     }
 }

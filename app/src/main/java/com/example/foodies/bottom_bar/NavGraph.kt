@@ -111,7 +111,8 @@ fun NavGraph(
             MainScreen(
                 mainMealScreensVM = mainMealScreensVM,
                 navController = navController,
-                systemUiController = systemUiController,
+                preferencesManager = preferencesManager,
+                scope = scope
             )
         }
 
