@@ -34,6 +34,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.foodies.R
+import com.example.foodies.basic_top_bar.presentation.BasicTopBar
 import com.example.foodies.bottom_bar.presentation.noRippleClickable
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,25 +45,9 @@ fun InfoScreen(
 ) {
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text(text = "Информация") },
-                navigationIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_arrow_left),
-                        contentDescription = "Navigation icon",
-                        modifier = Modifier
-                            .noRippleClickable {
-                                navController.popBackStack()
-                            }
-                            .padding(start = 16.dp)
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                    navigationIconContentColor = MaterialTheme.colorScheme.tertiary
-                ),
-                modifier = Modifier.shadow(4.dp)
+            BasicTopBar(
+                navController = navController,
+                title = "Информация"
             )
         }
     ) { innerPadding ->

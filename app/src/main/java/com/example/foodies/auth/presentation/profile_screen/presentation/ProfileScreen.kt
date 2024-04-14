@@ -57,6 +57,7 @@ import com.example.foodies.R
 import com.example.foodies.auth.google_auth.UserData
 import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.example.foodies.auth.presentation.profile_screen.data.User
+import com.example.foodies.basic_top_bar.presentation.BasicTopBar
 import com.example.foodies.bottom_bar.presentation.BottomBar
 import com.example.foodies.bottom_bar.presentation.noRippleClickable
 import kotlinx.coroutines.CoroutineScope
@@ -123,25 +124,9 @@ fun ProfileScreen(
             BottomBar(navController = navController)
         },
         topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text(text = "Профиль") },
-                navigationIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_arrow_left),
-                        contentDescription = "Navigation icon",
-                        modifier = Modifier
-                            .noRippleClickable {
-                                navController.popBackStack()
-                            }
-                            .padding(start = 16.dp)
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                    navigationIconContentColor = MaterialTheme.colorScheme.tertiary
-                ),
-                modifier = Modifier.shadow(4.dp)
+            BasicTopBar(
+                navController = navController,
+                title = "Профиль",
             )
         }
     ) { innerPadding ->
@@ -178,7 +163,10 @@ fun ProfileScreen(
                         .clickable {
                             //If user sign in with google, he can't change profile picture'
                             if (signInWithGoogle!!) {
-                                showToast(context, "Добавить фото можно только с аккаунта приложения")
+                                showToast(
+                                    context,
+                                    "Добавить фото можно только с аккаунта приложения"
+                                )
                             } else {
                                 singlePhotoPickerLauncher.launch(
                                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
