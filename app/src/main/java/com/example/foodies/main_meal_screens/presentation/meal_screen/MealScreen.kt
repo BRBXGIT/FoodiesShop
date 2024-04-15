@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
@@ -141,14 +142,14 @@ fun MealScreen(
             //Box with image
             Box(
                 modifier = Modifier
-                    .fillMaxHeight(MaterialTheme.dimens.mealScreenImage)
+                    .fillMaxHeight(MaterialTheme.dimens.mealScreenImageBoxHeight)
                     .fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
                         .padding(top = 8.dp)
-                        .fillMaxSize(0.8f)
+                        .size(MaterialTheme.dimens.mealScreenImageSize)
                         .clip(CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
