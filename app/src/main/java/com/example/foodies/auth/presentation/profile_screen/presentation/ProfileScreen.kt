@@ -235,7 +235,9 @@ fun ProfileScreen(
             }
 
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 16.dp)
             ) {
                 HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.surfaceTint)
 
