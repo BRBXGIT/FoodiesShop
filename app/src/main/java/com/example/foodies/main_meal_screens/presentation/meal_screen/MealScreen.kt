@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -143,13 +144,14 @@ fun MealScreen(
             Box(
                 modifier = Modifier
                     .fillMaxHeight(MaterialTheme.dimens.mealScreenImageBoxHeight)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
-                        .padding(top = 8.dp)
-                        .size(MaterialTheme.dimens.mealScreenImageSize)
+                        .aspectRatio(1f)
+                        .fillMaxSize()
                         .clip(CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
