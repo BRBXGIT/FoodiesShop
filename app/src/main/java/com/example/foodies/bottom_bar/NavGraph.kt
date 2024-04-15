@@ -201,7 +201,6 @@ fun NavGraph(
                         )
                     }
                 },
-                systemUiController = systemUiController,
                 navController = navController,
                 signInEmailVM = signInEmailVM,
                 preferencesManager = preferencesManager

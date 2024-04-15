@@ -1,7 +1,6 @@
 package com.example.foodies.main_meal_screens.presentation.main_screen
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -35,7 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.foodies.auth.presentation.profile_screen.presentation.showToast
 import com.example.foodies.main_meal_screens.presentation.MainMealScreensVM
+import com.example.foodies.ui.theme.dimens
 
 @SuppressLint("InvalidColorHexValue")
 @Composable
@@ -55,15 +55,13 @@ fun MealElement(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(210.dp)
+            .height(MaterialTheme.dimens.mealBoxHeight)
             .clickable {
                 if (mainMealScreensVM.internetConnection) {
                     mainMealScreensVM.getMealByName(name = title)
                     navController.navigate("meal_screen")
                 } else {
-                    Toast
-                        .makeText(context, "Ups, you need internet connection", Toast.LENGTH_LONG)
-                        .show()
+                    showToast(context, "Упс, нет интернета")
                 }
             }
             .padding(start = 16.dp, end = 16.dp, bottom = 24.dp, top = 24.dp),

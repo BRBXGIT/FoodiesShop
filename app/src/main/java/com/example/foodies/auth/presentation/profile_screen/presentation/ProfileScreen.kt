@@ -60,6 +60,7 @@ import com.example.foodies.auth.presentation.profile_screen.data.User
 import com.example.foodies.basic_top_bar.presentation.BasicTopBar
 import com.example.foodies.bottom_bar.presentation.BottomBar
 import com.example.foodies.bottom_bar.presentation.noRippleClickable
+import com.example.foodies.ui.theme.dimens
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -145,9 +146,9 @@ fun ProfileScreen(
             //Box with image
             Column(
                 modifier = Modifier
-                    .fillMaxHeight(0.4f)
+                    .fillMaxHeight(MaterialTheme.dimens.profileScreenUserBlockSize)
                     .fillMaxWidth()
-                    .padding(top = 8.dp),
+                    .padding(top = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {

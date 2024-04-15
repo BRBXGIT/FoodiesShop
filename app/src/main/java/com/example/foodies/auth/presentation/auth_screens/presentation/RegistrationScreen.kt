@@ -47,6 +47,7 @@ import androidx.navigation.NavHostController
 import com.example.foodies.R
 import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.example.foodies.auth.presentation.profile_screen.presentation.showToast
+import com.example.foodies.ui.theme.dimens
 import com.google.accompanist.systemuicontroller.SystemUiController
 import kotlinx.coroutines.launch
 
@@ -85,7 +86,7 @@ fun RegistrationScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(75.dp))
+        Spacer(modifier = Modifier.height(MaterialTheme.dimens.logRegScreensUpSpacer))
 
         //Column with textFields
         var email by rememberSaveable { mutableStateOf("") }
@@ -127,7 +128,7 @@ fun RegistrationScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(75.dp))
+        Spacer(modifier = Modifier.height(MaterialTheme.dimens.logRegScreensUpSpacer))
 
         //Button to register in
         Button(
@@ -162,7 +163,7 @@ fun RegistrationScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(37.5.dp))
+        Spacer(modifier = Modifier.height(MaterialTheme.dimens.logRegScreensSpacer))
 
         //Row with dividers and or text
         Row(
@@ -190,7 +191,7 @@ fun RegistrationScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(37.5.dp))
+        Spacer(modifier = Modifier.height(MaterialTheme.dimens.logRegScreensSpacer))
 
         //Button for sign in with google
         Button(

@@ -48,6 +48,7 @@ import com.example.foodies.cart_screen.data.db.CartMeal
 import com.example.foodies.cart_screen.presentation.CartScreenVM
 import com.example.foodies.main_meal_screens.data.remote.meal.Meal
 import com.example.foodies.main_meal_screens.presentation.MainMealScreensVM
+import com.example.foodies.ui.theme.dimens
 import com.google.accompanist.systemuicontroller.SystemUiController
 import kotlin.reflect.full.memberProperties
 
@@ -140,15 +141,14 @@ fun MealScreen(
             //Box with image
             Box(
                 modifier = Modifier
-                    .fillMaxHeight(0.4f)
+                    .fillMaxHeight(MaterialTheme.dimens.mealScreenImage)
                     .fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
                         .padding(top = 8.dp)
-                        .fillMaxHeight()
-                        .fillMaxWidth(0.8f)
+                        .fillMaxSize(0.8f)
                         .clip(CircleShape),
                     contentAlignment = Alignment.Center
                 ) {

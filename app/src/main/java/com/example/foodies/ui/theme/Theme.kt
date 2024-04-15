@@ -1,12 +1,20 @@
 package com.example.foodies.ui.theme
 
+import android.app.Activity
 import android.os.Build
+import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import com.example.foodies.MainActivity
 
 private val DarkColorScheme = darkColorScheme(
     surface = Color(0xff101010), //All surface
@@ -38,11 +46,13 @@ private val LightColorScheme = lightColorScheme(
     outline = Color(0xFFF897B0)
 )
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun FoodiesTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
+    activity: Activity = LocalContext.current as MainActivity,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -54,9 +64,36 @@ fun FoodiesTheme(
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    val window = calculateWindowSizeClass(activity = activity)
+    val config = LocalConfiguration.current
+
+    var appDimens = compactMediumDimens
+
+    when(window.widthSizeClass) {
+        WindowWidthSizeClass.Compact -> {
+            appDimens = if((config.screenHeightDp) <= 640) {
+                compactSmallDimens
+            } else if((config.screenHeightDp) <= 800) {
+                compactSmallMediumDimens
+            } else if((config.screenHeightDp) <= 920) {
+                compactMediumDimens
+            } else {
+                compactLargeDimens
+            }
+        }
+    }
+
+    Log.d("XXXX", config.screenHeightDp.toString())
+
+    AppUtils(appDimens = appDimens) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }
+
+val MaterialTheme.dimens
+    @Composable
+    get() = LocalAppDimens.current

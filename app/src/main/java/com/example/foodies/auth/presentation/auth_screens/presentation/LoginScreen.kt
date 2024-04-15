@@ -49,6 +49,7 @@ import com.example.foodies.R
 import com.example.foodies.auth.google_auth.SignInState
 import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
 import com.example.foodies.auth.presentation.profile_screen.presentation.showToast
+import com.example.foodies.ui.theme.dimens
 import com.google.accompanist.systemuicontroller.SystemUiController
 import kotlinx.coroutines.launch
 
@@ -57,7 +58,6 @@ import kotlinx.coroutines.launch
 fun LoginScreen(
     googleState: SignInState,
     onSignInClick: () -> Unit,
-    systemUiController: SystemUiController,
     navController: NavHostController,
     signInEmailVM: SignInEmailVM,
     preferencesManager: PreferencesManager
@@ -95,7 +95,7 @@ fun LoginScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(75.dp))
+        Spacer(modifier = Modifier.height(MaterialTheme.dimens.logRegScreensUpSpacer))
 
         //Column with textFields
         var password by rememberSaveable { mutableStateOf("") }
@@ -138,7 +138,7 @@ fun LoginScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(75.dp))
+        Spacer(modifier = Modifier.height(MaterialTheme.dimens.logRegScreensUpSpacer))
 
         //Button to sign in
         Button(
@@ -174,7 +174,7 @@ fun LoginScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(37.5.dp))
+        Spacer(modifier = Modifier.height(MaterialTheme.dimens.logRegScreensSpacer))
 
         //Row with dividers and or text
         Row(
@@ -202,7 +202,7 @@ fun LoginScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(37.5.dp))
+        Spacer(modifier = Modifier.height(MaterialTheme.dimens.logRegScreensSpacer))
 
         //Button for sign in with google
         Button(
