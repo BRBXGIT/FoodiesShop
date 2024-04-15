@@ -104,7 +104,11 @@ class MainMealScreensVM @Inject constructor(
     var mealByName by mutableStateOf(MealList(listOf(Meal())))
     fun getMealByName(name: String) {
         viewModelScope.launch {
-            mealByName = mealRepositoryImpl.getMealByName(name).body()!!
+            try {
+                mealByName = mealRepositoryImpl.getMealByName(name).body()!!
+            } catch(e: Exception) {
+                Log.d("package:mine", e.toString())
+            }
         }
     }
 }

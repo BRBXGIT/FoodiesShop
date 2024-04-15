@@ -28,6 +28,7 @@ import com.example.foodies.main_meal_screens.data.remote.meal.Meal
 import com.example.foodies.main_meal_screens.presentation.MainMealScreensVM
 import com.google.accompanist.systemuicontroller.SystemUiController
 import kotlinx.coroutines.CoroutineScope
+import kotlin.reflect.full.memberProperties
 
 @Composable
 fun MainScreen(
@@ -92,11 +93,20 @@ fun MainScreen(
                 if(mainMealScreensVM.internetConnection) {
                     items(meals) { meal ->
 
-                        //Hardcode again, i described this method in ViewModel
-                        val ingredients = "${meal.strIngredient1}, " +
-                                "${meal.strIngredient2}, " +
-                                "${meal.strIngredient3}, " +
-                                "${meal.strIngredient4}... "
+                        //Iterate over data class and add values to ingredients
+                        var ingredients = ""
+                        for(ingredient in Meal::class.memberProperties) {
+                            if(ingredient.name.take(13) == "strIngredient") {
+                                if((ingredient.get(meal) != "") && ingredient.get(meal) != null) {
+                                    ingredients += if(ingredients.isNotEmpty()) {
+                                        "${ingredient.get(meal)}, ".lowercase()
+                                    } else {
+                                        "${ingredient.get(meal)}, "
+                                    }
+                                }
+                            }
+                        }
+                        ingredients = ingredients.dropLast(2)
 
                         MealElement(
                             image = meal.strMealThumb,

@@ -57,7 +57,7 @@ fun MealElement(
             .fillMaxWidth()
             .height(MaterialTheme.dimens.mealBoxHeight)
             .clickable {
-                if (mainMealScreensVM.internetConnection) {
+                if(mainMealScreensVM.internetConnection) {
                     mainMealScreensVM.getMealByName(name = title)
                     navController.navigate("meal_screen")
                 } else {

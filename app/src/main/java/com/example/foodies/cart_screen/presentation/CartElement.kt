@@ -1,5 +1,6 @@
 package com.example.foodies.cart_screen.presentation
 
+import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -37,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.foodies.R
+import com.example.foodies.auth.presentation.profile_screen.presentation.showToast
 import com.example.foodies.cart_screen.data.db.CartMeal
 import com.example.foodies.main_meal_screens.presentation.MainMealScreensVM
 
@@ -46,7 +49,8 @@ fun LazyItemScope.CartElement(
     cartMeal: CartMeal,
     cartScreenVM: CartScreenVM,
     mainMealScreensVM: MainMealScreensVM,
-    navController: NavHostController
+    navController: NavHostController,
+    context: Context = LocalContext.current,
 ) {
 
     //Delete cart meal if amount <= 0
@@ -60,8 +64,12 @@ fun LazyItemScope.CartElement(
             .fillMaxWidth()
             .height(130.dp)
             .clickable {
-                mainMealScreensVM.getMealByName(cartMeal.name)
-                navController.navigate("meal_screen")
+                if (mainMealScreensVM.internetConnection) {
+                    mainMealScreensVM.getMealByName(cartMeal.name)
+                    navController.navigate("meal_screen")
+                } else {
+                    showToast(context, "Упс, нет интернета")
+                }
             }
             .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
             .animateItemPlacement(),
@@ -98,7 +106,11 @@ fun LazyItemScope.CartElement(
                     .fillMaxHeight(0.4f)
             ) {
                 Text(
-                    text = cartMeal.name,
+                    text = if(cartMeal.name == "") {
+                        "Ты чего-то ожидал?"
+                    } else {
+                        cartMeal.name
+                    },
                     color = MaterialTheme.colorScheme.primary,
                     fontSize = 20.sp,
                 )
@@ -123,7 +135,7 @@ fun LazyItemScope.CartElement(
                         ))
                     },
                     shape = RoundedCornerShape(10.dp),
-                    modifier = Modifier.size(40.dp),
+                    modifier = Modifier.size(35.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
                         contentColor = MaterialTheme.colorScheme.tertiary
@@ -154,7 +166,7 @@ fun LazyItemScope.CartElement(
                         ))
                     },
                     shape = RoundedCornerShape(10.dp),
-                    modifier = Modifier.size(40.dp),
+                    modifier = Modifier.size(35.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
                         contentColor = MaterialTheme.colorScheme.tertiary

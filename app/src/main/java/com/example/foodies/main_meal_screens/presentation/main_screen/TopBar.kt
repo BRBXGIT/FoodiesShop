@@ -1,5 +1,6 @@
 package com.example.foodies.main_meal_screens.presentation.main_screen
 
+import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
@@ -11,6 +12,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,19 +30,18 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.foodies.R
 import com.example.foodies.auth.presentation.profile_screen.data.PreferencesManager
+import com.example.foodies.auth.presentation.profile_screen.presentation.showToast
+import com.example.foodies.bottom_bar.presentation.noRippleClickable
 import com.example.foodies.main_meal_screens.presentation.MainMealScreensVM
 import kotlinx.coroutines.CoroutineScope
 
@@ -50,7 +51,8 @@ fun TopBar(
     visible: Boolean,
     mainMealScreensVM: MainMealScreensVM,
     preferencesManager: PreferencesManager,
-    scope: CoroutineScope
+    scope: CoroutineScope,
+    context: Context = LocalContext.current
 ) {
     //Main column
     Column(
@@ -75,7 +77,11 @@ fun TopBar(
                 painter = painterResource(id = R.drawable.ic_qr),
                 contentDescription = "qr icon",
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(28.dp)
+                modifier = Modifier
+                    .size(28.dp)
+                    .noRippleClickable {
+                        showToast(context, "https://www.youtube.com/watch?v=ok6-DndfAgU")
+                    }
             )
         }
 
